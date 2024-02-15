@@ -1,0 +1,29 @@
+# Bidirectional railway (track) berths for which screen direction may be up/dn.
+CHL/BT031
+MUL/BT091
+SKN/BT654
+FSE/BT657
+SST/BT535
+SST/BT538
+SST/BT902
+SST/BT903
+#City loop
+MUL/BT163
+SSN/BT702
+FSE/BT672
+SSN/BT122
+#End of screen to dark territory
+STN/BT010
+FKS/BT965
+SSN/BT900
+SSN/BT902
+SSN/BT903
+STN/BT562
+NME/BT634
+SKN/BT770
+SHM/BT318
+SHM/BT320
+WST/BT216
+WST/BT286
+#SSS PL10A - similar to loop
+SSS/BT426

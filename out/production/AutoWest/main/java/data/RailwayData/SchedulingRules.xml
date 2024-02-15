@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Railway xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="rules.xsd">
+  <Header date="23/10/2019 03:56:23 PM" source="sa" version="sa"/>
+  <Rules>
+    <Rule description="" id="[Timetable Order at BEW-BFD]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="BEW"/>
+        <Station id="BFD"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at BEW-BFD-OFC]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="BEW"/>
+        <Station id="BFD"/>
+        <Station id="OFC"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at CDA-PKM]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="CDA"/>
+        <Station id="PKM"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at CDA-PKM-NNG]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="CDA"/>
+        <Station id="PKM"/>
+        <Station id="NNG"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at CLA-WTL]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="CLA"/>
+        <Station id="WTL"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at CLA-WTL-SPG]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="CLA"/>
+        <Station id="WTL"/>
+        <Station id="SPG"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at DNG-GRS]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="DNG"/>
+        <Station id="GRS"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at DNG-GRS-HLM]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="DNG"/>
+        <Station id="GRS"/>
+        <Station id="HLM"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at DNG-GRS-LBK]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="DNG"/>
+        <Station id="GRS"/>
+        <Station id="LBK"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at DNG-HLM]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="DNG"/>
+        <Station id="HLM"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[TDN OVER TDN 4624-4207 at DNG-HLM-LBK]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="DNG"/>
+        <Station id="HLM"/>
+        <Station id="LBK"/>
+      </Location>
+      <Criteria>
+        <tdn_over_tdn prioritised_tdn="4624" deprioritised_tdn="4207"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at DNG-HLM-LBK]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="DNG"/>
+        <Station id="HLM"/>
+        <Station id="LBK"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at DNG-HLM-NWA]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="DNG"/>
+        <Station id="HLM"/>
+        <Station id="NWA"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at DNG-LBK]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="DNG"/>
+        <Station id="LBK"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at GFD-BYP]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="GFD"/>
+        <Station id="BYP"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at GFD-BYP-LWY]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="GFD"/>
+        <Station id="BYP"/>
+        <Station id="LWY"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at HUN-CLA-WTL]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="HUN"/>
+        <Station id="CLA"/>
+        <Station id="WTL"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at MPK-CBE]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="MPK"/>
+        <Station id="CBE"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at NPK-YMN-DNG]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="NPK"/>
+        <Station id="YMN"/>
+        <Station id="DNG"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at NWA-BEW-BFD]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="NWA"/>
+        <Station id="BEW"/>
+        <Station id="BFD"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at OAK-HUN]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="OAK"/>
+        <Station id="HUN"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at OAK-HUN-CLA]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="OAK"/>
+        <Station id="HUN"/>
+        <Station id="CLA"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at OFC-CDA-PKM]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="OFC"/>
+        <Station id="CDA"/>
+        <Station id="PKM"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at PKM-NNG]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="PKM"/>
+        <Station id="NNG"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at PKM-NNG-TYN]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="PKM"/>
+        <Station id="NNG"/>
+        <Station id="TYN"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at TYN-GFD-BYP]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="TYN"/>
+        <Station id="GFD"/>
+        <Station id="BYP"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at WTL-SPG]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="WTL"/>
+        <Station id="SPG"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at WTL-SPG-SNP]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="WTL"/>
+        <Station id="SPG"/>
+        <Station id="SNP"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at YMN-DNG]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="YMN"/>
+        <Station id="DNG"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at YMN-DNG-GRS]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="YMN"/>
+        <Station id="DNG"/>
+        <Station id="GRS"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at YMN-DNG-HLM]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="YMN"/>
+        <Station id="DNG"/>
+        <Station id="HLM"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+    <Rule description="" id="[Timetable Order at YMN-DNG-LBK]">
+      <Applicable>
+        <Time end_time="24:00:00" start_time="00:00:00"/>
+        <Days>
+          <Day day="MO" />
+          <Day day="TU" />
+          <Day day="WE" />
+          <Day day="TH" />
+          <Day day="FR" />
+          <Day day="SA" />
+          <Day day="SU" />
+        </Days>
+      </Applicable>
+      <Location>
+        <Station id="YMN"/>
+        <Station id="DNG"/>
+        <Station id="LBK"/>
+      </Location>
+      <Criteria>
+        <timetable_order apply_to="all"/>
+      </Criteria>
+    </Rule>
+  </Rules>
+</Railway>

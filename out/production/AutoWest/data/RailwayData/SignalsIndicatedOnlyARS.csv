@@ -1,0 +1,5 @@
+# Indicated-only signals which need to be in ARS operationally for DynamicScheduler path propagation/lookahead.
+# Lines beginning with # are comments and are ignored.
+# Non-comment lines are expected to name a single RailwaySignals.xml signal id.
+BYP/S780
+BYP/S782

@@ -1,123 +1,225 @@
 package controller;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import model.Model;
-import model.User;
+import model.Deps;
+import model.View;
+import model.ViewManager;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 public class LoginController {
-	@FXML
-	private TextField name;
-	@FXML
-	private PasswordField password;
-	@FXML
-	private Label message;
-	@FXML
-	private Button login;
-	@FXML
-	private Button signup;
-	
-	private Model model;
-	private Stage stage;
-	
-	public LoginController(Stage stage, Model model) {
-		this.stage = stage;
-		this.model = model;
-	}
-	
-	@FXML
-	public void initialize() {		
-		login.setOnAction(event -> {
-			// Username and password validation
-			if (!name.getText().isEmpty() && !password.getText().isEmpty()) {
-				User user;
-				try {
-					// Calculating the SHA-512 hash for password
-					MessageDigest md = MessageDigest.getInstance("SHA-512");
-					byte[] hashedPassword = md.digest(password.getText().getBytes(StandardCharsets.UTF_8));
-					user = model.getUserDao().getUser(name.getText(), new String(hashedPassword,StandardCharsets.UTF_8));
-					if (user != null) {
-						model.setCurrentUser(user);
-						try {
-							//Showing the home view
-							FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeView.fxml"));
-							HomeController homeController = new HomeController(stage, model);
-							
-							loader.setController(homeController);
-							VBox root = loader.load();
-								
-							homeController.showStage(root);
-							stage.close();
-						}catch (IOException e) {
-							message.setText(e.getMessage());
-							e.printStackTrace();
-						}
-						
-					} else {
-						// Show error for incorrect password
-						message.setText("Wrong username or password");
-						message.setTextFill(Color.RED);
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-					message.setTextFill(Color.RED);
-				} catch (NoSuchAlgorithmException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-			} else {
-				message.setText("Empty username or password");
-				message.setTextFill(Color.RED);
-			}
-			name.clear();
-			password.clear();
-		});
-		
-		signup.setOnAction(event -> {
-			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignupView.fxml"));
-				
-				// Customize controller instance
-				SignupController signupController =  new SignupController(stage, model);
 
-				loader.setController(signupController);
-				VBox root = loader.load();
-				
-				signupController.showStage(root);
-				
-				message.setText("");
-				name.clear();
-				password.clear();
-				
-				stage.close();
-			} catch (IOException e) {
-				message.setText(e.getMessage());
-			}});
+	@FXML
+	private Button tracks;
+
+	@FXML
+	private Button routes;
+
+	@FXML
+	private Button points;
+
+	@FXML
+	private Button signals;
+
+	@FXML
+	private Button buttonConfigureScreen;
+	private Deps deps;
+	private Stage stage;
+	private static final Logger logger = Logger.getLogger(LoginController.class.getName());
+
+	View currentView;
+	@FXML
+	private Button buttonConfigureView;
+	
+	public LoginController(Stage stage, Deps deps) {
+		this.stage = stage;
+		this.deps = deps;
 	}
 	
+	@FXML
+	public void initialize() {
+		currentView = ViewManager.getInstance().getCurrentView();
+		tracks.setOnAction(event -> {
+			// Redirect to tracks page
+			if (currentView != null) {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TrackView.fxml"));
+				TrackController trackController = null;
+
+				try {
+					logger.info("---------------------------------Tracks---------------------------------");
+
+					trackController = new TrackController(stage, deps);
+				} catch (ParserConfigurationException e) {
+					throw new RuntimeException(e);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				} catch (SAXException e) {
+					throw new RuntimeException(e);
+				}
+				loader.setController(trackController);
+				HBox root = null;
+				try {
+					root = loader.load();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+
+				trackController.showStage(root);
+				//stage.close();
+			}else{
+				getConfigurationScreen();
+			}
+		});
+//		buttonConfigureScreen.setOnAction(event->{
+//			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ScreenConfigurationView.fxml"));
+//			try {
+//				ScreenConfigurationController screenConfigurationController = new ScreenConfigurationController(stage, deps);
+//				loader.setController(screenConfigurationController);
+//				Pane root = loader.load();
+//				screenConfigurationController.showStage(root);
+//			} catch (ParserConfigurationException e) {
+//				throw new RuntimeException(e);
+//			} catch (IOException e) {
+//				throw new RuntimeException(e);
+//			} catch (SAXException e) {
+//				throw new RuntimeException(e);
+//			}
+//
+//
+//		});
+
+		buttonConfigureView.setOnAction(event->{getConfigurationScreen();});
+
+		points.setOnAction(event -> {
+			// Redirect to tracks page
+			if (currentView != null) {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PointView.fxml"));
+				PointController pointController = null;
+				try {
+					logger.info("---------------------------------Points---------------------------------");
+
+					pointController = new PointController(stage, deps);
+				} catch (ParserConfigurationException e) {
+					throw new RuntimeException(e);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				} catch (SAXException e) {
+					throw new RuntimeException(e);
+				}
+				loader.setController(pointController);
+				HBox root = null;
+				try {
+					root = loader.load();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+
+				pointController.showStage(root);
+				//stage.close();
+			}else{
+				getConfigurationScreen();
+
+			}
+		});
+
+		signals.setOnAction(event ->{
+			// Redirect to tracks page
+			if (currentView != null) {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignalView.fxml"));
+				SignalController signalController = null;
+				try {
+					logger.info("---------------------------------Signals---------------------------------");
+
+					signalController = new SignalController(stage, deps);
+				} catch (ParserConfigurationException e) {
+					throw new RuntimeException(e);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				} catch (SAXException e) {
+					throw new RuntimeException(e);
+				}
+				loader.setController(signalController);
+				HBox root = null;
+				try {
+					root = loader.load();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+
+				signalController.showStage(root);
+				//stage.close();
+			}else{
+				getConfigurationScreen();
+
+			}
+		});
+
+		routes.setOnAction(event -> {
+			// Redirect to tracks page
+			if (currentView != null) {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RouteView.fxml"));
+				RouteController routeController = null;
+				try {
+					logger.info("---------------------------------Routes---------------------------------");
+					routeController = new RouteController(stage, deps);
+				} catch (ParserConfigurationException e) {
+					throw new RuntimeException(e);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				} catch (SAXException e) {
+					throw new RuntimeException(e);
+				}
+				loader.setController(routeController);
+				HBox root = null;
+				try {
+					root = loader.load();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+
+				routeController.showStage(root);
+			}else{
+				getConfigurationScreen();
+
+			}
+			//stage.close();
+		});
+
+	}
+
+	public void getConfigurationScreen(){
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ConfigureScreenView.fxml"));
+
+		try {
+			ConfigureScreenController configureScreenController = new ConfigureScreenController(stage, deps);
+			loader.setController(configureScreenController);
+			Pane root = loader.load();
+			configureScreenController.showStage(root);
+
+		} catch (ParserConfigurationException e) {
+			throw new RuntimeException(e);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (SAXException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	public void showStage(Pane root) {
-		Scene scene = new Scene(root, 500, 300);
+		Scene scene = new Scene(root, 600, 700);
 		stage.setScene(scene);
-		stage.setResizable(false);
-		stage.setTitle("Welcome");
+		stage.setResizable(true);
+		stage.setTitle("" +
+				"AutoWEST");
 		stage.show();
 	}
 }
