@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1249.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <children>
+                <ListView fx:id="berthListView" prefHeight="1080.0" prefWidth="313.0" />
+            </children>
+        </AnchorPane>
+        <GridPane prefHeight="1080.0" prefWidth="936.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="765.0" minWidth="10.0" prefWidth="440.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="607.0" minWidth="10.0" prefWidth="279.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="415.0" minHeight="10.0" prefHeight="256.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="415.0" minHeight="10.0" prefHeight="342.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="415.0" minHeight="10.0" prefHeight="98.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="415.0" minHeight="10.0" prefHeight="110.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="903.0" minHeight="0.0" prefHeight="82.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="903.0" minHeight="10.0" prefHeight="104.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="903.0" minHeight="10.0" prefHeight="102.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="903.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Button fx:id="configureButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Configure">
+                    <GridPane.margin>
+                        <Insets left="5.0" top="100.0" />
+                    </GridPane.margin>
+                </Button>
+                <Button fx:id="pauseButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Pause" disable="true">
+                    <GridPane.margin>
+                        <Insets left="140.0" top="100.0"/>
+                    </GridPane.margin>
+                </Button>
+                <Button fx:id="uploadButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="upload file">
+                    <GridPane.margin>
+                        <Insets left="280.0" top="100.0" />
+                    </GridPane.margin>
+                </Button>
+
+                <TextField fx:id="berthSearchTextField" prefHeight="25.0" prefWidth="154.0">
+                    <GridPane.margin>
+                        <Insets left="5.0" right="20.0" />
+                    </GridPane.margin>
+                </TextField>
+                <Label text="Search Signals">
+                    <GridPane.margin>
+                        <Insets bottom="40.0" left="5.0" />
+                    </GridPane.margin>
+                </Label>
+
+                <Button fx:id="testButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Test all/Multiple" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets  left="20.0" top="400.0"  />
+                    </GridPane.margin>
+                </Button>
+                <Button fx:id="buttonClose" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Close" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="20.0" top="800" />
+                    </GridPane.margin>
+                </Button>
+                <Label text="berth Operational Workstation" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                    <GridPane.margin>
+                        <Insets bottom="300.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label text="Signal Operational Workstation" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets bottom="300.0" left="5.0" />
+                    </GridPane.margin>
+                </Label>
+
+            <Label>
+
+            </Label>
+                <!--- Insert -->
+                <Label text="TDN insert" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets  left="5.0"  bottom="250" />
+                    </GridPane.margin>
+                </Label>
+                <Button fx:id="buttonTDNInsert" mnemonicParsing="false" text="start" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="80.0"  bottom="250"  />
+                    </GridPane.margin>
+                </Button>
+                <CheckBox fx:id="checkInsert" GridPane.rowIndex="1" >
+                    <GridPane.margin>
+                        <Insets left="170.0" bottom="250" />
+                    </GridPane.margin>
+                </CheckBox>
+                <!--- Erase Signal -->
+                <Label text="TDN Erase" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets  left="5.0"  bottom="150" />
+                    </GridPane.margin>
+                </Label>
+                <Button fx:id="buttonTDNErase" mnemonicParsing="false" text="start" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="80.0"  bottom="150"/>
+                    </GridPane.margin>
+                </Button>
+                <CheckBox fx:id="checkErase" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="170.0" bottom="150"/>
+                    </GridPane.margin>
+                </CheckBox>
+<!--- Erase berth -->
+                <Label text="TDN Erase" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                    <GridPane.margin>
+                        <Insets  left="5.0"  bottom="130" />
+                    </GridPane.margin>
+                </Label>
+                <Button fx:id="buttonTDNEraseBerth" mnemonicParsing="false" text="start" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                    <GridPane.margin>
+                        <Insets left="90.0"  bottom="130"  />
+                    </GridPane.margin>
+                </Button>
+                <CheckBox fx:id="checkEraseBerth" GridPane.rowIndex="1"  GridPane.columnIndex="1">
+                    <GridPane.margin>
+                        <Insets left="170.0" bottom="130" />
+                    </GridPane.margin>
+                </CheckBox>
+<!--- Move -->
+                <Label text="TDN Move" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets  left="5.0"  bottom="50" />
+                    </GridPane.margin>
+                </Label>
+                <Button fx:id="buttonTDNMove" mnemonicParsing="false" text="start" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="120.0"  bottom="50"  />
+                    </GridPane.margin>
+                </Button>
+                <CheckBox fx:id="checkMove" GridPane.rowIndex="1" >
+                    <GridPane.margin>
+                        <Insets left="180.0" bottom="50" />
+                    </GridPane.margin>
+                </CheckBox>
+<!-- Exchange-->
+                <Label text="TDN Exchange" GridPane.rowIndex="1" GridPane.columnIndex="1" >
+                    <GridPane.margin>
+                        <Insets  left="5.0"  bottom="210" />
+                    </GridPane.margin>
+                </Label>
+                <Button fx:id="buttonTDNExchange" mnemonicParsing="false" text="start" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                    <GridPane.margin>
+                        <Insets left="120.0"  bottom="210"  />
+                    </GridPane.margin>
+                </Button>
+                <CheckBox fx:id="checkExchange" GridPane.rowIndex="1" GridPane.columnIndex="1" >
+                    <GridPane.margin>
+                        <Insets left="180.0" bottom="210" />
+                    </GridPane.margin>
+                </CheckBox>
+<!-- TDN Stack -->
+                <Label text="TDN Stack" GridPane.rowIndex="1">
+                               <GridPane.margin>
+                                  <Insets  left="5.0"  top="300" />
+                               </GridPane.margin>
+                            </Label>
+                <Button fx:id="buttonTwoBerth" mnemonicParsing="false" text="TracKDrop" GridPane.rowIndex="1">
+                               <GridPane.margin>
+                                  <Insets left="80.0"  top="300"  />
+                               </GridPane.margin>
+                            </Button>
+                <Button fx:id="buttonSpadDrop" mnemonicParsing="false" text="SPAD" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="160.0" top="300" />
+                    </GridPane.margin>
+                </Button>
+                <Button fx:id="buttonPick" mnemonicParsing="false" text="Pick" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="220.0"  top="300"  />
+                    </GridPane.margin>
+                </Button>
+                <Button fx:id="buttonRemove" mnemonicParsing="false" text="Remove" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="270.0"  top="300"  />
+                    </GridPane.margin>
+                </Button>
+                <Button fx:id="buttonTestAll" GridPane.rowIndex="1" text="Test TDN Stack" >
+                    <GridPane.margin>
+                        <Insets left="350.0" top="300" />
+                    </GridPane.margin>
+                </Button>
+
+
+
+                <Label fx:id="controlNotificationLabel" textFill="RED" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="5.0" top="220.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label fx:id="testNotificationLabel" GridPane.rowIndex="4">
+                    <GridPane.margin>
+                        <Insets left="5.0" />
+                    </GridPane.margin>
+                </Label>
+
+
+            </children>
+        </GridPane>
+    </children>
+</HBox>

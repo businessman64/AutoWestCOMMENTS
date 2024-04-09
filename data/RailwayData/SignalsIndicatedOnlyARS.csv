@@ -1,0 +1,6 @@
+# Indicated-only signals which need to be in ARS operationally for DynamicScheduler path propagation/lookahead.
+# Lines beginning with # are comments and are ignored.
+# Non-comment lines are expected to name a single RailwaySignals.xml signal id.
+EPP/SKP100
+EPP/S102
+KEN/S596

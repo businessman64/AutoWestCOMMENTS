@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox alignment="TOP_CENTER" spacing="20.0" maxWidth="Infinity" maxHeight="Infinity" minWidth="600.0" minHeight="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>    <children>
+    <Label text="Second Screen Configuration" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+    <HBox spacing="10" alignment="CENTER">
+        <Label text="Enter Number of Screens:" />
+        <TextField fx:id="textScreenNumber" prefWidth="200.0" text="Enter Number of screens" />
+    </HBox>
+    <Button fx:id="buttonShow" mnemonicParsing="false" text="Show Screen" maxWidth="Infinity"/>
+
+    <!-- Place for dynamic GridPane with screens -->
+    <GridPane fx:id="grid" maxWidth="Infinity" alignment="CENTER" hgap="10" vgap="10">
+        <!-- Add dynamic content here -->
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="buttonConfirm" mnemonicParsing="false" text="Confirm Screen Position" maxWidth="Infinity" visible="false" />
+    </HBox>
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="buttonTest" mnemonicParsing="false" text="Test" disable="true" >
+            <tooltip><Tooltip text="Select a screen by click on green button. " /></tooltip>
+        </Button>
+        <Button fx:id="buttonApply" mnemonicParsing="false" text="Apply" disable="true">
+            <tooltip><Tooltip text="Select a screen by click on green button. " /></tooltip>
+        </Button>
+
+    </HBox>
+<HBox spacing="10" alignment="CENTER">
+    <Label fx:id="buttonCalibrateLabel" text="Calibrate Mouse" />
+    <TextField fx:id="textXCali" text="X" maxHeight="10" maxWidth="30"/>
+    <TextField fx:id="textYCali" text="Y" maxHeight="10" maxWidth="30"/>
+    <Button fx:id="buttonCalibrate" text="Caliberate"/>
+</HBox>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Label fx:id="prompt" style="-fx-font-size: 10px; -fx-font-weight: bold" textFill="RED"/>
+
+    </HBox>
+    <HBox spacing="10" alignment="CENTER">
+        <Label fx:id="promptConnect" style="-fx-font-size: 10px; -fx-font-weight: bold" textFill="Green"/>
+    </HBox>
+
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="buttonClose" mnemonicParsing="false" text="Close" disable="false" />
+    </HBox>
+</children>
+</VBox>

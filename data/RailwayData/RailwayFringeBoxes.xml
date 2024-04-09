@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Railway xsi:noNamespaceSchemaLocation="fringe-boxes.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Header version="1.0;1.0;1.0;1.0;1.0;N/a;1.0;N/a;1.0;N/a;1.0;1.0;N/a;N/a;1.0;1.0;1.0;N/a;1.0;1.0;1.0;1.0;1.0;N/a;N/a;N/a;N/a;1.0;1.0;N/a;1.0;N/a;1.0;1.0;1.0;B;1.0;1.0;N/a;N/a;1.0;1.0;1.0;1.0;1.0;N/a;1.0;1.0;N/a;N/a;N/a;1.0;N/a;1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0;N/a;1.0;1.0;N/a;N/a;N/a" date="12 January 2022;3 August 2010;3 August 2010;3 August 2010;3 August 2010;N/a;3 August 2010;23/11/22;3 August 2010;N/a;3 August 2010;20 Dec 19;N/a;N/a;3 August 2010;3 August 2010;3 August 2010;N/a;3 August 2010;3 August 2010;3 August 2010;3 August 2010;3 August 2010;N/a;N/a;N/a;N/a;3 August 2010;12 January 2022;N/a;3 August 2010;N/a;12 January 2022;3 August 2010;3 August 2010;14/07.17;18 July 2022;N/a;N/a;N/a;3 August 2010;3 August 2010;3 August 2010;3 August 2010;3 August 2010;N/a;3 August 2010;3 August 2010;N/a;N/a;N/a;3 August 2010;N/a;3 August 2010;3 August 2010;3 August 2010;3 August 2010;24 January 2014;N/a;3 August 2010;12 January 2022;N/a;22 February 2013;3 August 2010;N/a;N/a;N/a" source="AS Plans;AS Plans;AS Plans;AS Plans;AS Plans;N/a;AS Plans;N/a;AS Plans;N/a;AS Plans;AS Plans;N/a;N/a;AS Plans;AS Plans;AS Plans;N/a;AS Plans;AS Plans;AS Plans;AS Plans;AS Plans;N/a;N/a;N/a;N/a;AS Plans;AS Plans;N/a;AS Plans;N/a;AS Plans;AS Plans;AS Plans;N/a;AS Plans;N/a;N/a;N/a;AS Plans;AS Plans;AS Plans;AS Plans;AS Plans;N/a;AS Plans;AS Plans;N/a;N/a;N/a;AS Plans;N/a;AS Plans;AS Plans;AS Plans;AS Plans;AS Plans;N/a;AS Plans;AS Plans;N/a;SA Plans_SSS_GO453_Reversion2.A;AS Plans;N/a;N/a;N/a"/>
+    <FringeBoxes>
+        <FringeBox id="CAM" region="110">
+            <berth id="CAM/BT367" location="01"/>
+            <berth id="CAM/BT314" location="02"/>
+            <berth id="CAM/BTA324" location="03"/>
+            <berth id="CAM/BTA357" location="04"/>
+            <berth id="CAM/BTA367" location="05"/>
+            <berth id="CAM/BTA377" location="06"/>
+        </FringeBox>
+        <FringeBox id="GFE" region="110">
+            <berth id="CAM/BT367" location="01"/>
+            <berth id="CAM/BT314" location="02"/>
+            <berth id="CAM/BTA324" location="03"/>
+            <berth id="CAM/BTA357" location="04"/>
+            <berth id="CAM/BTA367" location="05"/>
+            <berth id="CAM/BTA377" location="06"/>
+        </FringeBox>
+        <FringeBox id="MOR" region="120">
+            <berth id="CTM/BT601B" location="01"/>
+        </FringeBox>
+        <FringeBox id="EPP" region="130">
+            <berth id="EPP/BT112" location="02"/>
+            <berth id="EPP/BT122" location="01"/>
+            <berth id="EPP/BT701" location="03"/>
+            <berth id="EPP/BT036" location="04"/>
+            <berth id="EPP/BT525" location="07"/>
+            <berth id="SMG/BT155" location="08"/>
+            <berth id="SMG/BT165" location="09"/>
+            <berth id="MDD/BT155" location="10"/>
+            <berth id="MDD/BT165" location="11"/>
+            <berth id="MDD/BT183" location="15"/>
+            <berth id="MDD/BT182" location="14"/>
+            <berth id="MDD/BT181" location="13"/>
+            <berth id="MDD/BT180" location="12"/>
+            <berth id="EPP/BTDT122" location="16"/>
+            <berth id="EPP/BTDT112" location="17"/>
+        </FringeBox>
+        <FringeBox id="KYG" region="115">
+            <berth id="GAR/BTA484" location="01"/>
+        </FringeBox>
+        <FringeBox id="KEN" region="150">
+            <berth id="NME/BTK556" location="01"/>
+            <berth id="KEN/BT492" location="02"/>
+            <berth id="KEN/BT592" location="03"/>
+            <berth id="KEN/BT171" location="04"/>
+            <berth id="KEN/BT549" location="05"/>
+            <berth id="KEN/BT454" location="06"/>
+            <berth id="KEN/BTDT452" location="07"/>
+            <berth id="NKT/BT194" location="08"/>
+            <berth id="NKT/BT187" location="09"/>
+            <berth id="MPD/BT244" location="10"/>
+            <berth id="MPD/BT235" location="11"/>
+            <berth id="MPD/BT280" location="12"/>
+            <berth id="MPD/BT273" location="13"/>
+            <berth id="ESD/BT536" location="14"/>
+            <berth id="ESD/BT538" location="15"/>
+            <berth id="ESD/BT540" location="16"/>
+            <berth id="SGS/BT546" location="18"/>
+            <berth id="RCE/BT537" location="19"/>
+            <berth id="RCE/BT540" location="20"/>
+            <berth id="RCE/BT531" location="21"/>
+            <berth id="RCE/BT542" location="22"/>
+            <berth id="RCE/BT535" location="23"/>
+            <berth id="RCE/BT538" location="24"/>
+            <berth id="RCE/BT533" location="25"/>
+        </FringeBox>
+        <FringeBox id="OAK" region="59">
+            <berth id="OAK/BT609" location="00"/>
+        </FringeBox>
+        <FringeBox id="SKN" region="39">
+            <berth id="SKN/BT405" location="00"/>
+            <berth id="SKN/BT407" location="00"/>
+        </FringeBox>
+        <FringeBox id="SSS" region="141">
+            <berth id="SST/BT538" location="01"/>
+            <berth id="SST/BT562" location="02"/>
+            <berth id="SST/BT886" location="03"/>
+            <berth id="SST/BT402" location="06"/>
+            <berth id="SST/BT498" location="07"/>
+            <berth id="SST/BT462" location="08"/>
+            <berth id="SST/BT573" location="09"/>
+        </FringeBox>
+        <FringeBox id="SYR" region="39">
+            <berth id="SYR/BT464" location="00"/>
+            <berth id="SYR/BT466" location="00"/>
+        </FringeBox>
+        <FringeBox id="WST" region="160">
+            <berth id="MYD/BT609" location="01"/>
+            <berth id="TSS/BT514" location="02"/>
+            <berth id="TSS/BTDT913" location="03"/>
+            <berth id="MYD/BT483" location="04"/>
+            <berth id="MYD/BT782" location="05"/>
+            <berth id="MYD/BT642" location="06"/>
+            <berth id="MYD/BT784" location="07"/>
+            <berth id="TSS/BT903" location="09"/>
+            <berth id="TSS/BT908" location="10"/>
+            <berth id="TSS/BT905" location="11"/>
+            <berth id="TSS/BT910" location="12"/>
+            <berth id="MYD/BT733" location="13"/>
+            <berth id="TSS/BT913" location="14"/>
+            <berth id="MYD/BT735" location="15"/>
+            <berth id="MYD/BT052" location="16"/>
+            <berth id="MYD/BT636" location="17"/>
+            <berth id="MYD/BT651" location="18"/>
+            <berth id="ADR/BTMW152" location="19"/>
+            <berth id="ADR/BT920" location="20"/>
+            <berth id="ADR/BT919" location="21"/>
+            <berth id="ADR/BT921" location="22"/>
+            <berth id="ADR/BT926" location="23"/>
+            <berth id="ADR/BP824D" location="24"/>
+            <berth id="ADR/BTMW089" location="26"/>
+        </FringeBox>
+        <FringeBox id="CGB" region="152">
+            <berth id="SUN/BTM396" location="02"/>
+            <berth id="SUN/BTM688" location="01"/>
+        </FringeBox>
+        <FringeBox id="NPT" region="151">
+            <berth id="WFY/BT310" location="01"/>
+        </FringeBox>
+    </FringeBoxes>
+</Railway>

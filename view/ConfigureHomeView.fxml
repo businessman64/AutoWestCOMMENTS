@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.util.Callback?>
+<VBox alignment="TOP_CENTER" spacing="20.0" maxWidth="Infinity" maxHeight="Infinity" minWidth="600.0" minHeight="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="buttonControl" mnemonicParsing="false" text="Test Control objects" maxWidth="Infinity"  />
+        <Button fx:id="buttonSim" mnemonicParsing="false" text="Test Indicated objects" maxWidth="Infinity"  />
+    </HBox>
+    <VBox spacing="10" alignment="CENTER" >
+       <Label text="Select your local host:" />
+        <HBox spacing="10" alignment="CENTER">
+        <CheckBox fx:id="localControl" text="inv-int server"/>
+        <CheckBox fx:id="localSim" text="Sim server" />
+        </HBox>
+    </VBox>
+    <VBox  spacing="10" alignment="CENTER"  >
+        <CheckBox fx:id="simIP" text="Is sim drop and fail function required to proceed with the  test?" visible="false" managed="false"/>
+        <CheckBox fx:id="simWindow" text="Is sim window required to proceed with the test?" visible="false" managed="false"/>
+        <CheckBox fx:id="tCWindow" text="Is TC window required to proceed with the test?" visible="false" managed="false"/>
+        <CheckBox fx:id="controlIP" text="Is berth function required to proceed with the test?" visible="false" managed="false"/>
+        <CheckBox fx:id="controlWindow" text="Is control window required to proceed with the test?" visible="false" managed="false"/>
+    </VBox>
+    <Button fx:id="addButton" text="Add Server"/>
+    <TableView fx:id="tableView" maxHeight="150.0">
+        <columns>
+            <TableColumn fx:id="type" text="Type" prefWidth="100.0" >
+                <cellValueFactory>
+                    <PropertyValueFactory property="type" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="ipAddress" text="IP-address" prefWidth="100.0">
+                <cellValueFactory>
+                    <PropertyValueFactory property="ipAddress" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="screen" text="Screen" prefWidth="100.0">
+                <cellValueFactory>
+                    <PropertyValueFactory property="screen" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="screenShot" text="Screenshot" prefWidth="100.0">
+                <cellValueFactory>
+                    <PropertyValueFactory property="isScreenShotSelected" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="actionColumn" text="Actions" prefWidth="200.0" />
+        </columns>
+    </TableView>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="buttonClose" mnemonicParsing="false" text="Close" maxWidth="Infinity"  />
+
+    </HBox>
+</VBox>

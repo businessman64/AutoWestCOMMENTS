@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2012 rel. 2 sp1 (http://www.altova.com) by Richard Gil (Invensys Rail) -->
+<Railway xsi:noNamespaceSchemaLocation="interlockings.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Header version="1.0" date="18/08/2016" source="RailwaySignals"/>
+	<Interlockings>
+		<!-- Interlocking id="SUN/WRD" region="55" -->
+		<Interlocking id="SUN/ILX" region="55">
+			<all_blocks_on_restart>
+				<ARS_disable_signals>
+					<signal id="SUN/S559"/>
+					<signal id="SUN/S557"/>
+					<signal id="SUN/S555"/>
+					<signal id="SUN/S534"/>
+					<signal id="SUN/S553"/>
+					<signal id="SUN/S532"/>
+					<signal id="SUN/S551"/>
+					<signal id="SUN/S530"/>
+					<signal id="SUN/S549"/>
+					<signal id="SUN/S528"/>
+					<signal id="SUN/S522"/>
+					<signal id="SUN/S526"/>
+					<signal id="SUN/S543"/>
+					<signal id="SUN/S571"/>
+					<signal id="SUN/S545"/>
+				</ARS_disable_signals>
+			</all_blocks_on_restart>
+		</Interlocking>
+		<Interlocking id="BLY/ILX" region="12">
+			<all_blocks_on_restart>
+				<ARS_disable_signals>
+					<signal id="BLS/S383"/>
+					<signal id="BLS/S377"/>
+					<signal id="BLS/S379"/>
+					<signal id="BLS/S380"/>
+					<signal id="BLS/S381"/>
+					<signal id="BLY/S348"/>
+					<signal id="BLY/S346"/>
+					<signal id="BLY/S357"/>
+					<signal id="BLY/S339"/>
+					<signal id="BLY/S373"/>
+					<signal id="BLY/S371"/>
+					<signal id="BLY/S369"/>
+					<signal id="BLY/S353"/>
+					<signal id="BLY/S351"/>
+					<signal id="BLY/S326"/>
+					<signal id="BLY/S337"/>
+					<signal id="BLY/S324"/>
+					<signal id="BLY/S315"/>
+					<signal id="BLY/S322"/>
+					<signal id="BLY/S320"/>
+					<signal id="BLY/S344"/>
+					<signal id="BLY/S340"/>
+					<signal id="BLY/S342"/>
+					<signal id="ERM/S373"/>
+					<signal id="ERM/S322"/>
+					<signal id="ERM/S320"/>
+					<signal id="ERM/SRM322"/>
+					<signal id="ERM/S342"/>
+					<signal id="ERM/S340"/>
+					<signal id="ERM/SRM342"/>
+					<signal id="ERM/S371"/>
+					<signal id="ERM/S393"/>
+					<signal id="ERM/S391"/>
+				</ARS_disable_signals>
+			</all_blocks_on_restart>
+		</Interlocking>
+		<Interlocking id="DLG/IXL" region="15">
+			<all_blocks_on_restart>
+				<ARS_disable_signals>
+				</ARS_disable_signals>
+			</all_blocks_on_restart>
+		</Interlocking>
+		<Interlocking id="CFD/IXL" region="21">
+			<all_blocks_on_restart>
+				<ARS_disable_signals>
+					<signal id="CFD/S742"/>
+					<signal id="CFD/S744"/>
+					<signal id="CFD/S748"/>
+					<signal id="CFD/S768"/>
+					<!-- CHRISA signal id="CFD/S769"/>
+					<signal id="CFD/S777"/ -->
+				</ARS_disable_signals>
+			</all_blocks_on_restart>
+		</Interlocking>
+		<Interlocking id="CTM/IXL" region="27">
+			<all_blocks_on_restart>
+				<ARS_disable_signals>
+				</ARS_disable_signals>
+			</all_blocks_on_restart>
+		</Interlocking>
+		<Interlocking id="COB/IXL" region="56">
+			<all_blocks_on_restart>
+				<ARS_disable_signals>
+				</ARS_disable_signals>
+			</all_blocks_on_restart>
+		</Interlocking>
+		<Interlocking id="UFD/IXL" region="56">
+			<all_blocks_on_restart>
+				<ARS_disable_signals>
+				</ARS_disable_signals>
+			</all_blocks_on_restart>
+		</Interlocking>
+		<Interlocking id="RES/IXL" region="38">
+			<all_blocks_on_restart>
+				<ARS_disable_signals>
+				</ARS_disable_signals>
+			</all_blocks_on_restart>
+		</Interlocking>
+		<Interlocking id="TBY/IXL" region="31">
+			<all_blocks_on_restart>
+				<ARS_disable_signals>
+				</ARS_disable_signals>
+			</all_blocks_on_restart>
+		</Interlocking>
+		<Interlocking id="GHY/IXL" region="26">
+			<all_blocks_on_restart>
+				<ARS_disable_signals>
+				</ARS_disable_signals>
+			</all_blocks_on_restart>
+		</Interlocking>
+		<!-- Interlocking id="MRN/IXL" region="22">
+			<all_blocks_on_restart>
+				<ARS_disable_signals>
+				</ARS_disable_signals>
+			</all_blocks_on_restart>
+		</Interlocking -->
+		<Interlocking id="MCD/IXL" region="34">
+			<all_blocks_on_restart>
+				<ARS_disable_signals>
+				</ARS_disable_signals>
+			</all_blocks_on_restart>
+		</Interlocking>
+	</Interlockings>
+</Railway>
