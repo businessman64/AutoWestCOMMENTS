@@ -6,13 +6,26 @@ import org.sikuli.script.*;
 public class Signal extends RailwayObject{
 
 
-    private Boolean blockDisabled;
+    private Boolean block;
 
-    private Boolean fleetDisabled;
-    private Boolean disregardDisabled;
-    private Boolean arsDisabled;
+    private Boolean fleet;
+    private Boolean disregard;
+    private Boolean ars;
+
+    public Boolean getLowSpeed() {
+        return lowSpeed;
+    }
+
+    public void setLowSpeed(Boolean lowSpeed) {
+        this.lowSpeed = lowSpeed;
+    }
+
+    private Boolean lowSpeed;
+
     protected String signalTrack;
     protected String relation;
+
+
 
     private String type;
 
@@ -32,49 +45,62 @@ public class Signal extends RailwayObject{
         this.type = type;
     }
 
-    public Signal(String id, String name, String type, String signalTrack, String relation, Boolean blockDisabled, Boolean fleetDisabled,
-                  Boolean arsDisabled, Boolean disregardDisabled,
+    public Boolean getBlock() {
+        return block;
+    }
+
+    public void setBlock(Boolean block) {
+        this.block = block;
+    }
+
+    public Boolean getFleet() {
+        return fleet;
+    }
+
+    public void setFleet(Boolean fleet) {
+        this.fleet = fleet;
+    }
+
+    public Boolean getDisregard() {
+        return disregard;
+    }
+
+    public void setDisregard(Boolean disregard) {
+        this.disregard = disregard;
+    }
+
+    public Boolean getArs() {
+        return ars;
+    }
+
+    public void setArs(Boolean ars) {
+        this.ars = ars;
+    }
+
+    public boolean isLowSpeed() {
+        return lowSpeed;
+    }
+
+    public void setLowSpeed(boolean lowSpeed) {
+        this.lowSpeed = lowSpeed;
+    }
+
+    public Signal(String id, String name, String type, String signalTrack, String relation, Boolean block, Boolean fleet,
+                  Boolean ars, Boolean disregard, Boolean lowSpeed,
                   Interlocking interlocking, Location location,
                   Location screenCoordinate){
         super(id,name,interlocking,location,screenCoordinate);
-        this.blockDisabled = blockDisabled;
-        this.fleetDisabled = fleetDisabled;
-        this.arsDisabled = arsDisabled;
-        this.disregardDisabled = disregardDisabled;
+        this.block = block;
+        this.fleet = fleet;
+        this.ars= ars;
+        this.disregard= disregard;
+        this.lowSpeed= lowSpeed;
         this.signalTrack = signalTrack ;
         this.relation = relation;
         this.type = type;
 
     }
 
-    public void setBlockDisabled(Boolean blockDisabled) {
-        this.blockDisabled = blockDisabled;
-    }
-    public Boolean getBlockDisabled() {
-        return blockDisabled;
-    }
-
-    public void setFleetDisabled(Boolean fleetDisabled) {
-        this.fleetDisabled = fleetDisabled;
-    }
-    public Boolean getFleetDisabled() {
-        return fleetDisabled;
-    }
-
-
-    public void setDisregardDisabled(Boolean disregardDisabled) {
-        this.disregardDisabled = disregardDisabled;
-    }
-    public Boolean getDisregardDisabled() {
-        return disregardDisabled;
-    }
-
-    public void setArsDisabled(Boolean arsDisabled) {
-        this.arsDisabled = arsDisabled;
-    }
-    public Boolean getArsDisabled() {
-        return arsDisabled;
-    }
 
     public String getsignalTrack() {
         return signalTrack;

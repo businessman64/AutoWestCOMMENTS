@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.converter.IntegerStringConverter;
 import model.*;
 import org.sikuli.script.Location;
@@ -23,10 +24,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
@@ -53,6 +51,9 @@ public class ConfigureScreenController {
     @FXML
     TextField textIp;
     //Button buttonControl;
+    @FXML
+    VBox screenDisplay;
+
     @FXML
     Spinner<Integer> textYCali;
 
@@ -92,6 +93,8 @@ public class ConfigureScreenController {
     Label labelIpAdd;
     @FXML
     GridPane gridIP;
+
+
     @FXML
     TextField textScreenNumberVNC;
 
@@ -165,14 +168,23 @@ public class ConfigureScreenController {
 
         List<String> comboBoxValues = new ArrayList<>();
         comboBoxValues.add("non");
-        comboBoxValues.add("control");
-        if (stationMode.isSimWindowRequired()) {
+        if(stationMode.isControlIPRequired()){
+            comboBoxValues.add("control");
+        }
+        if (stationMode.isControlWindowRequired() || stationMode.getLocalServer().equals("control"))
+            {
+                comboBoxValues.add("control");
+            }
+        if (stationMode.isSimWindowRequired() || stationMode.getLocalServer().equals("noncontrol")) {
             comboBoxValues.add("noncontrol");
         } if (stationMode.isTCWindowRequired()) {
             comboBoxValues.add("tc");
         }
+        Set<String> set = new LinkedHashSet<>(comboBoxValues);
+
+        List<String> deduplicatedList = new ArrayList<>(set);
         comboServerType.getItems().clear();
-        comboServerType.getItems().addAll(comboBoxValues);
+        comboServerType.getItems().addAll(deduplicatedList);
         comboServerType.getSelectionModel().selectFirst();
 
         comboServerType.setOnAction(event -> {
@@ -186,22 +198,60 @@ public class ConfigureScreenController {
 ////                buttonLocalScreen.setManaged(true);
 //
 //            }
+
             if(!selectedItem.equals(stationMode.getLocalServer())){
                 gridIP.setManaged(true);
                 gridIP.setVisible(true);
                 hboxVnc.setManaged(true);
                 hboxVnc.setVisible(true);
+                screenDisplay.setVisible(true);
+                screenDisplay.setManaged(true);
                 labelIpAdd.setText("SIM IP Address");
+            }
+            if(stationMode.isControlIPRequired() && !stationMode.isControlWindowRequired()){
+                gridIP.setManaged(true);
+                gridIP.setVisible(true);
+                hboxVnc.setManaged(false);
+                hboxVnc.setVisible(false);
+                screenDisplay.setVisible(false);
+                screenDisplay.setManaged(false);
+                labelIpAdd.setText("Control IP Address");
             }
             if(selectedItem.equals("control") && stationMode.getLocalServer().equals("control") && stationMode.isSimIPRequired()){
                 gridIP.setManaged(true);
                 gridIP.setVisible(true);
+                screenDisplay.setVisible(true);
+                screenDisplay.setManaged(true);
                 labelIpAdd.setText("SIM IP Address");
             }
-            if(selectedItem.equals("tc") && stationMode.getLocalServer().equals("control")){
+            if(selectedItem.equals("control") && stationMode.getLocalServer().equals("control") && !stationMode.isSimIPRequired()){
+                gridIP.setManaged(false);
+                gridIP.setVisible(false);
+                screenDisplay.setVisible(true);
+                screenDisplay.setManaged(true);
+            }
+            if(selectedItem.equals("control") && stationMode.getLocalServer().equals("noncontrol") && stationMode.isControlWindowRequired() &&  !stationMode.isControlWindowRequired() ){
                 gridIP.setManaged(true);
                 gridIP.setVisible(true);
+                screenDisplay.setVisible(true);
+                screenDisplay.setManaged(true);
+                labelIpAdd.setText("Control IP Address");
+            }
+            if(selectedItem.equals("noncontrol") && stationMode.getLocalServer().equals("noncontrol") && stationMode.isControlIPRequired()){
+                gridIP.setManaged(true);
+                gridIP.setVisible(true);
+                screenDisplay.setVisible(true);
+                screenDisplay.setManaged(true);
+                labelIpAdd.setText("Sim IP Address");
+            }
+            if(selectedItem.equals("tc") ){
+                gridIP.setManaged(true);
+                gridIP.setVisible(true);
+                screenDisplay.setVisible(true);
+                screenDisplay.setManaged(true);
                 labelIpAdd.setText("TC IP Address");
+                hboxVnc.setManaged(true);
+                hboxVnc.setVisible(true);
             }
         });
 
@@ -243,15 +293,15 @@ public class ConfigureScreenController {
         });
 
         buttonTestVNC.setOnAction(event -> {
-            String signal = deps.getSignalService().getRandomSignal();
-            CmdLine.getResponseSocketDifferent(comboScreenNum.getSelectionModel().getSelectedItem(), signal, "Signal", textIp.getText()) ;
+            String signal = deps.getSignalService().getRandomSignal(true);
+            CmdLine.getResponseSocketDifferent(comboScreenNum.getSelectionModel().getSelectedItem(), signal, "Signal", textIp.getText(),"SC") ;
 
 
         });
 
         buttonClose.setOnAction(event -> {
             boolean ipRequired= gridIP.isManaged() ? !textIp.getText().isEmpty() : true;
-            if (screenDetails != null && ipRequired) {
+            if ((screenDetails != null && ipRequired) ||(stationMode.isControlIPRequired() && stationMode.getLocalServer().equals("noncontrol")&& !stationMode.isControlWindowRequired() && comboServerType.getSelectionModel().getSelectedItem().equals("control") ) ) {
                 device = new Device(comboServerType.getSelectionModel().getSelectedItem(), textIp.getText(), viewValue, String.valueOf(screenShot.isSelected()),screenDetails);
 
 
@@ -265,28 +315,19 @@ public class ConfigureScreenController {
             }
 
         });
-//        buttonCalibrate.setOnAction(event -> {
-//            X =Integer.parseInt(textXCali.getText());
-//            Y =Integer.parseInt(textYCali.getText());
-//            String signal = deps.getSignalService().getRandomSignal();
-//            System.out.println(signal);
-//            CmdLine.getResponseSocketDifferent("rnv" + viewID, signal, "Signal",device.getIpAddress());
-//            Location centerLocation = new Location(finalX+X, finalY+Y);
-//            centerLocation.click();
-//        });
+
         buttonTest.setOnAction(event -> {
-//            String signal = deps.getSignalService().getRandomSignal();
-//
-//            CmdLine.getResponseSocketDifferent("rnv" + viewID, signal, "Signal", "localhost") ;
+
             X =textXCali.getValue();
             Y =textYCali.getValue();
-            String signal = deps.getSignalService().getRandomSignal();
+            String signal = deps.getSignalService().getRandomSignal(true);
             System.out.println(signal);
             if(comboServerType.getSelectionModel().getSelectedItem().equals(stationMode.getLocalServer())) {
-                System.out.println("in here");
-                CmdLine.getResponseSocketDifferent("rnv" + viewID, signal, "Signal","localhost");
+                CmdLine.getResponseSocketDifferent("rnv" + viewID, signal, "Signal","localhost","SC");
+                Location centerLocation = new Location(finalX+X, finalY+Y);
+                centerLocation.click();
             }else {
-                CmdLine.getResponseSocketDifferent(comboScreenNum.getSelectionModel().getSelectedItem(), signal, "Signal", textIp.getText());
+                CmdLine.getResponseSocketDifferent(comboScreenNum.getSelectionModel().getSelectedItem(), signal, "Signal", textIp.getText(),"SC");
                 Location centerLocation = new Location(finalX+X, finalY+Y);
                 centerLocation.click();
             }
@@ -294,6 +335,8 @@ public class ConfigureScreenController {
 
         });
         buttonApply.setOnAction(event -> {
+            X =textXCali.getValue();
+            Y =textYCali.getValue();
            // buttonLocalScreen.setDisable(false);
             Screen screen = new Screen(Integer.parseInt(viewID));
             viewValue=hboxVnc.isVisible()? comboScreenNum.getSelectionModel().getSelectedItem():"rnv" + viewID;
@@ -302,28 +345,7 @@ public class ConfigureScreenController {
             device.setScreenDeatils(screenDetails);
             device.setScreen(viewValue);
         });
-//        buttonLocalScreen.setOnAction(event -> {
-//
-//                try {
-//
-//                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ConfigureSecondSrnView.fxml"));
-//                    ConfigureSecondSrnControl configureSecondSrnControl = new ConfigureSecondSrnControl(stage, deps); // Assuming stage and deps are defined elsewhere
-//                    loader.setController(configureSecondSrnControl);
-//                    Parent root = loader.load(); // This initializes the controller with the FXML components
-//                    ConfigureSecondSrnControl popupController = loader.getController();
-//                    popupController.initModel(device);
-//                    Stage popupStage = new Stage();
-//                    popupStage.initModality(Modality.APPLICATION_MODAL); // Makes the popup modal
-//                    popupStage.setScene(new Scene(root));
-//                    popupStage.setTitle("Configure Screen");
-//                    popupStage.showAndWait(); // Show and wait until the popup is closed
-//
-//
-//                } catch (Exception e) { // Simplified exception handling, adjust as necessary
-//                    e.printStackTrace();
-//                }
-//
-//        });
+
 
     }
 
@@ -475,14 +497,29 @@ public class ConfigureScreenController {
         }
     }
 
+    private void handleClose(WindowEvent event) {
+        boolean ipRequired = gridIP.isManaged() && !textIp.getText().isEmpty();
+        if (screenDetails != null && ipRequired) {
+            device = new Device(comboServerType.getSelectionModel().getSelectedItem(), textIp.getText(), viewValue, String.valueOf(screenShot.isSelected()), screenDetails);
+            configureHomeControl.addDeviceToDeviceTable(device);
+        } else {
+            event.consume();
 
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please ensure all required fields are filled and click 'Apply' to select the screen before closing.", ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
 
-    public void showStage(Pane root){
-        Scene scene = new Scene(root,600,900);
+    // Modifying how you set up the handler
+    public void showStage(Pane root) {
+        Scene scene = new Scene(root, 600, 900);
         stage.setScene(scene);
         stage.setResizable(true);
         stage.setTitle("Screen Configuration");
+
+
         stage.show();
     }
+
 
 }

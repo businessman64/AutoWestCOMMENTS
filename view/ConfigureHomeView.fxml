@@ -23,6 +23,7 @@
         <HBox spacing="10" alignment="CENTER">
         <CheckBox fx:id="localControl" text="inv-int server"/>
         <CheckBox fx:id="localSim" text="Sim server" />
+        <CheckBox fx:id="localTC" text="TC server" />
         </HBox>
     </VBox>
     <VBox  spacing="10" alignment="CENTER"  >

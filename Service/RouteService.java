@@ -51,6 +51,7 @@ public class RouteService {
 
     private final StringProperty textToUpdate = new SimpleStringProperty();
     private final StringProperty conflictTextToUpdate = new SimpleStringProperty();
+    View currentView;
 
     InterlockingService interlockingService;
     CoordinateService coordinateService;
@@ -65,7 +66,6 @@ public class RouteService {
     SignalService signalService;
 
     TrackService trackService;
-    View currentView;
 
     boolean isClear = false;
     Route additionalBRoute;
@@ -74,11 +74,12 @@ public class RouteService {
     SSHManager sshManager_sim;
     StationMode stationMode = StationMode.getInstance();
 
-    public RouteService() throws ParserConfigurationException, IOException, SAXException {
+    public RouteService() throws ParserConfigurationException, IOException, SAXException, NetworkException {
         screenService = ScreenService.getInstance();
         interlockingService = InterlockingService.getInstance();
         coordinateService = CoordinateService.getInstance();
         signalService = new SignalService();
+
         trackService = new TrackService();
        // SM=new StationMode();
         generateRoutes();
@@ -88,21 +89,58 @@ public class RouteService {
     private void generateRoutes() throws ParserConfigurationException, IOException, SAXException {
         routes = new ArrayList<>();
         List<RouteInfo> routeParameter= util.XMLParser.parseRoute("RailwayRoutes.xml");
-        for(RouteInfo eachRoute:routeParameter){
-            String RouteName[] = eachRoute.getRouteId().split("/");
-            Location location = coordinateService.getCoordinatedById( eachRoute.getRouteId());
-            Location coordinate = coordinateService.getScreenCoordinatedById( eachRoute.getRouteId());
+        List<RouteSetInfo> routeSetParameter= util.XMLParser.parseControlled("Controlled.xml");
+        Map<String, RouteSetInfo> routeSetInfoMap = new HashMap<>();
+        for (RouteSetInfo setInfo : routeSetParameter) {
+            routeSetInfoMap.put(setInfo.getRouteId(), setInfo);
+        }
 
-            routes.add(new Route(eachRoute.getRouteId(),RouteName[1], eachRoute.getDirection(),"","",
-                    eachRoute.getPrecedence(),"",
-                    eachRoute.getRouteEntry(),
-                    eachRoute.getRouteExit(), eachRoute.getRouteTracks(),eachRoute.getConflictRoute(),false,false,
-                    this.interlockingService.getInterlockingByName(RouteName[0]),location
-                    ,coordinate
+
+        for (RouteInfo eachRoute : routeParameter) {
+            RouteSetInfo temp = routeSetInfoMap.get(eachRoute.getRouteId());
+
+            String[] routeName = eachRoute.getRouteId().split("/");
+            Location location = coordinateService.getCoordinatedById(eachRoute.getRouteId());
+            Location coordinate = coordinateService.getScreenCoordinatedById(eachRoute.getRouteId());
+
+            String groundFrame="";
+            String extractControlledRoute="";
+            String controlLine="";
+            if(temp != null) {
+                if (temp.getFrontContactObjects().contains("RELR")) {
+                    String[] values = temp.getFrontContactObjects().split(" ");
+                    groundFrame = values[0].replaceFirst("(.*).RELR", "$1");
+                    extractControlledRoute = values.length > 1 ? values[1].replaceFirst("(.*).RIP", "$1") : "";
+                } else if (temp.getFrontContactObjects().contains("CRP")) {
+                    controlLine = temp.getFrontContactObjects().replaceFirst("(.*).CRP", "$1");;
+                } else if (temp.getFrontContactObjects().contains("RIP")) {
+                    extractControlledRoute = temp.getFrontContactObjects().replaceFirst("(.*).RIP", "$1");
+
+                } else if (temp.getFrontContactObjects().contains("NWCR")) {
+                    for (PointRouteSetInfo point : temp.getPoints()) {
+                        if (!point.getUnlessPseudoReverse().isEmpty() && point.getUnlessPseudoReverse().endsWith("E")) {
+                            String unlessPseudoReverse = point.getUnlessPseudoReverse().trim();
+                            groundFrame = unlessPseudoReverse.replaceFirst("(.*)/PF(\\d{3,4})E$", "$1/E$2");
+                        }
+
+                    }
+                }
+            }
+
+            // Create a new Route object with the required information
+            routes.add(new Route(
+                    eachRoute.getRouteId(),
+                    routeName.length > 1 ? routeName[1] : "", // Guard against index out of bounds
+                    "", "", eachRoute, temp, "", groundFrame,controlLine,extractControlledRoute,
+                    false,false,
+                    this.interlockingService.getInterlockingByName(routeName[0]),
+                    location, coordinate
             ));
+
             this.signalTrackByDirection(eachRoute.getRouteId());
 
         }
+
 
         for(Route route : this.getRoutes()){
             findPrecedence(route);
@@ -110,7 +148,8 @@ public class RouteService {
 
     }
 
-    public static RouteService getInstance() throws ParserConfigurationException, IOException, SAXException {
+
+    public static RouteService getInstance() throws ParserConfigurationException, IOException, SAXException, NetworkException {
         if(routeService==null){
             routeService = new RouteService();
             return routeService;
@@ -133,11 +172,19 @@ public class RouteService {
             return this.routes;
         }
     }
-    private void setScreen(@NotNull String object, String action) throws InterruptedException {
+
+    private void priorToset(Route route) throws Exception {
+        if(route.getGroundFrame().isEmpty() && route.getControlLine().isEmpty()){
+            setRoute(route,true);
+        }else if(!route.getGroundFrame().isEmpty()) {
+            setRouteByCli(route.getRouteInfo().getRouteEntry(),route.getRouteInfo().getRouteExit());
+        }
+    }
+    private void setScreen(@NotNull String object, String action, String type) throws InterruptedException {
 
         currentView = ViewManager.getInstance().getCurrentView();
         object.replaceFirst("[A-Z]{3}/S(.*)","[A-Z]{3}S\1");
-        String type ="";
+       // String type ="";
         if (action.startsWith("SignalDropDown")) {
             type = "Signal";
         }else {
@@ -154,7 +201,7 @@ public class RouteService {
 
         }
 
-        CmdLine.getResponseSocketDifferent(currentView.getName(),object,type,ipAddress);
+        CmdLine.getResponseSocketDifferent(currentView.getName(),object,type,ipAddress,"control");
 
         // CmdLine.sendSocketCmdTest(currentView.getName(), signal, type);
         Thread.sleep(3000);
@@ -174,28 +221,6 @@ public class RouteService {
 
         }
     }
-//    private void setScreen(@NotNull String signal, String action) throws InterruptedException, JSchException, IOException {
-//
-//        currentView = ViewManager.getInstance().getCurrentView();
-//       // String type = signal.split("/")[1].contains("S|C")? "Route": "Berth";
-//        String type = signal.split("/")[1].matches(".*BT.*") ? "Berth" : "Route";
-//        //signal.replaceFirst("[A-Z]{3}/S(.*)","[A-Z]{3}S\1");
-//
-//        CmdLine.sendSocketCmdTest(currentView.getName(), signal, type);
-//        //CmdLine.getResponseSocketDifferent(currentView.getName(), signal, type);
-//        //CmdLine.getResponseSocket("rnv0", signal, type);
-//        Location centerLocation = new Location(currentView.getCoordinateX(), currentView.getCoordinateY());
-//        Thread.sleep(1000);
-//        if (!Objects.equals(action, "nonClickable")) {
-//            if (Objects.equals(action, "cancel")) {
-//                centerLocation.rightClick();
-//            } else {
-//                centerLocation.click();
-//            }
-//            Thread.sleep(2000);
-//
-//        }
-//    }
     public String getTextToUpdate() {
         return textToUpdate.get();
     }
@@ -233,8 +258,8 @@ public class RouteService {
         int priority = 10;
         Route routeStored= null;
         for(Route route : this.getRoutes()){
-            if(route.getRouteExit().equals(signalID) && priority > route.getPrecedence()){
-                priority=route.getPrecedence();
+            if(route.getRouteInfo().getRouteExit().equals(signalID) && priority > route.getRouteInfo().getPrecedence()){
+                priority=route.getRouteInfo().getPrecedence();
                 routeStored=  route;
             }
         }
@@ -247,14 +272,14 @@ public class RouteService {
         String LastTrack = "";
         for(Route route : this.getRoutes()) {
 
-            if (route.getId().matches(pattern) && route.getPrecedence() < maxPrecedence && matchesTracks(route.getRouteTracks(), trackIds)){
-                LastTrack = route.getRouteTracks().get(route.getRouteTracks().size() - 1);
+            if (route.getId().matches(pattern) && route.getRouteInfo().getPrecedence() < maxPrecedence && matchesTracks(route.getRouteInfo().getRouteTracks(), trackIds)){
+                LastTrack = route.getRouteInfo().getRouteTracks().get(route.getRouteInfo().getRouteTracks().size() - 1);
                 break;
             }
             if(route.getId().matches(pattern)
-                    &&  route.getPrecedence() < maxPrecedence
-                    && Objects.equals(route.getRouteExit(), exitSignal)){
-                LastTrack = findFirstMismatch(route.getRouteTracks(), trackIds);
+                    &&  route.getRouteInfo().getPrecedence() < maxPrecedence
+                    && Objects.equals(route.getRouteInfo().getRouteExit(), exitSignal)){
+                LastTrack = findFirstMismatch(route.getRouteInfo().getRouteTracks(), trackIds);
 
                 break;
 
@@ -284,9 +309,9 @@ public class RouteService {
     private void signalTrackByDirection(String routeID) {
             Route route = this.getRouteById(routeID);
 
-            if (route.getDirection().contains("up")) {
+            if (route.getRouteInfo().getDirection().contains("up")) {
                 processRouteTrack(route, true);
-            } else if (route.getDirection().contains("dn")) {
+            } else if (route.getRouteInfo().getDirection().contains("dn")) {
                 processRouteTrack(route, false);
             }
         }
@@ -294,23 +319,29 @@ public class RouteService {
 
 
     private void processRouteTrack(Route route, boolean isUpDirection) {
-            Track beforeTrack = determineTrackNew(route, true);
-            Track afterTrack = determineTrackNew(route, false);
+            Track beforeTrack = determineTrack(route, true);
+            Track afterTrack = determineTrack(route, false);
 
             route.setBeforeTrack(beforeTrack.getCircuitName());
             route.setAfterTrack(afterTrack.getCircuitName());
 
-            List<String> updatedRouteTracks = route.getRouteTracks().stream()
+            List<String> updatedRouteTracks = route.getRouteInfo().getRouteTracks().stream()
                     .map(trackService::getTrackById)
                     .map(Track::getCircuitName).distinct().collect(Collectors.toList());
-            route.setRouteTracks(updatedRouteTracks);
+            route.getRouteInfo().setRouteTracks(updatedRouteTracks);
         }
 
-        private Track determineTrackNew(@NotNull Route route, boolean isEntry){
+        private Track determineTrack(@NotNull Route route, boolean isEntry){
             Track finalTrack = null;
-            String direction = signalService.getSignalById(route.getRouteEntry()).getRelation();
-            Track signalTrack = trackService.getTrackById(signalService.getSignalById(route.getRouteEntry()).getSignalTrack());
-
+            String direction="";
+            Track signalTrack ;
+            if(isEntry) {
+                 direction = signalService.getSignalById(route.getRouteInfo().getRouteEntry()).getRelation();
+                 signalTrack = trackService.getTrackById(signalService.getSignalById(route.getRouteInfo().getRouteEntry()).getSignalTrack());
+            }else{
+                 direction = signalService.getSignalById(route.getRouteInfo().getRouteExit()).getRelation();
+                 signalTrack = trackService.getTrackById(signalService.getSignalById(route.getRouteInfo().getRouteExit()).getSignalTrack());
+            }
             if(isEntry  & direction.contains("h")) {
                 if(direction.startsWith("dn")) {
                     finalTrack = !direction.contains("r") ?//!signalTrack.getTrackNormalDown().isEmpty() ?
@@ -324,8 +355,8 @@ public class RouteService {
             } else if(!isEntry & direction.contains("b")){
                 if(direction.startsWith("dn")) {
                     finalTrack = !direction.contains("r") ?//!signalTrack.getTrackNormalDown().isEmpty() ?
-                            trackService.getTrackById(signalTrack.getTrackNormalUp()) :
-                            trackService.getTrackById(signalTrack.getTrackReverseUp());
+                            trackService.getTrackById(signalTrack.getTrackNormalDown()) :
+                            trackService.getTrackById(signalTrack.getTrackReverseDown());
                 }  if(direction.startsWith("up")){
                     finalTrack = !direction.contains("r") ?//!signalTrack.getTrackNormalDown().isEmpty() ?
                             trackService.getTrackById(signalTrack.getTrackNormalUp()) :
@@ -343,36 +374,7 @@ public class RouteService {
 
         }
 
-    private Track determineTrack(@NotNull Route route, boolean isEntry, boolean isUpDirection) {
-        Track finalTrack = null;
 
-    Signal signal = isEntry ? signalService.getSignalById(route.getRouteEntry()) : signalService.getSignalById(route.getRouteExit());
-    List<String> routeTracks = route.getRouteTracks();
-    String trackId = signal.getsignalTrack();
-    String relation = signal.getRelation();
-    String trackPosition = isEntry ? routeTracks.get(0) : routeTracks.get(routeTracks.size() - 1);
-    Track trackPos = trackService.getTrackById(trackPosition);
-
-    if ((isUpDirection && isEntry && relation.contains("up"))
-            || (isUpDirection && !isEntry && relation.contains("dn"))
-            || (!isUpDirection && isEntry && relation.contains("dn"))
-            || (!isUpDirection && !isEntry && (relation.contains("up"))
-    )) {
-        finalTrack = trackService.getTrackById(trackId);
-    } else if ((isUpDirection && isEntry && relation.contains("dnn")) || (!isUpDirection && !isEntry && relation.contains("dnn"))) {
-        finalTrack = trackService.getTrackById(Objects.equals(trackPos.getTrackNormalDown(), "") ? trackId : trackPos.getTrackNormalDown());
-    } else if ((isUpDirection && isEntry && relation.contains("dnr")) || (!isUpDirection && !isEntry && relation.contains("dnr"))) {
-        finalTrack = trackService.getTrackById(Objects.equals(trackPos.getTrackReverseDown(), "") ? trackId : trackPos.getTrackReverseDown());
-    } else if ((isUpDirection && !isEntry && relation.contains("upn")) || (!isUpDirection && isEntry && relation.contains("upn"))) {
-        finalTrack = trackService.getTrackById(Objects.equals(trackPos.getTrackNormalUp(), "") ? trackId : trackPos.getTrackNormalUp());
-    } else if ((isUpDirection && !isEntry && relation.contains("upr")) || (!isUpDirection && isEntry && relation.contains("upr"))) {
-        finalTrack = trackService.getTrackById(Objects.equals(trackPos.getTrackReverseUp(), "") ? trackId : trackPos.getTrackReverseUp());
-    }
-
-
-    return finalTrack;
-
-    }
 
     private Track getNextTrack(String direction, Track signalTrack) throws  NullPointerException{
         Track nextTrack = null;
@@ -402,20 +404,20 @@ public class RouteService {
     public void fillInformation(String routeID){
         Route route = getRouteById(routeID);
         String nameString = "Route Name "+ route.getId()+"\n";
-        String exitString = "Route Exit Signal "+ route.getRouteExit()+"\n";
-        String conflictString = "Number of conflict route "+ route.getConflictRoute().size()+"\n";
+        String exitString = "Route Exit Signal "+ route.getRouteInfo().getRouteExit()+"\n";
+        String conflictString = "Number of conflict route "+ route.getRouteInfo().getConflictRoute().size()+"\n";
         String information = nameString+exitString+conflictString;
         this.setTextToUpdate(information);
     }
 
 
-    public void navigationById(String routeId) throws IOException, InterruptedException, FindFailed, AWTException, JSchException {
+    public void navigationById(String routeId) throws Exception {
         Route route= this.getRouteById(routeId);
         this.navigateRoute(route);
 
     }
 
-    private void trackOperation(String operation, @NotNull String trackId) throws IOException, InterruptedException {
+    public void trackOperation(String operation, @NotNull String trackId) throws IOException, InterruptedException {
         String trackGuido = trackId.replace("/", "");
         System.out.println(trackId + " track " + operation);
         String command = "/opt/fg/bin/clickSimTrk" + operation + ".sh 0 0 0 0 0 0 0 " + trackGuido;
@@ -424,6 +426,11 @@ public class RouteService {
         }
 
         sshManager_sim.sendCommand(command);
+
+    }
+
+    private void CheckRSM(){
+
 
     }
 
@@ -438,6 +445,9 @@ public class RouteService {
         }
         else {
             String command = "/opt/fg/bin/CLIsend.sh -d -c TNI " + signal + " "+ berthName;
+            if (!stationMode.getControlIP().isEmpty() && !stationMode.getLocalServer().equals("control")) {
+                sshManager = SSHManager.getInstance("sysadmin", "tcms2009", stationMode.getControlIP(), 22);
+            }
             sshManager.sendCommand(command);
         }
         System.out.println("Berth "+berthName+" added "+signal);
@@ -452,7 +462,7 @@ public class RouteService {
         CmdLine.send(removeBerth);}
         else {
         String command = "/opt/fg/bin/CLIsend.sh -d -c TNE "+berthName;
-        if (!stationMode.getControlIP().isEmpty()) {
+        if (!stationMode.getControlIP().isEmpty() && !stationMode.getLocalServer().equals("control")) {
                 sshManager = SSHManager.getInstance("sysadmin", "tcms2009", stationMode.getControlIP(), 22);
         }
         sshManager.sendCommand(command);
@@ -465,7 +475,7 @@ public class RouteService {
         //System.out.println(i);
         if(i==2 && navigation) {
             navigation=false;
-            stepping = checkCondition(route.getId(),"stepping_after", "log", route.getRouteExit(), "", true);
+            stepping = checkCondition(route.getId(),"stepping_after", "log", route.getRouteInfo().getRouteExit(), "", true);
         }else if(i==2 && !navigation){
             //if spad failed
 
@@ -478,10 +488,10 @@ public class RouteService {
     private void routeTrackOperations(@NotNull Route route, @NotNull List<Pair<String, Integer>> trackActions) throws InterruptedException, IOException, FindFailed, AWTException, JSchException {
         String previousTrack = route.getBeforeTrack();
         boolean requireSim= trackActions.size() > 1;
-        ArrayList<String> routeTracks = new ArrayList<>(route.getRouteTracks());
+        ArrayList<String> routeTracks = new ArrayList<>(route.getRouteInfo().getRouteTracks());
         routeTracks.add(route.getAfterTrack());
         if (route.isAdditionalRoute()) {
-            ArrayList<String> additionTracks = new ArrayList<>(additionalFRoute.getRouteTracks());
+            ArrayList<String> additionTracks = new ArrayList<>(additionalFRoute.getRouteInfo().getRouteTracks());
             additionTracks.add(additionalFRoute.getAfterTrack());
             routeTracks.addAll(additionTracks);
         }
@@ -509,15 +519,15 @@ public class RouteService {
         }
     }
 
-    private void AdditionalRoute(@NotNull Route route) throws FindFailed, IOException, InterruptedException, AWTException, JSchException {
-        String exitSignalType =signalService.getSignalById(route.getRouteExit()).getType();
-        String entrySignalType =signalService.getSignalById(route.getRouteEntry()).getType();
+    private void AdditionalRoute(@NotNull Route route) throws Exception {
+        String exitSignalType =signalService.getSignalById(route.getRouteInfo().getRouteExit()).getType();
+        String entrySignalType =signalService.getSignalById(route.getRouteInfo().getRouteEntry()).getType();
         Route newRouteAdded = null;
         if (entrySignalType.toLowerCase().matches("(.*_automatic)|(phantom)")){//exitSignalType.toLowerCase().matches("(.*_automatic)|(phantom)") && !
-            Route backwardRoute=  getRouteBySignal(route.getRouteEntry(),"backward");
+            Route backwardRoute=  getRouteBySignal(route.getRouteInfo().getRouteEntry(),"backward");
             System.out.println("should have reached here "+ route.getId());
             if (backwardRoute != null) {
-                this.setRoute(backwardRoute,false, true);
+                this.setRoute(backwardRoute,true);
                 System.out.println("Has additional route");
                 additionalBRoute = backwardRoute;
                 //route.setAdditionalRoute(true);
@@ -529,10 +539,10 @@ public class RouteService {
             }
           // not sure when
         }else{
-            Route forwardRoute=  getRouteBySignal(route.getRouteExit(),"forward");
+            Route forwardRoute=  getRouteBySignal(route.getRouteInfo().getRouteExit(),"forward");
             // exit signal is auto and entry is controlled and not clear
             if (forwardRoute != null) {
-                this.setRoute(forwardRoute,false, true);
+                this.setRoute(forwardRoute, true);
                 System.out.println("Has additional route");
                 additionalFRoute = forwardRoute;
                 route.setAdditionalRoute(true);
@@ -546,21 +556,21 @@ public class RouteService {
 
     }
 //!signalService.getSignalById(route.getRouteExit()).getType().toLowerCase().matches("(.*_automatic)|(phantom)")
-    private @Nullable Route getRouteBySignal(String signal, String Position){
+    public @Nullable Route getRouteBySignal(String signal, String Position){
         //Route additionalRoute = null;
         for(Route route: this.getRoutes()){
-            String exitSignalType =signalService.getSignalById(route.getRouteExit()).getType();
-            String entrySignalType =signalService.getSignalById(route.getRouteEntry()).getType();
+            String exitSignalType =signalService.getSignalById(route.getRouteInfo().getRouteExit()).getType();
+            String entrySignalType =signalService.getSignalById(route.getRouteInfo().getRouteEntry()).getType();
 
-            if (Objects.equals(route.getRouteExit(), signal) && Objects.equals(Position, "backward") && entrySignalType.toLowerCase().matches("(.*_automatic)|(phantom)")){
+            if (Objects.equals(route.getRouteInfo().getRouteExit(), signal) && Objects.equals(Position, "backward") && entrySignalType.toLowerCase().matches("(.*_automatic)|(phantom)")){
                 return route;
             }
 
 
-            if (Objects.equals(route.getRouteEntry(), signal) && Objects.equals(Position, "forward")&& !exitSignalType.toLowerCase().matches("(.*_automatic)|(phantom)"))
+            if (Objects.equals(route.getRouteInfo().getRouteEntry(), signal) && Objects.equals(Position, "forward")&& !exitSignalType.toLowerCase().matches("(.*_automatic)|(phantom)"))
                {
                 return route;
-            }else if ( Objects.equals(route.getRouteEntry(), signal) && Objects.equals(Position, "forward")&&(route.getPrecedence() ==1)){
+            }else if ( Objects.equals(route.getRouteInfo().getRouteEntry(), signal) && Objects.equals(Position, "forward")&&(route.getRouteInfo().getPrecedence() ==1)){
                 return route;
             }
 
@@ -579,14 +589,14 @@ public class RouteService {
                 List<String> berthId= trackService.getBerthByTrackId(trackService.getTrackById(railwayObject).getId());
                for(String berth: berthId) {
                    System.out.println(berthId);
-                   setScreen(berth, "nonClickable");
+                   setScreen(berth, "nonClickable","Berth");
                }
       //          region = new Region(currentView.getCoordinateX()-200, currentView.getCoordinateY() - 200, 400, 400,screen);
 
             }else if(railwayObject.matches("([A-Z]{3})/S(.*)")){
                 String signalType = signalService.getSignalById(railwayObject).getType().equalsIgnoreCase("controlled") ? "controlled": "automatic";
               //  regexPattern += "(.*)(" + signalType + ")?(.*)";
-                setScreen(railwayObject, "nonClickable");
+                setScreen(railwayObject, "nonClickable","Signal");
              //   region = new Region(currentView.getCoordinateX()-100, currentView.getCoordinateY() - 100, 200, 200,screen);
 
             }
@@ -611,7 +621,7 @@ public class RouteService {
         if (Objects.equals(action,"log")){
             logger.info(imageType+" "+ (condition?"Passes":"Failed"));
             setTextConflictToUpdate(imageType+" "+ (condition?"Passes":"Failed"));
-            takeScreenShot(false,routeName+":"+imageType,false);
+            takeScreenShot(routeName+":"+imageType,false,"","");
         }else if(Objects.equals(action,"click") && condition){
             screen.wait(System.getProperty("user.dir")+"/src/resources/Confirmation_yes.png",8).click();
         }
@@ -654,7 +664,7 @@ public class RouteService {
         long startTime = System.currentTimeMillis();
         for(int i =0; i<= captureDuration; i++) {
 
-            BufferedImage screenImage = getScreenImage(fullScreen, 200, 500);
+            BufferedImage screenImage = getScreenImage(fullScreen, 200, 500,BLK,PK);
             gifWriter.writeToSequence(screenImage);
             // Thread.sleep(captureInterval);
         }
@@ -662,38 +672,37 @@ public class RouteService {
         output.close();
     }
 
-    private void takeScreenShot(Boolean condition, String name, Boolean fullScreen) throws AWTException, JSchException, IOException, InterruptedException {
-        if (!condition) {//
-            //System.out.println(name);
-            int valueA= name.matches(".*:(spad|propagation.*|stepping.*)")? 200:100;
-            int valueB=name.matches(".*:(spad|propagation.*|stepping.*)")? 400:200;
-            //ScreenImage screenImage = getScreenImage(fullScreen,valueA,valueB);
-            BufferedImage screenImage = getScreenImage(fullScreen,valueA,valueB);
-            File directory = new File("Images");
-            if (!directory.exists()) {
-                directory.mkdirs(); // Create directory if it does not exist
-            }
-
-            // Correct the path to include the parent directory
-            String subdirectoryName = name.split(":")[0].replace("/", "");
-            File subdirectory = new File(directory, subdirectoryName);
-
-            if (!subdirectory.exists()) {
-                subdirectory.mkdirs();
-            }
-            String formatName = "PNG"; // Image format
-            String fileName = name.split(":")[1].replace("/", "") + ".png"; // Construct filename
-            String outputPath = subdirectory + File.separator + fileName; // Construct the full output path
-
-            // Now use ImageIO.write with the correct arguments
-            ImageIO.write(screenImage, formatName, new File(outputPath));
-
-//            screenImage.save(directory+"/"+subdirectory.getName()+"/",
-//                    name.split(":")[1].replace("/", "") + ".png");
-
+    private void takeScreenShot(String name, Boolean fullScreen, String BLK , String PK) throws AWTException, JSchException, IOException, InterruptedException {
+        int valueA= 200;
+        int valueB=500;
+        //ScreenImage screenImage = getScreenImage(fullScreen,valueA,valueB);
+        BufferedImage screenImage = getScreenImage(fullScreen,valueA,valueB, BLK, PK);
+        File directory = new File("TrackImages");
+        if (!directory.exists()) {
+            directory.mkdirs(); // Create directory if it does not exist
         }
+
+        // Correct the path to include the parent directory
+        String subdirectoryName = name.split(":")[0].replace("/", "");
+        File subdirectory = new File(directory, subdirectoryName);
+
+        if (!subdirectory.exists()) {
+            subdirectory.mkdirs();
+        }
+        String formatName = "PNG"; // Image format
+        String fileName = name.split(":")[1].replace("/", "") + ".png"; // Construct filename
+        String outputPath = subdirectory + File.separator + fileName; // Construct the full output path
+
+        // Now use ImageIO.write with the correct arguments
+        ImageIO.write(screenImage, formatName, new File(outputPath));
+
+
+
     }
-    private BufferedImage getScreenImage(boolean fullScreen,int valueA, int valueB) {
+
+
+
+    private BufferedImage getScreenImage(boolean fullScreen,int valueA, int valueB,String BLK , String PK) {
         BufferedImage combined = null;
         Graphics2D g2 = null;
         currentView = ViewManager.getInstance().getCurrentView();
@@ -727,11 +736,11 @@ public class RouteService {
         g2.setColor(Color.RED);
 
         // Determine the position where you want to draw the text
-//        int textX = 10; // Example x position
-//        int textY = 20; // Example y position, adjust as needed
-//        String text= "";
-//        // Draw the text
-//        g2.drawString(text, textX, textY);
+        int textX = 10; // Example x position
+        int textY = 20; // Example y position, adjust as needed
+        String text= BLK +" " + PK;
+        // Draw the text
+        g2.drawString(text, textX, textY);
         g2.dispose(); // Clean up
 
         return stationMode.isTCWindowRequired()? combined:img1;
@@ -750,8 +759,6 @@ public class RouteService {
         }
         return  fullScreen?  screenshot.capture().getImage():imageScreen.getImage();
     }
-
-
     private boolean extractMnemonic(String object, int time, String mnemonics, String mnemonicType) throws IOException, InterruptedException {
         boolean IsMnemonicOne = false;
         int seconds = 0;
@@ -787,26 +794,200 @@ public class RouteService {
         return IsMnemonicOne;
     }
 
-    private boolean isRouteSet(Route route) throws IOException, InterruptedException {
+    public void setRouteByClick(Route route) throws FindFailed, InterruptedException {
+        currentView = ViewManager.getInstance().getCurrentView();
 
-        if(Objects.equals(stationMode.getControlType(), "control")) {
-//            return extractMnemonic(route.getId(), 1, "RLR", "Route") &&
-//                    extractMnemonic(route.getRouteEntry(), 1, "RIP", "Signal");
-            return extractMnemonic(route.getId(), 1, "RLR", "Route") ||
-                    extractMnemonic(route.getRouteEntry(), 1, "RIP", "Signal");
-        }else{
-            return extractMnemonic(route.getRouteEntry(), 1, "RIP", "Signal");
+        Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
+
+        screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
+
+        setScreen(route.getRouteInfo().getRouteEntry(), "set","Route");
+        System.out.println("Attempting to set a Route for " + route.getRouteInfo().getRouteEntry() + " and " + route.getRouteInfo().getRouteExit());
+
+        setScreen(route.getRouteInfo().getRouteExit(), "set","Route");
+        Thread.sleep(1000);
+    }
+
+
+   public void setRouteNew(Route route, boolean quickRouteSet) throws Exception {
+//        if(!route.getGroundFrame().isEmpty()) {
+//            setGroudFrameByCurlics(route.getGroundFrame());
+//            if(!route.getExtractControlledRoute().isEmpty()){
+//                setRouteByClick(getRouteById(route.getExtractControlledRoute()));
+//            }
+//        }
+
+//        if(!isRouteSet(route) && route.isTrackDrop()){
+//            trackOperation("Drop",route.getBeforeTrack());
+//
+//        }
+//        if(!isRouteSet(route) && route.hasAdditionalRoute()){
+//            setRoute(additionalFRoute,true);
+//
+//        }
+        if(!route.getControlLine().isEmpty()) {
+            setControlLineByCurlics(route.getGroundFrame());
+        }
+        if(quickRouteSet){
+            setRouteByClick(route);
+        }else {
+            setRouteByDropdown(route);
+
         }
     }
-    private boolean isSignalClear(Route route,int time) throws IOException, InterruptedException, FindFailed, AWTException, JSchException {
+    public void setRoute(Route route, boolean quickRouteSet) throws Exception {
+        if (isRouteSet(route)) {
+            logger.info("Route already set for " + route.getId());
+            return; // Route is already set, no further action needed.
+        }
 
-        isClear=isClear||  extractMnemonic(route.getRouteEntry(), time, "RGP", "Signal");
+        setRouteNew(route, quickRouteSet);
+        Thread.sleep(25000); // Assuming sleep is necessary after each operation.
+
+        if (isRouteSet(route)) {
+            logger.info("Route successfully set for " + route.getId());
+            takeScreenShot(route.getId() + ":route_set", !isConflictRoute, "", "");
+            return; // Successfully set the route, exit method.
+        }
+
+        checkConfirmation(route.getId().split("/")[0]);
+        Thread.sleep(25000);
+
+        if (isRouteSet(route)) {
+            logger.info("Route successfully set after confirmation for " + route.getId());
+            takeScreenShot(route.getId() + ":route_set", !isConflictRoute, "", "");
+            return; // Successfully set the route, exit method.
+        }
+
+        trackOperation("Drop", route.getBeforeTrack());
+        route.setTrackDrop(true);
+        Thread.sleep(25000);
+
+        if (isRouteSet(route)) {
+            logger.info("Route successfully set after track operation for " + route.getId());
+            takeScreenShot(route.getId() + ":route_set", !isConflictRoute, "", "");
+            return; // Successfully set the route, exit method.
+        }
+
+        boolean setHasPip = extractMnemonic(route.getRouteInfo().getRouteEntry(), 1, "CPBS", "Signal");
+        if (!setHasPip && additionalFRoute == null) {
+            AdditionalRoute(route);
+        }
+
+        Thread.sleep(25000);
+
+        if (isRouteSet(route)) {
+            logger.info("Route finally set for " + route.getId());
+            takeScreenShot(route.getId() + ":route_set", !isConflictRoute, "", "");
+        } else {
+            logger.info("Cannot set route for " + route.getId());
+        }
+    }
+
+
+
+
+//    public void setRoute(Route route, boolean quickRouteSet) throws IOException, ParserConfigurationException, InterruptedException, NetworkException, SAXException, FindFailed, JSchException, AWTException {
+//        if(!isRouteSet(route)){
+//
+//            setRouteNew(route,quickRouteSet);
+//            Thread.sleep(1000);
+//
+//            if(!isRouteSet(route)) {
+//                checkConfirmation(route.getId().split("/")[0]);
+//                Thread.sleep(25000);
+//                return;
+//
+//            }
+//
+//            if(!isRouteSet(route)) {
+//                trackOperation("Drop",route.getBeforeTrack());
+//                route.setTrackDrop(true);
+//                return;
+//            }
+//            Thread.sleep(1000);
+//
+//            if(!isRouteSet(route)) {
+//                boolean setHasPip = extractMnemonic(route.getRouteInfo().getRouteEntry(), 1, "CPBS", "Signal");//checkCondition("set","log",signalService.getSignalById(route.getRouteEntry()).getType()
+//
+//                if (!setHasPip) {
+//
+//                    AdditionalRoute(route);
+//                }
+//            }
+//            Thread.sleep(1000);
+//
+//            if(isRouteSet(route)) {
+//                logger.info("Route sets for"+ route.getId());
+//                takeScreenShot(route.getId()+":route_set", !isConflictRoute,"","");
+//            }else{
+//
+//                logger.info("Cannot set route for"+ route.getId());
+//            }
+//
+//
+//            }else {
+//            logger.info("Route sets for"+ route.getId());
+//        }
+//
+//        }
+//
+
+    private void setControlLineByCurlics(String ControlLine) throws IOException, InterruptedException {
+        //
+        ArrayList<String> al = new ArrayList<>();
+        al.add("LCG");
+        al.add(ControlLine);
+        CmdLine.send(al);
+    }
+
+    private void unsetControlLineByCurlics(String ControlLine) throws IOException, InterruptedException {
+        //
+        ArrayList<String> al = new ArrayList<>();
+        al.add("LCC");
+        al.add(ControlLine);
+        CmdLine.send(al);
+    }
+    private void setGroudFrameByCurlics(String groundFrame) throws IOException, InterruptedException {
+        List<String> word = Arrays.asList(groundFrame.split("/"));
+        String mnemonic = "QL"+word.get(1)+"R"; //QSKN670L-AK
+        List<String> cmd = Arrays.asList("curlics", "-X PUT -d 1",
+
+                        "http://IPCSMBridge.SIMTCMS/" + word.get(0)+"/"+mnemonic );
+
+
+        CmdLine.executeCurlics(cmd);
+    }
+
+    private boolean isRouteSet(Route route) throws IOException, InterruptedException, ParserConfigurationException, NetworkException, SAXException {
+        String state="";
+        if (stationMode.getLocalServer().equals("noncontrol")) {
+            state = "SIMTCMS";
+        } else {
+            state = "TCMS";
+        }
+        String rsmMessage = RailwayStateManagerService.getInstance().getSignalState(route.getRouteInfo().getRouteEntry(),state);
+       // String rsmMessage ="xx000xx0xxxx10xx00001x1xx01xxxx0xxxxxxxxxxxxxxxxxxxx0x1xx010";
+        System.out.println(rsmMessage);
+        return rsmMessage.charAt(13) == '1';
+//        if(Objects.equals(stationMode.getControlType(), "control")) {
+////            return extractMnemonic(route.getId(), 1, "RLR", "Route") &&
+////                    extractMnemonic(route.getRouteEntry(), 1, "RIP", "Signal");
+//            return extractMnemonic(route.getId(), 1, "RLR", "Route") ||
+//                    extractMnemonic(route.getRouteInfo().getRouteEntry(), 1, "RIP", "Signal");
+//        }else{
+//            return extractMnemonic(route.getRouteInfo().getRouteEntry(), 1, "RIP", "Signal");
+//        }
+    }
+    private boolean isSignalClear(Route route,int time) throws Exception {
+
+        isClear=isClear||  extractMnemonic(route.getRouteInfo().getRouteEntry(), time, "RGP", "Signal");
         if (!isClear){
-            boolean setHasPip = extractMnemonic(route.getRouteEntry(),1,"CPBS","Signal");//checkCondition("set","log",signalService.getSignalById(route.getRouteEntry()).getType()
+            boolean setHasPip = extractMnemonic(route.getRouteInfo().getRouteEntry(),1,"CPBS","Signal");//checkCondition("set","log",signalService.getSignalById(route.getRouteEntry()).getType()
             trackOperation("Drop",route.getBeforeTrack());
             route.setTrackDrop(true);
 
-              if(!setHasPip) {
+              if(!setHasPip && additionalFRoute == null) {
 
                   AdditionalRoute(route);
               }
@@ -816,8 +997,8 @@ public class RouteService {
         }
         return isClear;
     }
-    private void navigateRoute(Route route) throws IOException, InterruptedException, FindFailed, AWTException, JSchException {
-        this.setRoute(route,true,false);
+    private void navigateRoute(Route route) throws Exception {
+        this.setRoute(route,true);
         Thread.sleep(10000);
             //Checks if route is clear
         if (isClear) {
@@ -827,14 +1008,14 @@ public class RouteService {
             trackOperation("Drop", route.getBeforeTrack());
             Thread.sleep(10000); // 10 seconds delay
             // Add Berth to the Entry Signal
-            addBerth("TEST", route.getRouteEntry());
+            addBerth("TEST", route.getRouteInfo().getRouteEntry());
             Thread.sleep(5000); // 5 seconds delay
             boolean propagation_before = checkCondition(route.getId(),"propagation_before","log",
                     route.getBeforeTrack()
                     ,"",true);
             Thread.sleep(2000);// 1 seconds delay
             boolean propagation_after = checkCondition(route.getId(),"propagation_after","log",
-                    route.getRouteExit()
+                    route.getRouteInfo().getRouteExit()
                     ,"green",true);
 
             // Simulates train navigation by dropping and picking tracks
@@ -852,37 +1033,36 @@ public class RouteService {
 
     }
 
-    public void  setConflictRouteByID(String routeId) throws InterruptedException, IOException, FindFailed, AWTException, JSchException {
+    public void  setConflictRouteByID(String routeId) throws Exception {
         Route route = this.getRouteById(routeId);
         this.setConflictRoute(route);
 
-
     }
 
-    private void setConflictRoute(Route route) throws InterruptedException, IOException, FindFailed, AWTException, JSchException {
+    private void setConflictRoute(Route route) throws Exception {
         Thread.sleep(2000);
         int count = 0 ;
 
-        setRoute(route,true,false);
-        for (String eachRoute: route.getConflictRoute()) {
+        setRoute(route,true);
+        for (String eachRoute: route.getRouteInfo().getConflictRoute()) {
             isConflictRoute =true;
             count++;
             Thread.sleep(2000);
             Route conflictRoute = this.getRouteById(eachRoute);
             setTextConflictToUpdate("Route " + conflictRoute.getId() + " from signal \n "
-                    + conflictRoute.getRouteEntry() + " to " + conflictRoute.getRouteExit() + ". Conflict route  " + count
+                    + conflictRoute.getRouteInfo().getRouteEntry() + " to " + conflictRoute.getRouteInfo().getRouteExit() + ". Conflict route  " + count
             );
-            setRoute(conflictRoute,false,false);
+            setRoute(conflictRoute,true);
             if(!isRouteSet(conflictRoute)){
                 logger.info("Route " + conflictRoute.getId() + " test : Pass");
                 setTextConflictToUpdate("Route " + conflictRoute.getId() + " test : Pass");
                 unsetRoute(conflictRoute);
-                if(Objects.equals(route.getRouteEntry(), conflictRoute.getRouteEntry())) setRoute(route,true,false);
+                if(Objects.equals(route.getRouteInfo().getRouteEntry(), conflictRoute.getRouteInfo().getRouteEntry())) setRoute(route,true);
               }else{
                 logger.info("Route " + conflictRoute.getId() + " test : Fail");
                 setTextConflictToUpdate("Route " + conflictRoute.getId() + " test : Fail");
                 unsetRoute(conflictRoute);
-                takeScreenShot(false,route.getId()+": conflictRoute"+conflictRoute.getId(),true);
+                takeScreenShot(route.getId()+": conflictRoute"+conflictRoute.getId(),false,"","");
             }
 
         }
@@ -890,66 +1070,25 @@ public class RouteService {
         unsetRoute(route);
     }
 
-
-//    private void setConflictRoute(Route route) throws InterruptedException, IOException, FindFailed, AWTException, JSchException {
-//
-//        String routeTest = "";
-//        Thread.sleep(2000);
-//        int count = 0 ;
-//        for (String eachRoute: route.getConflictRoute()) {
-//            count++;
-//            Screen screen = new Screen();
-//            Thread.sleep(2000);
-//            routeTest = eachRoute;
-//            Route conflictRoute = this.getRouteById(eachRoute);
-//            setTextConflictToUpdate("Route " + conflictRoute.getId() + " from signal \n "
-//                    + conflictRoute.getRouteEntry() + " to " + conflictRoute.getRouteExit()+". Conflict route  "+count
-//            );
-//            this.setRoute(conflictRoute,false);
-//            if(extractMnemonic(conflictRoute,10,"RLR","Route")){
-//              setRoute(route, true);
-//              if(!extractMnemonic(route,10,"RLR","Route")){
-//                  logger.info("Route " + conflictRoute.getId() + " test : Pass");
-//                  setTextConflictToUpdate("Route " + conflictRoute.getId() + " test : Pass");
-//
-//
-//              }else{
-//                  logger.info("Route " + conflictRoute.getId() + " test : Fail");
-//
-//                  setTextConflictToUpdate("Route " + conflictRoute.getId() + " test : Fail");
-//
-//              }
-//
-//            }
-//            unsetRoute(conflictRoute);
-//
-//
-//        }
-//        unsetRoute(route);
-//        logger.info("Conflict route test Complete");
-//        setTextConflictToUpdate("Conflict route test Complete");
-//    }
-
-
-    public void setBlockRouteByID(String routeId) throws InterruptedException, IOException, FindFailed, AWTException, JSchException {
+    public void setBlockRouteByID(String routeId) throws Exception {
         Route route = this.getRouteById(routeId);
         this.setBlockRoute(route);
     }
-    private void setBlockRoute(@NotNull Route route) throws InterruptedException, IOException, FindFailed, AWTException, JSchException {
-        cancelARSByCli(route.getRouteExit());
+    private void setBlockRoute(@NotNull Route route) throws Exception {
+        cancelARSByCli(route.getRouteInfo().getRouteExit());
         Thread.sleep(1000);
-        extractMnemonic(route.getRouteExit(),1,"BLK","Signal");
-        extractMnemonic(route.getRouteExit(),1,"VBLK","Signal");
+        extractMnemonic(route.getRouteInfo().getRouteExit(),1,"BLK","Signal");
+        extractMnemonic(route.getRouteInfo().getRouteExit(),1,"VBLK","Signal");
 
-        setBlockByCli(route.getRouteExit(), "Signal");
+        setBlockByCli(route.getRouteInfo().getRouteExit(), "Signal");
         Thread.sleep(1000);
-        this.setRoute(route, false, false);
+        this.setRoute(route, true);
         Thread.sleep(2000);
         boolean blockRoute = checkCondition(route.getId(), "block", "log",
-                route.getRouteExit(), "", false);
+                route.getRouteInfo().getRouteExit(), "", false);
         this.unsetRoute(route);
         Thread.sleep(2000);
-        unBlockSignalByCli(route.getRouteExit(), "Signal");
+        unBlockSignalByCli(route.getRouteInfo().getRouteExit(), "Signal");
         Thread.sleep(2000);
 
         logger.info("Block route test complete");
@@ -959,21 +1098,21 @@ public class RouteService {
 //            setTextConflictToUpdate("No Block for this route");
 //        }
     }
-    public void setDisregardByID(String routeId) throws InterruptedException, IOException, FindFailed, AWTException, JSchException,JSchException {
+    public void setDisregardByID(String routeId) throws Exception {
         Route route = this.getRouteById(routeId);
         this.setDisregardRoute(route);
     }
-    private void setDisregardRoute(@NotNull Route route) throws InterruptedException, IOException, FindFailed, AWTException, JSchException {
+    private void setDisregardRoute(@NotNull Route route) throws Exception {
 
-        setDisregardOnByCli(route.getRouteEntry(),"Signal");
+        setDisregardOnByCli(route.getRouteInfo().getRouteEntry(),"Signal");
 
-        setDisregardOnByCli(route.getRouteExit(), "Signal");
+        setDisregardOnByCli(route.getRouteInfo().getRouteExit(), "Signal");
 
         List<Pair<String, Integer>> disOnTrackActions = new ArrayList<>();
         disOnTrackActions.add(new Pair<>("DisregardOn", 100));
         routeTrackOperations(route,disOnTrackActions);
         Thread.sleep(1000);
-        this.setRoute(route,true,false);
+        this.setRoute(route,true);
 
         Thread.sleep(2000);
         boolean disregard = isRouteSet(route);//checkCondition("disregard","log",route.getRouteEntry(),"",false);
@@ -984,8 +1123,8 @@ public class RouteService {
         disOffTrackActions.add(new Pair<>("DisregardOff", 2000));
         routeTrackOperations(route,disOffTrackActions);
 
-        setDisregardOffByCli(route.getRouteEntry(),"Signal");
-        setDisregardOffByCli(route.getRouteExit(), "Signal");
+        setDisregardOffByCli(route.getRouteInfo().getRouteEntry(),"Signal");
+        setDisregardOffByCli(route.getRouteInfo().getRouteExit(), "Signal");
 
         String msg = disregard ? "Disregard Passes" : "Disregard Failed";
         logger.info(msg);
@@ -999,8 +1138,8 @@ public class RouteService {
         this.setSpad(route);
     }
     private void setSpad(@NotNull Route route) throws InterruptedException, IOException, FindFailed, AWTException, JSchException {
-        Signal exitSignal =signalService.getSignalById(route.getRouteExit());
-        setScreen(route.getRouteEntry(),"nonClickable");
+        Signal exitSignal =signalService.getSignalById(route.getRouteInfo().getRouteExit());
+        setScreen(route.getRouteInfo().getRouteEntry(),"nonClickable","Route");
         // get last track before the exit signal
         String LastTrack ="";
         if (exitSignal.getType().toLowerCase().matches("(.*_automatic)|(phantom)")){
@@ -1009,7 +1148,7 @@ public class RouteService {
                     trackService.getTrackById(exitSignal.getSignalTrack())).getCircuitName();
         }else {
 
-            LastTrack = route.getRouteTracks().get(route.getRouteTracks().size() - 1);
+            LastTrack = route.getRouteInfo().getRouteTracks().get(route.getRouteInfo().getRouteTracks().size() - 1);
         }
 
 
@@ -1021,16 +1160,16 @@ public class RouteService {
         removeBerth("TEST");
         removeBerth("SPAD");
 
-        addBerth("TEST",route.getRouteExit()); // assign berth TDN before the exit signal
-        addBerth("SPAD",route.getRouteEntry());// assign berth TDn before the entry signal
+        addBerth("TEST",route.getRouteInfo().getRouteExit()); // assign berth TDN before the exit signal
+        addBerth("SPAD",route.getRouteInfo().getRouteEntry());// assign berth TDn before the entry signal
         Thread.sleep(25000); // for it to spad
-        trackOperation("Drop",route.getRouteTracks().get(0));// drop the next track for spad
+        trackOperation("Drop",route.getRouteInfo().getRouteTracks().get(0));// drop the next track for spad
 // click on the berth
         Thread.sleep(1000);
         List<String> trackBerthID= trackService.getBerthByTrackId(LastTrack);
         System.out.println(trackBerthID);
         for(String berthId: trackBerthID) {
-            setScreen(berthId, "click");
+            setScreen(berthId, "click","Berth");
         }
 // take gif
         captureAndCreateGif(route.getId()+":blinkingExitRoute", true,"blinking", "now",  120,  1);
@@ -1039,7 +1178,7 @@ public class RouteService {
 
         trackOperation("Pick", route.getBeforeTrack());
         trackOperation("Pick", LastTrack);
-        trackOperation("Pick",route.getRouteTracks().get(0));
+        trackOperation("Pick",route.getRouteInfo().getRouteTracks().get(0));
         removeBerth("TEST");
         List<Pair<String, Integer>> trackActions = new ArrayList<>();
 
@@ -1059,7 +1198,7 @@ public class RouteService {
         this.setApproachLock(route);
     }
     private void setApproachLock(@NotNull Route route) throws InterruptedException, FindFailed, IOException, AWTException, JSchException {
-        String entrySignalType =signalService.getSignalById(route.getRouteEntry()).getType();
+        String entrySignalType =signalService.getSignalById(route.getRouteInfo().getRouteEntry()).getType();
         if(!entrySignalType.toLowerCase().matches("(.*_automatic)|(phantom)"))
             {
 
@@ -1069,7 +1208,7 @@ public class RouteService {
                 Thread.sleep(1000);
                 this.unsetRoute(route);
                 Thread.sleep(100);
-                approach = checkCondition(route.getId(), "approach", "log", route.getRouteEntry(), "pink", false);
+                approach = checkCondition(route.getId(), "approach", "log", route.getRouteInfo().getRouteEntry(), "pink", false);
                 logger.info("Approach lock test Complete");
                 setTextConflictToUpdate("Approach route test Complete");
             }
@@ -1079,29 +1218,29 @@ public class RouteService {
             setTextConflictToUpdate("No Approach lock for this route. Entry signal Type "+entrySignalType);
             }
     }
-       public void setLowRouteById(String routeId) throws InterruptedException, FindFailed, IOException, AWTException, JSchException {
+       public void setLowRouteById(String routeId) throws Exception {
            Route route = this.getRouteById(routeId);
            this.setLowRoute(route);
        }
 
-       private void setLowRoute(Route route) throws InterruptedException, FindFailed, IOException, AWTException, JSchException {
+       private void setLowRoute(Route route) throws Exception {
 //            if(!stepping ){
 //
 //            }
             trackOperation("Drop",route.isAdditionalRoute()?additionalFRoute.getAfterTrack():route.getAfterTrack());
             System.out.println("additional "+ (route.isAdditionalRoute()?additionalFRoute.getAfterTrack():route.getAfterTrack()));
-            this.setRoute(route,true,false);
+            this.setRoute(route,true);
             //trackOperation("Drop",route.getAfterTrack());
             Thread.sleep(3000);
-            lowSpeed = checkCondition(route.getId(),"LowSpeed","log",route.getRouteEntry(),"yellow",false);
+            lowSpeed = checkCondition(route.getId(),"LowSpeed","log",route.getRouteInfo().getRouteEntry(),"yellow",false);
             logger.info("Low Speed route test Complete");
             setTextConflictToUpdate("Low Speed route test Complete");
 
        }
-       public void setRouteById(String routeId) throws ObjectStateException, IOException, ParserConfigurationException, NetworkException, SAXException, FindFailed, InterruptedException, AWTException, JSchException {
+       public void setRouteById(String routeId,Boolean quickRouteSet) throws Exception {
 
         Route route = this.getRouteById(routeId);
-        this.setRoute(route,true,false);
+        this.setRoute(route,quickRouteSet);
 
     }
 
@@ -1112,7 +1251,7 @@ public class RouteService {
     }
 
     private void unSetRouteByDropdown(Route routeId) throws InterruptedException, FindFailed {
-        setScreen(routeId.getRouteEntry(), "SignalDropDown");
+        setScreen(routeId.getRouteInfo().getRouteEntry(), "SignalDropDown","Signal");
         Screen screen = (Screen) new Location(currentView.getCoordinateX(), currentView.getCoordinateY()).getScreen();
         try {
             screen.wait(System.getProperty("user.dir") + "/src/resources/routes/Route_Cancel.png").doubleClick();
@@ -1131,12 +1270,13 @@ public class RouteService {
         }
 
         private void setRouteByDropdown(Route routeId) throws InterruptedException, FindFailed {
-            setScreen(routeId.getRouteEntry(), "SignalDropDown");
-            System.out.println("Attempting to set a Route for " + routeId.getRouteEntry() + " and " + routeId.getRouteExit());
+            setScreen(routeId.getRouteInfo().getRouteEntry(), "SignalDropDown","Signal");
+            System.out.println("Attempting to set a Route for " + routeId.getRouteInfo().getRouteEntry() + " and " + routeId.getRouteInfo().getRouteExit());
             Screen screen = (Screen) new Location(currentView.getCoordinateX(), currentView.getCoordinateY()).getScreen();
             screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
 
-            setScreen(routeId.getRouteExit(), "SignalDropDown");
+            setScreen(routeId.getRouteInfo().getRouteExit(), "SignalDropDown","Signal");
+            Thread.sleep(1000);
             try {
                 screen.wait(System.getProperty("user.dir") + "/src/resources/routes/setRoute.png").doubleClick();
             }catch (FindFailed ff) {
@@ -1149,78 +1289,107 @@ public class RouteService {
         }
 
     private void findPrecedence(@NotNull Route route){
-            int precedence = route.getPrecedence();
+            int precedence = route.getRouteInfo().getPrecedence();
             String precedenceTrack = "";
             if (precedence > 1 ) {
                 String routeName = route.getId().substring(0, route.getId().length() - 1);
-                route.setPrecedenceTrack(getRoutePrecedenceById(routeName + ".*", precedence, route.getRouteTracks(), route.getRouteExit()));
+                route.setPrecedenceTrack(getRoutePrecedenceById(routeName + ".*", precedence, route.getRouteInfo().getRouteTracks(), route.getRouteInfo().getRouteExit()));
 
             }
         }
 
-    private boolean setRouteCases(Route route,boolean clear, boolean check) throws IOException, InterruptedException, FindFailed, AWTException, JSchException {
-      boolean result= false;
-      if(clear && check){
-          if(route.isAdditionalRoute()) setRoute(additionalFRoute,false,true);
-          if(route.isTrackDrop())  trackOperation("Drop", route.getBeforeTrack());
-          result=true;
-      } else if (!clear && check) {
-          result = isSignalClear(route,20);
-      } else {
-          result=isRouteSet(route);
-          if(!result)trackOperation("Drop", route.getBeforeTrack());
-          result=isRouteSet(route);
-      }
-
-      return result;
-
-    }
-
-    private void checkConfirmation(@NotNull String interlocking) throws FindFailed, InterruptedException, IOException, AWTException, JSchException {
+      private void checkConfirmation(@NotNull String interlocking) throws FindFailed, InterruptedException, IOException, AWTException, JSchException {
         if (interlocking.matches("GHY|HBE")) {
-            boolean hasConfirmation = checkCondition("","Confirmation", "click", "", "", false);
+            Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
+            screen.type(null,Key.ENTER);
+//            boolean hasConfirmation = checkCondition("","Confirmation", "click", "", "", false);
         }
 
     }
-    private void setRoute(@NotNull Route route, boolean checkClear, boolean isforwarded) throws InterruptedException, FindFailed, IOException, AWTException, JSchException {
-       // System.out.println(isClear);
-        if (!extractMnemonic(route.getRouteEntry(),1,"RGP","Signal")) {
-            Screen screen = new Screen();
+//    private void setRoute(@NotNull Route route, boolean checkClear, boolean isforwarded) throws InterruptedException, FindFailed, IOException, AWTException, JSchException, ParserConfigurationException, NetworkException, SAXException {
+//       // System.out.println(isClear);
+//        if(!isRouteSet(route)){ // True so that route can be set
+////            Screen screen = new Screen();
+//
+//            if (!Objects.equals(route.getPrecedenceTrack(), "")) {
+//                this.setBlockByCli(route.getPrecedenceTrack(), "Track");
+//            }
+//
+////            screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
+////
+////            setScreen(route.getRouteInfo().getRouteEntry(), "set","Route");
+////            System.out.println("Attempting to set a Route for " + route.getRouteInfo().getRouteEntry() + " and " + route.getRouteInfo().getRouteExit());
+////
+////            setScreen(route.getRouteInfo().getRouteExit(), "set","Route");
+////            Thread.sleep(1000);
+//
+//            if(!isRouteSet(route))checkConfirmation(route.getId().split("/")[0]);
+//
+//            if(!isRouteSet(route) && route.isAdditionalRoute()) setRoute(additionalFRoute,false,true);
+//            if(!isRouteSet(route) && route.isTrackDrop())  trackOperation("Drop", route.getBeforeTrack());
+//            // isClear = checkClear? isRouteSet(route):isRouteSet(route);
+//            if(!isRouteSet(route) && !checkClear && !isConflictRoute && !isforwarded) trackOperation("Drop", route.getBeforeTrack()) ;
+//            isClear = isRouteSet(route);
+//            String msg = "The route has been set between the Routes " + route.getRouteInfo().getRouteEntry() + " and " + route.getRouteInfo().getRouteExit();
+//            logger.info(isClear?msg:"Route set for "+route.getId()+" failed");
+//            if (!Objects.equals(route.getPrecedenceTrack(), "" )&& isClear) {
+//                this.unBlockSignalByCli(route.getPrecedenceTrack(),"Track");
+//            }
+//
+//            takeScreenShot(route.getId()+":route_set",!(isClear && !isConflictRoute && !isforwarded),"","");
+//        }
+//        else{
+//            System.out.println("The route is already set between the Routes " + route.getRouteInfo().getRouteEntry() + " and " + route.getRouteInfo().getRouteExit());
+//            isClear =true;
+//            setScreen(route.getRouteInfo().getRouteEntry(),"nonClickable","Route");
+//
+//        }
+//
+//    }
 
-            if (!Objects.equals(route.getPrecedenceTrack(), "")) {
-                this.setBlockByCli(route.getPrecedenceTrack(), "Track");
-            }
 
-            screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
 
-            setScreen(route.getRouteEntry(), "set");
-            System.out.println("Attempting to set a Route for " + route.getRouteEntry() + " and " + route.getRouteExit());
-
-            setScreen(route.getRouteExit(), "set");
-            Thread.sleep(1000);
-
-            if(!isRouteSet(route))checkConfirmation(route.getId().split("/")[0]);
-
-            if(isClear && route.isAdditionalRoute()) setRoute(additionalFRoute,false,true);
-            if(isClear && route.isTrackDrop())  trackOperation("Drop", route.getBeforeTrack());
-            isClear = checkClear? isSignalClear(route,20):isRouteSet(route);
-            if(!isClear && !checkClear && !isConflictRoute && !isforwarded) trackOperation("Drop", route.getBeforeTrack()) ; isClear = isRouteSet(route);
-            String msg = "The route has been set between the Routes " + route.getRouteEntry() + " and " + route.getRouteExit();
-            logger.info(isClear?msg:"Route set for "+route.getId()+" failed");
-            if (!Objects.equals(route.getPrecedenceTrack(), "" )&& isClear) {
-                this.unBlockSignalByCli(route.getPrecedenceTrack(),"Track");
-            }
-
-            takeScreenShot(!(isClear && !isConflictRoute && !isforwarded),route.getId()+":route_set",true);
-        }
-        else{
-            System.out.println("The route is already set between the Routes " + route.getRouteEntry() + " and " + route.getRouteExit());
-            isClear =true;
-            setScreen(route.getRouteEntry(),"nonClickable");
-
-        }
-
-    }
+//    private void setRoute(@NotNull Route route, boolean checkClear, boolean isforwarded) throws InterruptedException, FindFailed, IOException, AWTException, JSchException, ParserConfigurationException, NetworkException, SAXException {
+//       // System.out.println(isClear);
+//        String rsmMessage = RailwayStateManagerService.getInstance().getSignalState(route.getRouteInfo().getRouteEntry());
+//        if(rsmMessage.charAt(13) == '0'){
+////        if (!extractMnemonic(route.getRouteInfo().getRouteEntry(),1,"RGP","Signal")) {
+//            Screen screen = new Screen();
+//
+//            if (!Objects.equals(route.getPrecedenceTrack(), "")) {
+//                this.setBlockByCli(route.getPrecedenceTrack(), "Track");
+//            }
+//
+//            screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
+//
+//            setScreen(route.getRouteInfo().getRouteEntry(), "set","Route");
+//            System.out.println("Attempting to set a Route for " + route.getRouteInfo().getRouteEntry() + " and " + route.getRouteInfo().getRouteExit());
+//
+//            setScreen(route.getRouteInfo().getRouteExit(), "set","Route");
+//            Thread.sleep(1000);
+//
+//            if(!isRouteSet(route))checkConfirmation(route.getId().split("/")[0]);
+//
+//            if(isClear && route.isAdditionalRoute()) setRoute(additionalFRoute,false,true);
+//            if(isClear && route.isTrackDrop())  trackOperation("Drop", route.getBeforeTrack());
+//            isClear = checkClear? isSignalClear(route,20):isRouteSet(route);
+//            if(!isClear && !checkClear && !isConflictRoute && !isforwarded) trackOperation("Drop", route.getBeforeTrack()) ; isClear = isRouteSet(route);
+//            String msg = "The route has been set between the Routes " + route.getRouteInfo().getRouteEntry() + " and " + route.getRouteInfo().getRouteExit();
+//            logger.info(isClear?msg:"Route set for "+route.getId()+" failed");
+//            if (!Objects.equals(route.getPrecedenceTrack(), "" )&& isClear) {
+//                this.unBlockSignalByCli(route.getPrecedenceTrack(),"Track");
+//            }
+//
+//            takeScreenShot(route.getId()+":route_set",!(isClear && !isConflictRoute && !isforwarded),"","");
+//        }
+//        else{
+//            System.out.println("The route is already set between the Routes " + route.getRouteInfo().getRouteEntry() + " and " + route.getRouteInfo().getRouteExit());
+//            isClear =true;
+//            setScreen(route.getRouteInfo().getRouteEntry(),"nonClickable","Route");
+//
+//        }
+//
+//    }
     public void unsetRouteById(String routeID) throws ObjectStateException, IOException, ParserConfigurationException, NetworkException, SAXException, FindFailed, InterruptedException, AWTException, JSchException {
 
         Route route = this.getRouteById(routeID);
@@ -1235,10 +1404,10 @@ public class RouteService {
         }
         screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
         checkConfirmation(route.getId().split("/")[0]);
-        setScreen(route.getRouteEntry(),"cancel");
-
+        setScreen(route.getRouteInfo().getRouteEntry(),"cancel","Route");
+        if(!route.getControlLine().isEmpty()) unsetControlLineByCurlics(route.getControlLine());
         if (route.hasAdditionalRoute()){
-            setScreen(route.getRouteExit(),"cancel");
+            setScreen(route.getRouteInfo().getRouteExit(),"cancel","Route");
         }
         if(route.isTrackDrop())trackOperation("Pick",route.getBeforeTrack());
 
@@ -1295,6 +1464,12 @@ public class RouteService {
         al.add(exitRoute);
         CmdLine.send(al);
         Thread.sleep(1000);
+
+        Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
+        screen.type(Key.F9);
+        screen.type(Key.UP);
+        screen.type(null,Key.ENTER);
+
     }
 
     private void turnArsOffByCli(Route Route) throws InterruptedException, IOException {

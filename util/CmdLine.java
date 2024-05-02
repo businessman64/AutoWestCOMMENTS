@@ -1,16 +1,9 @@
 package util;
 
 
-import com.jcraft.jsch.*;
-import controller.TrackController;
-import model.StationMode;
+
 import model.View;
-import model.ViewManager;
-import org.python.antlr.ast.Str;
-import org.sikuli.script.FindFailed;
-import org.sikuli.script.Location;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
+
 
 import java.io.*;
 import java.net.Socket;
@@ -20,11 +13,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import static util.HttpRequest.logger;
+
 
 public class CmdLine {
     private static final Logger logger = Logger.getLogger(CmdLine.class.getName());
-    View currentView;
+
     public static void getResponseSocket(String view, String inputSignal, String type, String IPAddress) {
         String entryGuidoInte;
         if (Objects.equals(type, "Berth")) {
@@ -53,7 +46,10 @@ public class CmdLine {
                 value.addAll(Arrays.asList("_1", "_2", "_3", "_4", "_5", "_6", "_7", "_Q"));
             } else if (Objects.equals(type, "Point")) {
                 value.addAll(Arrays.asList("_1", "_2", "_3", "_4", "_5", "_6"));
-            } else {
+            } else if (Objects.equals(type, "Track")) {
+                value.addAll(Arrays.asList("", "_D", "_B", "_U"));
+            }
+            else {
                 value.add("");
             }
             for (String suffix : value) {
@@ -83,18 +79,20 @@ public class CmdLine {
         return sb.toString();
     }
 
-    public static void getResponseSocketDifferent(String view ,String inputSignal, String type, String IP) {
+    public static void getResponseSocketDifferent(String view ,String inputSignal, String type, String IP,String Servertype) {
         String entryGuidoInte;
             if (Objects.equals(type, "Berth")) {
             entryGuidoInte = inputSignal.replaceAll("/B[A-Z]{1}", "B"); // This replaces patterns like /BA or /BZ with B
         } else {
             entryGuidoInte = inputSignal.replace("/", ""); // This simply removes all forward slashes
         }
+            String prefix ="SC_";
+        if (Servertype.equals("tc")) prefix ="TC_";
         //System.out.println(entryGuidoInte);
         try (Socket socket = new Socket(IP, 5555);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
-            String command_ini = "setZoom(" + view+ ",mapWidget2,1.0)\r\n center(" + view+ ",mapWidget2,SC_" + entryGuidoInte + ")";
+            String command_ini = "setZoom(" + view+ ",mapWidget2,1.0)\r\n center(" + view+ ",mapWidget2,"+prefix + entryGuidoInte + ")";
 
             out.println(command_ini);
             // Loop for sending commands via telnet
@@ -111,11 +109,15 @@ public class CmdLine {
                 value.addAll(Arrays.asList("_1", "_2", "_3", "_4", "_5", "_6", "_7", "_Q"));
             } else if (Objects.equals(type, "Point")) {
                 value.addAll(Arrays.asList("_1", "_2", "_3", "_4", "_5", "_6"));
-            } else {
+            }
+            else if (Objects.equals(type, "Track")) {
+                value.addAll(Arrays.asList("", "_D", "_B", "_U"));
+            }
+            else {
                 value.add("");
             }
             for (String suffix : value) {
-                String entryGuido = "SC_" + entryGuidoInte + suffix;
+                String entryGuido =prefix + entryGuidoInte + suffix;
                 if (Objects.equals(type, "Berth"))System.out.println(entryGuido);
                 if (Objects.equals(type, "Signal"))System.out.println(entryGuido);
                 String command = "setZoom(" + view+ ",mapWidget2,1.0)\r\n center(" + view + ",mapWidget2," + entryGuido + ")";
@@ -156,7 +158,10 @@ public class CmdLine {
                 value.addAll(Arrays.asList("_1", "_2", "_3", "_4", "_5", "_6", "_7", "_Q"));
             } else if (Objects.equals(type, "Point")) {
                 value.addAll(Arrays.asList("_1", "_2", "_3", "_4", "_5", "_6"));
-            } else {
+            } else if (Objects.equals(type, "Track")) {
+                value.addAll(Arrays.asList("", "_D", "_B", "_U"));
+            }
+            else {
                 value.add("");
             }
             for (String suffix : value) {

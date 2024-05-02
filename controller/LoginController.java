@@ -256,6 +256,8 @@ public class LoginController {
 		stage.setResizable(true);
 		stage.setTitle("" +
 				"AutoWEST");
+
+
 		stage.show();
 	}
 }

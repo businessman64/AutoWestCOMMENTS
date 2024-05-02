@@ -57,6 +57,9 @@ public class ConfigureHomeControl {
     CheckBox localControl;
 
     @FXML
+    CheckBox localTC;
+
+    @FXML
     CheckBox localSim;
 
     String selectedMode="";
@@ -70,6 +73,7 @@ public class ConfigureHomeControl {
         ConfigureHomeControl configureHomeControl = this;
         localControl.setOnAction(event -> {
             localSim.setSelected(false);
+            localTC.setSelected(false);
             simIP.setVisible(true);
             simWindow.setVisible(true);
             tCWindow.setVisible(true);
@@ -84,9 +88,25 @@ public class ConfigureHomeControl {
 
         buttonControl.setOnAction(event -> { selectedMode = "control";});
         buttonSim.setOnAction(event -> { selectedMode = "noncontrol";});
+        localTC.setOnAction(event -> {
+            localControl.setSelected(false);
+            localSim.setSelected(false);
+            simIP.setVisible(true);
+            simWindow.setVisible(false);
+            tCWindow.setVisible(true);
+            controlIP.setVisible(true);
+            controlIP.setSelected(true);
+            controlWindow.setVisible(true);
+            simIP.setManaged(true);
+            simWindow.setManaged(false);
+            tCWindow.setManaged(true);
+            controlIP.setManaged(true);
+            controlWindow.setManaged(true);
 
+        });
         localSim.setOnAction(event -> {
             localControl.setSelected(false);
+            localTC.setSelected(false);
             simIP.setVisible(false);
             simWindow.setVisible(false);
             tCWindow.setVisible(true);
@@ -103,10 +123,11 @@ public class ConfigureHomeControl {
 
         addButton.setOnAction(event -> {
             StationMode stationMode = StationMode.getInstance();
-            if((localControl.isSelected() || localSim.isSelected()) && !selectedMode.isEmpty()) {
+            if((localControl.isSelected() || localSim.isSelected()|| localTC.isSelected()) && !selectedMode.isEmpty()) {
                 stationMode.setControlType(selectedMode);
                 if (localControl.isSelected()) stationMode.setLocalServer("control");
                 if (localSim.isSelected()) stationMode.setLocalServer("noncontrol");
+                if (localTC.isSelected()) stationMode.setLocalServer("tc");
                 stationMode.setSimIPRequired(simIP.isSelected());
                 stationMode.setSimWindowRequired(simWindow.isSelected());
                 if (selectedMode.equals("noncontrol")) stationMode.setControlIPRequired(true);
@@ -146,12 +167,19 @@ public class ConfigureHomeControl {
             for(Device device : stationMode.getAllDevice()) {
 
                 if(device.getType().equals("control")){
-                    if(!device.getIpAddress().isEmpty() && stationMode.getControlType().equals("control"))
+                    if(!device.getIpAddress().isEmpty() && stationMode.getControlType().equals("control") && stationMode.isSimIPRequired()) {
                         stationMode.setSimIP(device.getIpAddress());
+                    }else if(!device.getIpAddress().isEmpty() && stationMode.getControlType().equals("noncontrol")){
+                        stationMode.setControlIP(device.getIpAddress());
+                    }
                     stationMode.setControlDevice(device);
                 }
-                if(device.getType().equals("noncontrol")){
-                    if(!device.getIpAddress().isEmpty()) stationMode.setSimIP(device.getIpAddress());
+                if(device.getType().equals("noncontrol") ){
+                    if(!device.getIpAddress().isEmpty() && stationMode.getControlType().equals("control") && stationMode.isControlIPRequired()) {
+                        stationMode.setControlIP(device.getIpAddress());
+                    } else if (!device.getIpAddress().isEmpty() && stationMode.getControlType().equals("noncontrol")) {
+                        stationMode.setSimIP(device.getIpAddress());
+                    }
 
                     stationMode.setSimDevice( device);}
                 if(device.getType().equals("tc"))stationMode.setTcDevice( device);

@@ -11,16 +11,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.Deps;
-import model.Signal;
-import model.Track;
+import model.*;
 import org.apache.log4j.Logger;
 import org.sikuli.script.FindFailed;
 import org.xml.sax.SAXException;
 
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
@@ -46,6 +46,9 @@ public class SignalController {
 
     @FXML
     CheckBox disregardCheckbox;
+
+    @FXML
+    CheckBox lowCheckbox;
 
     @FXML
     Button testButton;
@@ -88,28 +91,37 @@ public class SignalController {
     @FXML
     Button disregardOffButton;
 
+    @FXML
+    Button LowSpeedButton;
 
+    @FXML
+    Button uploadButton;
     private Deps deps;
     private Stage stage;
-
+    File file = null;
     private  ObservableList<String> signalList;
 
     public enum SignalAction {
         BLOCK,
         UNBLOCK,
-        SET_FLEETING_ON,
-        SET_FLEETING_OFF,
-        SET_ARS_ON,
-        SET_ARS_OFF,
+
         SET_DISREGARD_ON,
         SET_DISREGARD_OFF,
+        SET_ARS_ON,
+        SET_ARS_OFF,
+        SET_FLEETING_ON,
+        SET_FLEETING_OFF,
+
+        LOWSPEED,
         SET_ROUTE,
         UNSET_ROUTE,
         TEST,
         CONFIGURE
+
         // Add other signal-specific actions here
     }
     private boolean paused = false;
+    Set<SignalAction> operations;
     private static final Logger logger = Logger.getLogger(SignalController.class.getName());
 
 
@@ -118,7 +130,49 @@ public class SignalController {
         this.deps = deps;
     }
 
+    private void handleTestAction(SignalAction action, String signal){
 
+        try {
+            switch (action) {
+                case BLOCK:
+                    deps.getSignalService().blockSignalById(signal);
+                    Thread.sleep(2000);
+                    deps.getSignalService().unblockSignalById(signal);
+
+                    break;
+
+                case SET_DISREGARD_ON:
+                    deps.getSignalService().setDisregardOnById(signal);
+                    Thread.sleep(2000);
+                    deps.getSignalService().setDisregardOffById(signal);
+
+                    break;
+
+                case SET_FLEETING_ON:
+                    deps.getSignalService().setFleetingOnById(signal,deps.getRouteService());
+                    Thread.sleep(1000);
+//                    deps.getSignalService().setFleetingOffById(signal);
+                    break;
+
+                case SET_ARS_ON:
+                    deps.getSignalService().setArsOnById(signal);
+                    Thread.sleep(2000);
+                    deps.getSignalService().setArsOffById(signal);
+                    break;
+                case LOWSPEED:
+                    deps.getSignalService().setLowSpeedByID(signal,deps.getRouteService());
+                    break;
+                case CONFIGURE:
+
+                    deps.getSignalService().configureSignalById();
+
+                    break;
+            }
+            // deps.getRouteService().cleanRouteByID(route);
+        }catch (Exception e) {
+            logger.info(e.getMessage());
+        }
+    }
     private void handleSignalAction(SignalAction action) {
         controlNotificationLabel.setText("");
         testNotificationLabel.setText("");
@@ -152,7 +206,7 @@ public class SignalController {
                             deps.getSignalService().setDisregardOffById(o);
                             break;
                         case SET_FLEETING_ON:
-                            deps.getSignalService().setFleetingOnById(o);
+                            deps.getSignalService().setFleetingOnById(o,deps.getRouteService());
                             break;
                         case SET_FLEETING_OFF:
                             deps.getSignalService().setFleetingOffById(o);
@@ -168,14 +222,23 @@ public class SignalController {
                                 deps.getSignalService().configureSignalById();
 
                             break;
+                        case LOWSPEED:
+                            deps.getSignalService().setLowSpeedByID(o,deps.getRouteService());
+                            break;
                         case TEST:
                             if (noCheckboxSelected()) {
                                     Platform.runLater(() ->
                                 testNotificationLabel.setText("Please select at least one checkbox option"));
                             }
                             else {
-                                Set<SignalOperations> operations = createOperationsSet();
-                                deps.getSignalService().testSignal(operations, o);
+
+                                operations = createOperationsSet();
+                                for (SignalAction eachAction : operations ) {
+
+                                    handleTestAction(eachAction,o);
+
+                                    Thread.sleep(5000);
+                                }
                             }
                             break;
                         default:
@@ -198,15 +261,17 @@ public class SignalController {
         return !blockUnblockCheckbox.isSelected() &&
                 !fleetingCheckbox.isSelected() &&
                 !arsCheckbox.isSelected() &&
-                !disregardCheckbox.isSelected();
+                !disregardCheckbox.isSelected() &&
+        !lowCheckbox.isSelected();
     }
 
-    private Set<SignalOperations> createOperationsSet() {
-        Set<SignalOperations> operations = EnumSet.noneOf(SignalOperations.class);
-        if (blockUnblockCheckbox.isSelected()) operations.add(SignalOperations.BLOCKANDUNBLOCK);
-        if (fleetingCheckbox.isSelected()) operations.add(SignalOperations.FLEETINGONOFF);
-        if (arsCheckbox.isSelected()) operations.add(SignalOperations.ARSONOFF);
-        if (disregardCheckbox.isSelected()) operations.add(SignalOperations.DISREGARDONOFF);
+    private Set<SignalAction> createOperationsSet() {
+        Set<SignalAction> operations = EnumSet.noneOf(SignalAction.class);
+        if (blockUnblockCheckbox.isSelected()) operations.add(SignalAction.BLOCK);
+        if (fleetingCheckbox.isSelected()) operations.add(SignalAction.SET_FLEETING_ON);
+        if (arsCheckbox.isSelected()) operations.add(SignalAction.SET_ARS_ON);
+        if (disregardCheckbox.isSelected()) operations.add(SignalAction.SET_DISREGARD_ON);
+        if (lowCheckbox.isSelected()) operations.add(SignalAction.LOWSPEED);
         return operations;
     }
     @FXML
@@ -248,6 +313,9 @@ public class SignalController {
         arsOffButton.setOnAction(event -> handleSignalAction(SignalAction.SET_ARS_OFF));
         disregardOnButton.setOnAction(event -> handleSignalAction(SignalAction. SET_DISREGARD_ON));
         disregardOffButton.setOnAction(event -> handleSignalAction(SignalAction.SET_DISREGARD_OFF));
+        uploadButton.setOnAction(event ->  openFileChooser());
+        LowSpeedButton.setOnAction(event -> handleSignalAction(SignalAction.LOWSPEED));
+
 //                SET_ROUTE,
 //                UNSET_ROUTE,
 //                TEST,
@@ -282,6 +350,39 @@ public class SignalController {
             }
         });
     }
+    private void openFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Document");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("CSV", "*.csv")
+        );
+
+        file = fileChooser.showOpenDialog(new Stage());
+        if (file != null) {
+            System.out.println("File selected: " + file.getAbsolutePath());
+
+            StationMode stationMode = StationMode.getInstance();
+            stationMode.setFile(file);
+
+            signalList = new ObservableListBase() {
+                List<Signal> Signals = deps.getSignalService().getUpdatedSignal();
+
+                @Override
+                public Object get(int index) {
+                    return Signals.get(index).getId();
+                }
+
+                @Override
+                public int size() {
+                    return Signals.size();
+                }
+            };
+
+            signalListView.setItems(signalList);
+        }
+
+    }
+
 
 
 
@@ -294,329 +395,3 @@ public class SignalController {
     }
 
 }
-//
-//    @FXML
-//    public void initialize(){
-//        this.signalListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-//
-//        signalList = new ObservableListBase() {
-//            List<Signal> signals = deps.getSignalService().getSignals();
-//
-//            @Override
-//            public Object get(int index) {
-//                return signals.get(index).getId();
-//            }
-//            @Override
-//            public int size() {
-//                return signals.size();
-//            }
-//        };
-//
-//        signalListView.setItems(signalList);
-//
-//        signalSearchTextField.setOnKeyReleased(event->{
-//            signalListView.setItems(signalList.filtered(trackId-> trackId.contains(signalSearchTextField.getText())));
-//            signalListView.refresh();
-//        });
-//
-//        blockButton.setOnAction(event ->{
-//            controlNotificationLabel.setText("");
-//            testNotificationLabel.setText("");
-//            ObservableList selectedTracksList= signalListView.getSelectionModel().getSelectedItems();
-//            for(Object o :selectedTracksList){
-//                try {
-//                    this.deps.getSignalService().blockSignalById((String)o);
-//                    //The function above calls multiple functions inside and it lets them throw all kinds of exception
-//                    //In the end all the exceptions will be handled below
-//                    //this.trackService.blockTrackByIndex((Integer) o);
-//                } catch (Exception e) {
-//                    controlNotificationLabel.setText("The request for signal "+o+" failed. Please find the details in the terminal");
-//                    logger.info(e.getMessage());
-//                }
-//            }
-//        });
-//        unblockButton.setOnAction(event ->{
-//            controlNotificationLabel.setText("");
-//            testNotificationLabel.setText("");
-//            ObservableList selectedTracksList= signalListView.getSelectionModel().getSelectedItems();
-//            for(Object o :selectedTracksList){
-//               // try {
-//                try {
-//                    this.deps.getSignalService().unblockSignalById((String)o);
-//                } catch (FindFailed e) {
-//                    throw new RuntimeException(e);
-//                } catch (ParserConfigurationException e) {
-//                    throw new RuntimeException(e);
-//                } catch (SAXException e) {
-//                    throw new RuntimeException(e);
-//                } catch (ObjectStateException e) {
-//                    throw new RuntimeException(e);
-//                } catch (NetworkException e) {
-//                    throw new RuntimeException(e);
-//                } catch (FileNotFoundException e) {
-//                    throw new RuntimeException(e);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//                //The function above calls multiple functions inside and it lets them throw all kinds of exception
-//                    //In the end all the exceptions will be handled below
-//                    //this.trackService.blockTrackByIndex((Integer) o);
-//                 /*catch (Exception e) {
-//                    controlNotificationLabel.setText("The request for track "+o+" failed. Please find the details in the terminal");
-//                    logger.info(e.getMessage());
-//                }*/
-//            }
-//        });
-//
-//        fleetingOnButton.setOnAction(event ->{
-//            controlNotificationLabel.setText("");
-//            testNotificationLabel.setText("");
-//            ObservableList selectedTracksList= signalListView.getSelectionModel().getSelectedItems();
-//            for(Object o :selectedTracksList){
-//                try {
-//                    this.deps.getSignalService().setFleetingOnById((String)o);
-//                    //The function above calls multiple functions inside and it lets them throw all kinds of exception
-//                    //In the end all the exceptions will be handled below
-//                    //this.trackService.blockTrackByIndex((Integer) o);
-//                } catch (Exception e) {
-//                    controlNotificationLabel.setText("The request for signal "+o+" failed. Please find the details in the terminal");
-//                    logger.info(e.getMessage());
-//                }
-//            }
-//
-//
-//        });
-//
-//        fleetingOffButton.setOnAction(event ->{
-//            controlNotificationLabel.setText("");
-//            testNotificationLabel.setText("");
-//            ObservableList selectedTracksList= signalListView.getSelectionModel().getSelectedItems();
-//            for(Object o :selectedTracksList){
-//                try {
-//                    this.deps.getSignalService().setFleetingOffById((String)o);
-//                    //The function above calls multiple functions inside and it lets them throw all kinds of exception
-//                    //In the end all the exceptions will be handled below
-//                    //this.trackService.blockTrackByIndex((Integer) o);
-//                } catch (Exception e) {
-//                    controlNotificationLabel.setText("The request for signal "+o+" failed. Please find the details in the terminal");
-//                    logger.info(e.getMessage());
-//                }
-//            }
-//
-//        });
-//
-//        arsOnButton.setOnAction((event) -> {
-//            controlNotificationLabel.setText("");
-//            testNotificationLabel.setText("");
-//            ObservableList selectedTracksList= signalListView.getSelectionModel().getSelectedItems();
-//            for(Object o :selectedTracksList){
-//                try {
-//                    this.deps.getSignalService().setArsOnById((String)o);
-//                    //The function above calls multiple functions inside and it lets them throw all kinds of exception
-//                    //In the end all the exceptions will be handled below
-//                    //this.trackService.blockTrackByIndex((Integer) o);
-//                } catch (Exception e) {
-//                    controlNotificationLabel.setText("The request for signal "+o+" failed. Please find the details in the terminal");
-//                    logger.info(e.getMessage());
-//                }
-//            }
-//
-//        });
-//        arsOffButton.setOnAction((event) -> {
-//            controlNotificationLabel.setText("");
-//            testNotificationLabel.setText("");
-//            ObservableList selectedTracksList= signalListView.getSelectionModel().getSelectedItems();
-//            for(Object o :selectedTracksList){
-//                try {
-//                    this.deps.getSignalService().setArsOffById((String)o);
-//                    //The function above calls multiple functions inside and it lets them throw all kinds of exception
-//                    //In the end all the exceptions will be handled below
-//                    //this.trackService.blockTrackByIndex((Integer) o);
-//                } catch (Exception e) {
-//                    controlNotificationLabel.setText("The request for signal "+o+" failed. Please find the details in the terminal");
-//                    logger.info(e.getMessage());
-//                }
-//            }
-//
-//        });
-//        disregardOnButton.setOnAction((event) -> {
-//            controlNotificationLabel.setText("");
-//            testNotificationLabel.setText("");
-//            ObservableList selectedTracksList= signalListView.getSelectionModel().getSelectedItems();
-//            for(Object o :selectedTracksList){
-//                try {
-//                    this.deps.getSignalService().setDisregardOnById((String)o);
-//                    //The function above calls multiple functions inside and it lets them throw all kinds of exception
-//                    //In the end all the exceptions will be handled below
-//                    //this.trackService.blockTrackByIndex((Integer) o);
-//                } catch (Exception e) {
-//                    controlNotificationLabel.setText("The request for signal "+o+" failed. Please find the details in the terminal");
-//                    logger.info(e.getMessage());
-//                }
-//            }
-//
-//        });
-//        disregardOffButton.setOnAction((event) -> {
-//            controlNotificationLabel.setText("");
-//            testNotificationLabel.setText("");
-//            ObservableList selectedTracksList= signalListView.getSelectionModel().getSelectedItems();
-//            for(Object o :selectedTracksList){
-//                try {
-//                    this.deps.getSignalService().setDisregardOffById((String)o);
-//                    //The function above calls multiple functions inside and it lets them throw all kinds of exception
-//                    //In the end all the exceptions will be handled below
-//                    //this.trackService.blockTrackByIndex((Integer) o);
-//                } catch (Exception e) {
-//                    controlNotificationLabel.setText("The request for signal "+o+" failed. Please find the details in the terminal");
-//                    logger.info(e.getMessage());
-//                }
-//            }
-//
-//        });
-//
-//        setRouteButton.setOnAction((event) -> {
-//            controlNotificationLabel.setText("");
-//            testNotificationLabel.setText("");
-//            ObservableList selectedTracksList= signalListView.getSelectionModel().getSelectedItems();
-//            for(Object o :selectedTracksList){
-//                try {
-//                    this.deps.getSignalService().setRouteById((String)o);
-//                } catch (ObjectStateException e) {
-//                    throw new RuntimeException(e);
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                } catch (ParserConfigurationException e) {
-//                    throw new RuntimeException(e);
-//                } catch (NetworkException e) {
-//                    throw new RuntimeException(e);
-//                } catch (SAXException e) {
-//                    throw new RuntimeException(e);
-//                } catch (FindFailed e) {
-//                    throw new RuntimeException(e);
-//                }
-//                //The function above calls multiple functions inside and it lets them throw all kinds of exception
-//                    //In the end all the exceptions will be handled below
-//                    //this.trackService.blockTrackByIndex((Integer) o);
-//
-//            }
-//
-//        });
-//
-//        unsetRouteButton.setOnAction((event) -> {
-//            controlNotificationLabel.setText("");
-//            testNotificationLabel.setText("");
-//            ObservableList selectedTracksList= signalListView.getSelectionModel().getSelectedItems();
-//            for(Object o :selectedTracksList){
-//
-//                try {
-//                    this.deps.getSignalService().unsetRouteById((String)o);
-//                } catch (ObjectStateException e) {
-//                    throw new RuntimeException(e);
-//                } catch (FileNotFoundException e) {
-//                    throw new RuntimeException(e);
-//                } catch (ParserConfigurationException e) {
-//                    throw new RuntimeException(e);
-//                } catch (NetworkException e) {
-//                    throw new RuntimeException(e);
-//                } catch (SAXException e) {
-//                    throw new RuntimeException(e);
-//                } catch (FindFailed e) {
-//                    throw new RuntimeException(e);
-//                }
-//                //The function above calls multiple functions inside and it lets them throw all kinds of exception
-//                    //In the end all the exceptions will be handled below
-//                    //this.trackService.blockTrackByIndex((Integer) o);
-//
-//            }
-//
-//        });
-//
-//        testButton.setOnAction(event->{
-//            testNotificationLabel.setText("");
-//            controlNotificationLabel.setText("");
-//            ObservableList selectedTracksList= signalListView.getSelectionModel().getSelectedItems();
-//            if (selectedTracksList!=null){
-//                Set operations = new LinkedHashSet<TrackOperations>();
-//                int count=0;
-//                if(!blockUnblockCheckbox.isSelected() && !fleetingCheckbox.isSelected() && !arsCheckbox.isSelected() && !disregardCheckbox.isSelected()){
-//                    testNotificationLabel.setText("Please select at least one checkbox option");
-//                    return;
-//                }else {
-//                    logger.info("\n==================================Test Suite Started " + count++ + "=========================================");
-//                    if (blockUnblockCheckbox.isSelected()) {
-//                        operations.add(SignalOperations.BLOCKANDUNBLOCK);
-//                        //this.trackService.testBlockedTrack((String)o);
-//                    }
-//                    if (disregardCheckbox.isSelected()) {
-//                        operations.add(SignalOperations.DISREGARDONOFF);
-//                        //this.trackService.testDisregardedTrack((String) o);
-//                    }
-//                    if (arsCheckbox.isSelected()) {
-//                        operations.add(SignalOperations.ARSONOFF);
-//                        //this.trackService.testDisregardedTrack((String) o);
-//                    }
-//                    if (fleetingCheckbox.isSelected()) {
-//                        operations.add(SignalOperations.FLEETINGONOFF);
-//                        //this.trackService.testDisregardedTrack((String) o);
-//                    }
-//
-//                    for (Object o : selectedTracksList) {
-//                        logger.info("\n=====================================Test case " + count++ + "=========================================");
-//                        try {
-//                            this.deps.getSignalService().testSignal(operations, (String) o);
-//                            logger.info("=======================================Test Case " + count + " PASSED====================================");
-//                        } catch (Exception e) {
-//                            logger.info("=======================================Test Case " + count + " FAILED====================================");
-//                            logger.info("REASON:" + e.getMessage());
-//                        }
-//                        logger.info("========================================Test Suite completed=======================================");
-//                        //this.trackService.blockTrackByIndex((Integer) o);
-//                    }
-//                }
-//            }else{
-//                testNotificationLabel.setText("Please select atleast one track");
-//            }
-//        });
-//
-//        configureButton.setOnAction(event->{
-//            ObservableList selectedsignalsList= signalListView.getSelectionModel().getSelectedItems();
-//            for(Object o :selectedsignalsList){
-//                try {
-//                    this.deps.getSignalService().configureSignalById((String) o);
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                } catch (FindFailed e) {
-//                    throw new RuntimeException(e);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        });
-//
-//
-//        buttonClose.setOnAction(event->{
-//            try {
-//                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginView.fxml"));
-//                // Customize controller instance
-//                LoginController loginController =  new LoginController(stage, deps);
-//
-//                loader.setController(loginController);
-//                Pane root = loader.load();
-//
-//                loginController.showStage(root);
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
-//
-//    }
-//    public void showStage(Pane root){
-//        Scene scene = new Scene(root,800,600);
-//        stage.setScene(scene);
-//        stage.setResizable(true);
-//        stage.setTitle("Test Signals");
-//        stage.show();
-//    }
-//
-//}

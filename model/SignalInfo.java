@@ -9,6 +9,8 @@ public class SignalInfo {
     protected  String type;
     protected String signalTrack;
     protected String relation;
+protected  Boolean hasArs;
+
 
     public String getSignalId() {
         return signalId;
@@ -42,11 +44,22 @@ public class SignalInfo {
         this.type = type;
     }
 
-    public SignalInfo(String signalId, String type, String signalTrack, String relation) {
+
+    public Boolean getHasArs() {
+        return hasArs;
+    }
+
+    public void setHasArs(Boolean hasArs) {
+        this.hasArs = hasArs;
+    }
+
+    public SignalInfo(String signalId, String type, String signalTrack, String relation, Boolean hasARS) {
         this.signalId = signalId;
         this.signalTrack = signalTrack ;
         this.relation = relation;
         this.type = type;
+        this.hasArs= hasARS;
+
 
     }
     

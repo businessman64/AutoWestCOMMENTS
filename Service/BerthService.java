@@ -1,6 +1,7 @@
 package Service;
 
 import com.jcraft.jsch.JSchException;
+import exceptions.NetworkException;
 import model.*;
 import java.awt.*;
 import org.jetbrains.annotations.NotNull;
@@ -51,7 +52,7 @@ public class BerthService {
     RouteService routeService;
     boolean isBerthCheckPossible = false;
 
-    BerthService() throws ParserConfigurationException, IOException, SAXException, JSchException, InterruptedException, AWTException {
+    BerthService() throws ParserConfigurationException, IOException, SAXException, JSchException, InterruptedException, AWTException, NetworkException {
         screenService = ScreenService.getInstance();
         interlockingService = InterlockingService.getInstance();
         coordinateService = CoordinateService.getInstance();
@@ -79,11 +80,11 @@ public class BerthService {
         }
     }
 
-    private void setScreen(@NotNull String object, String action) throws InterruptedException {
+    private void setScreen(@NotNull String object, String action, String ObjectType) throws InterruptedException {
 
         currentView = ViewManager.getInstance().getCurrentView();
         object.replaceFirst("[A-Z]{3}/S(.*)", "[A-Z]{3}S\1");
-        String type = object.split("/")[1].startsWith("S") ? "Signal" : "Berth";
+        String type = ObjectType;//object.split("/")[1].startsWith("S") ? "Signal" : "Berth";
 
 
         String ipAddress = "localhost";
@@ -96,7 +97,7 @@ public class BerthService {
 
         }
 
-        CmdLine.getResponseSocketDifferent(currentView.getName(), object, type, ipAddress);
+        CmdLine.getResponseSocketDifferent(currentView.getName(), object, type, ipAddress,"SC");
 
         // CmdLine.sendSocketCmdTest(currentView.getName(), signal, type);
         Thread.sleep(3000);
@@ -115,7 +116,7 @@ public class BerthService {
 
 
 
-    public static BerthService getInstance() throws ParserConfigurationException, IOException, SAXException, JSchException, InterruptedException, AWTException {
+    public static BerthService getInstance() throws ParserConfigurationException, IOException, SAXException, JSchException, InterruptedException, AWTException, NetworkException {
         if (BerthService == null) {
             BerthService = new BerthService();
             return BerthService;
@@ -133,28 +134,38 @@ public class BerthService {
 
     private void moveTDN(Signal signal) throws InterruptedException, FindFailed, IOException {
         logger.info("Attempting to set Move Berth " + signal.getId());
-        addBerth("MOVE", signalService.getRandomSignal());
-        setScreen(signal.getId(), "click");
+        String moveName= generateUniqueToken();
+        removeBerth(moveName,signal.getId());
+        Thread.sleep(1000);
+        addBerth(moveName, signalService.getRandomSignal(false));
+        setScreen(signal.getId(), "click","Signal");
         Screen screen = (Screen) new Location(currentView.getCoordinateX(), currentView.getCoordinateY()).getScreen();
 
 
         try {
 
-            screen.wait(System.getProperty("user.dir")+"/src/resources/berth/Signal_train_number.png",3).click();
-            Thread.sleep(1000);
+//            screen.wait(System.getProperty("user.dir")+"/src/resources/berth/Signal_train_number.png",3).click();
+            findSignalTrainNumber(screen);
+//            Thread.sleep(1000);
             for (int i = 0; i < 4; i++) {
                 screen.type(Key.DOWN);
-            }
-            screen.type(null,Key.ENTER);
+              // Correctly pressing Enter
+                }   screen.type(Key.ENTER);
+
+
            // screen.wait(System.getProperty("user.dir") + "/src/resources/berth/TDN_Move.png", 3).click();
             Thread.sleep(1000);
             //screen.type(Key.DOWN, KeyModifier.NONE)
 
             screen.wait(System.getProperty("user.dir")+"/src/resources/berth/Enter_Train_Num.png",3).click();
-            screen.type("MOVE");
+            screen.type(moveName);
             Thread.sleep(2000);
-            screen.type(null,Key.ENTER);
+            screen.type(Key.ENTER);
+            Thread.sleep(1300);
+            //List<String> berthId = trackService.getBerthByTrackId(signalService.getSignalById(signal.getId()).getSignalTrack());
+            List<String> berthId =  trackService.getBerthByTrackId(determineTrack(signal,true).getId());
 
+            takeScreenShot(berthId.get(0)+":Move",false,"","");
 
         } catch (FindFailed ff) {
             screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
@@ -162,23 +173,24 @@ public class BerthService {
             throw new FindFailed("Dropdown Menu option was not located. " + ff.getMessage());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        } catch (JSchException e) {
+            throw new RuntimeException(e);
+        } catch (AWTException e) {
+            throw new RuntimeException(e);
         }
 
     }
-
-
         public void exchangeTDNBySignalID(String signalId) throws FindFailed, InterruptedException {
-            List<String> berthId = trackService.getBerthByTrackId(signalService.getSignalById(signalId).getSignalTrack());
-
-            exchangeTDN(berthId);
+            List<String> berthId = trackService.getBerthByTrackId(determineTrack(signalService.getSignalById(signalId),true).getId());
+            exchangeTDN(berthId.get(0),signalId);
 
         }
-        private void exchangeTDN(List<String>  berthId) throws InterruptedException, FindFailed {
+        private void exchangeTDN(String  berthId,String signalId) throws InterruptedException, FindFailed {
             logger.info("Attempting to exchange TDN from the object "+berthId);
 
-            for(String berth : berthId) {
-                setScreen(berth, "click");
-            }
+
+            setScreen(berthId, "click","Berth");
+
             Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
 
 
@@ -186,11 +198,14 @@ public class BerthService {
 
                 screen.wait(System.getProperty("user.dir")+"/src/resources/berth/TDN_Exchange.png",3).click();
                 Thread.sleep(1000);
-                removeBerth("EXCH");
+                String exchName = generateUniqueToken();
+                removeBerth(exchName,"");
                 screen.wait(System.getProperty("user.dir")+"/src/resources/berth/Enter_Train_Num.png",3).click();
-                screen.type("EXCH");
-                Thread.sleep(2000);
-                screen.type(null,Key.ENTER);
+                screen.type(exchName);
+                Thread.sleep(2500);
+                screen.type(Key.ENTER);
+                Thread.sleep(1400);
+                takeScreenShot(berthId+":Exchange",false,"","");
 
                 screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
 
@@ -200,39 +215,64 @@ public class BerthService {
                 throw new FindFailed("Dropdown Menu option was not located. "+ff.getMessage());
             } catch (InterruptedException | IOException e) {
                 throw new RuntimeException(e);
+            } catch (JSchException e) {
+                throw new RuntimeException(e);
+            } catch (AWTException e) {
+                throw new RuntimeException(e);
             }
         }
     public void eraseTDNBySignalID(String signalId, boolean isEraseBySignal) throws FindFailed, InterruptedException {
         if (isEraseBySignal) {
             Signal signal = signalService.getSignalById(signalId);
 
-            eraseBerthBySignalDropdown(signal.getId(),new ArrayList<>());
+            eraseBerthBySignalDropdown(signal.getId(),"");
         }else{
-            List<String> berthId = trackService.getBerthByTrackId(signalService.getSignalById(signalId).getSignalTrack());
+            List<String> berthId =  trackService.getBerthByTrackId(determineTrack(signalService.getSignalById(signalId),true).getId());
 
-            eraseBerthBySignalDropdown("",berthId);
+            //List<String> berthId = trackService.getBerthByTrackId(signalService.getSignalById(signalId).getSignalTrack());
+
+            eraseBerthBySignalDropdown("",berthId.get(0));
         }
 
     }
-    private void eraseBerthBySignalDropdown(String object,List<String> berthId) throws FindFailed, InterruptedException {
+    private void eraseBerthBySignalDropdown(String object,String berthId) throws FindFailed, InterruptedException {
         logger.info("Attempting to Erase TDN from the object "+object);
            if(!berthId.isEmpty()) {
-               for(String berth: berthId) {
-                   setScreen(berth, "click");
-               }
+
+                   setScreen(berthId, "click","Berth");
+
            }else{
-               setScreen(object, "click");
+               setScreen(object, "click","Signal");
            }
         Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
 
 
         try{
             if (berthId.isEmpty()){
-                screen.wait(System.getProperty("user.dir")+"/src/resources/berth/Signal_train_number.png",3).click();
-                Thread.sleep(100);
+                findSignalTrainNumber(screen);
+                for (int i = 0; i < 2; i++) {
+                    screen.type(Key.DOWN);
+                    Thread.sleep(600);
+                }
+                screen.type(null,Key.ENTER);
+                 berthId =  trackService.getBerthByTrackId(determineTrack(signalService.getSignalById(object),true).getId()).get(0);
+
+                Thread.sleep(1000);
+
+                takeScreenShot(berthId+":EraseBySignalMenu",false,"","");
+
+
+//                screen.wait(System.getProperty("user.dir")+"/src/resources/berth/Signal_train_number.png",3).click();
+//                Thread.sleep(100);
+            }else {
+                screen.wait(System.getProperty("user.dir") + "/src/resources/berth/TDN_Erase.png", 3).click();
+                Thread.sleep(1000);
+
+                takeScreenShot(berthId+":EraseByBerthMenu",false,"","");
+
             }
-            screen.wait(System.getProperty("user.dir")+"/src/resources/berth/TDN_Erase.png",3).click();
-            Thread.sleep(1000);
+
+            Thread.sleep(500);
 
             screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
 
@@ -241,6 +281,12 @@ public class BerthService {
 
             throw new FindFailed("Dropdown Menu option was not located. "+ff.getMessage());
         } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (JSchException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (AWTException e) {
             throw new RuntimeException(e);
         }
     }
@@ -254,22 +300,49 @@ public class BerthService {
 
     }
 
+    private void findSignalTrainNumber(Screen screen) throws FindFailed, InterruptedException, JSchException, IOException, AWTException {
+//        Screen screen = new Screen();
+        String imagePath = System.getProperty("user.dir") + "/src/resources/Signal_train_number.png";
+        Pattern imagePattern = new Pattern(imagePath).similar(0.2);  // Adjust similarity as needed
+
+        // Example calls to a hypothetical method to take screenshots
+
+
+          try {
+           screen.wait(imagePath).click();
+        } catch (FindFailed e) {
+            System.out.println("Failed to find the text 'TRAIN NUMBER'.");
+        }
+    }
+
     private void insertBerth(Signal signal) throws InterruptedException, FindFailed {
         logger.info("Attempting to insert berth"+signal.getId());
 
-        setScreen(signal.getId(),"click");
+        setScreen(signal.getId(),"click","Signal");
         Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
 
         try{
-            screen.wait(System.getProperty("user.dir")+"/src/resources/berth/Signal_train_number.png",3).click();
-            Thread.sleep(1000);
-            screen.wait(System.getProperty("user.dir")+"/src/resources/berth/TDN_Insert.png",3).click();
+            findSignalTrainNumber(screen);
+
+
+//            screen.wait(System.getProperty("user.dir")+"/src/resources/berth/Signal_train_number.png",3).click();
+//            Thread.sleep(1000);
+            screen.type(Key.DOWN);
+            screen.type(Key.ENTER);
+//            screen.wait(System.getProperty("user.dir")+"/src/resources/berth/TDN_Insert.png",3).click();
             Thread.sleep(1000);
             screen.wait(System.getProperty("user.dir")+"/src/resources/berth/Enter_Train_Num.png",3).click();
-            removeBerth("TEST");
-            screen.type("TEST");
+            //
+            String insertName = generateUniqueToken();
+            removeBerth(insertName, signal.getId());
+            screen.type(insertName);
             Thread.sleep(1500);
-            screen.type(null,Key.ENTER);
+            screen.type(Key.ENTER);
+            Thread.sleep(1000);
+            List<String> berthId =  trackService.getBerthByTrackId(determineTrack(signal,true).getId());
+//            trackService.getBerthByTrackId(signalService.getSignalById(signal.getId()).getSignalTrack());
+
+            takeScreenShot(berthId.get(0)+":insert",false,"","");
 
         }catch(FindFailed ff){
             screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
@@ -278,9 +351,57 @@ public class BerthService {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (JSchException e) {
+            throw new RuntimeException(e);
+        } catch (AWTException e) {
+            throw new RuntimeException(e);
         }
 
     }
+
+    private Track determineTrack(@NotNull Signal signal, boolean isEntry){
+        Track finalTrack = null;
+        String direction="";
+        Track signalTrack ;
+        if(isEntry) {
+            direction = signalService.getSignalById(signal.getId()).getRelation();
+            signalTrack = trackService.getTrackById(signalService.getSignalById(signal.getId()).getSignalTrack());
+        }else{
+            direction = signalService.getSignalById(signal.getId()).getRelation();
+            signalTrack = trackService.getTrackById(signalService.getSignalById(signal.getId()).getSignalTrack());
+        }
+        if(isEntry  & direction.contains("h")) {
+            if(direction.startsWith("dn")) {
+                finalTrack = !direction.contains("r") ?//!signalTrack.getTrackNormalDown().isEmpty() ?
+                        trackService.getTrackById(signalTrack.getTrackNormalDown()) :
+                        trackService.getTrackById(signalTrack.getTrackReverseDown());
+            }else if(direction.startsWith("up")){
+                finalTrack = !direction.contains("r") ?//!signalTrack.getTrackNormalDown().isEmpty() ?
+                        trackService.getTrackById(signalTrack.getTrackNormalUp()) :
+                        trackService.getTrackById(signalTrack.getTrackReverseUp());
+            }
+        } else if(!isEntry & direction.contains("b")){
+            if(direction.startsWith("dn")) {
+                finalTrack = !direction.contains("r") ?//!signalTrack.getTrackNormalDown().isEmpty() ?
+                        trackService.getTrackById(signalTrack.getTrackNormalDown()) :
+                        trackService.getTrackById(signalTrack.getTrackReverseDown());
+            }  if(direction.startsWith("up")){
+                finalTrack = !direction.contains("r") ?//!signalTrack.getTrackNormalDown().isEmpty() ?
+                        trackService.getTrackById(signalTrack.getTrackNormalUp()) :
+                        trackService.getTrackById(signalTrack.getTrackReverseUp());
+
+            }
+        }else{
+            finalTrack = trackService.getTrackById(signalTrack.getId());
+        }
+        if(finalTrack == null){
+            finalTrack = trackService.getTrackById(signalTrack.getId());
+
+        }
+        return finalTrack;
+
+    }
+
 
 
     private void twoBerthBySignalId(String signalId) throws InterruptedException, IOException, JSchException, AWTException {
@@ -321,14 +442,14 @@ public class BerthService {
     private void twoBerthTest(Route route, Signal signal, String signalId ) throws InterruptedException, IOException, JSchException, AWTException {
 
 
-        if(route != null && route.getRouteTracks().size() > 1){
-            setScreen(route.getRouteEntry(),"click");
+        if(route != null && route.getRouteInfo().getRouteTracks().size() > 1){
+            setScreen(route.getRouteInfo().getRouteEntry(),"click","Signal");
             Thread.sleep(1000);
-            setScreen(route.getRouteExit(),"click");
+            setScreen(route.getRouteInfo().getRouteExit(),"click","Signal");
             Thread.sleep(4000);
-            setScreen(route.getRouteEntry(),"cancel");
+            setScreen(route.getRouteInfo().getRouteEntry(),"cancel","Signal");
             Thread.sleep(2000);
-            Signal exitSignal =signalService.getSignalById(route.getRouteExit());
+            Signal exitSignal =signalService.getSignalById(route.getRouteInfo().getRouteExit());
             String LastTrack ="";
             if (exitSignal.getType().toLowerCase().matches("(.*_automatic)|(phantom)")){
                 LastTrack = exitSignal.getRelation().contains("b")? exitSignal.getSignalTrack()
@@ -336,10 +457,10 @@ public class BerthService {
                         trackService.getTrackById(exitSignal.getSignalTrack())).getCircuitName();
             }else {
 
-                LastTrack = route.getRouteTracks().get(route.getRouteTracks().size() - 1);
+                LastTrack = route.getRouteInfo().getRouteTracks().get(route.getRouteInfo().getRouteTracks().size() - 1);
             }
-            System.out.println(" track before entry: "+route.getBeforeTrack()+" entry signal"+route.getRouteEntry()+" the berth to click track"+LastTrack+" test signal:"+route.getRouteExit()+" spad track:"+route.getRouteTracks().get(0));
-             berthsSignals.add(new BerthSignal(route.getRouteExit(),route.getRouteEntry(),route.getBeforeTrack(),LastTrack,route.getRouteTracks().get(0),""));
+            System.out.println(" track before entry: "+route.getBeforeTrack()+" entry signal"+route.getRouteInfo().getRouteEntry()+" the berth to click track"+LastTrack+" test signal:"+route.getRouteInfo().getRouteExit()+" spad track:"+route.getRouteInfo().getRouteTracks().get(0));
+             berthsSignals.add(new BerthSignal(route.getRouteInfo().getRouteExit(),route.getRouteInfo().getRouteEntry(),route.getBeforeTrack(),LastTrack,route.getRouteInfo().getRouteTracks().get(0),""));
             isBerthCheckPossible= true;
         }else if( signal != null){
             if (findTrackNumber(signal).size()>2 && lastSignal!=null){
@@ -518,7 +639,7 @@ return trackList;
     }
     public void dropAllTracks(String signal) throws IOException, InterruptedException, JSchException, AWTException {
         this.twoBerthBySignalId(signal);
-        setScreen(signal,"nonClickable");
+        setScreen(signal,"nonClickable","Signal");
         Thread.sleep(2000);
         if(isBerthCheckPossible) {
             for (BerthSignal signals : this.getBerthSignals()) {
@@ -559,8 +680,8 @@ return trackList;
                     trackOperation("Drop", trackService.getTrackById(signals.getSpadTrack()).getCircuitName());
                     Thread.sleep(1000);
                     if (!one_by_one) {
-                        removeBerth(signals.getBerthStored().split(":")[0]);
-                        removeBerth(signals.getBerthStored().split(":")[1]);
+                        removeBerth(signals.getBerthStored().split(":")[0],signals.getSignal());
+                        removeBerth(signals.getBerthStored().split(":")[1],signals.getSignal());
                     }
                     if (one_by_one) {
                         System.out.println("print 2:" + one_by_one);
@@ -568,7 +689,7 @@ return trackList;
                         List<String> trackValue = trackService.getBerthByTrackId(signals.getBerthTrack());
                         if (!trackValue.isEmpty()) {
                             for(String berthId: trackValue) {
-                                setScreen(berthId, "click");
+                                setScreen(berthId, "click","Signal");
                             }
                          //   System.out.println(trackService.getBerthByTrackId(signals.getBerthTrack()));
                         } else {
@@ -587,8 +708,8 @@ return trackList;
             for (BerthSignal signals : this.getBerthSignals()) {
                 if (signals.getSignal().equals(signal)) {
                     if (one_by_one) {
-                        removeBerth(signals.getBerthStored().split(":")[0]);
-                        removeBerth(signals.getBerthStored().split(":")[1]);
+                        removeBerth(signals.getBerthStored().split(":")[0],signals.getSignal());
+                        removeBerth(signals.getBerthStored().split(":")[1],signals.getSignal());
                         Thread.sleep(1000);
                     }
 
@@ -623,18 +744,27 @@ return trackList;
 
     }
 
-    private void removeBerth(String berthName) throws IOException, InterruptedException {
+    private void removeBerth(String berthName,String signalId) throws IOException, InterruptedException {
         if (Objects.equals(stationMode.getControlType(),"control")) {
-            List<String> removeBerth =  new ArrayList<>();
-            removeBerth.add("TNE");
-            removeBerth.add(berthName);
-            CmdLine.send(removeBerth);}
+            if(!signalId.isEmpty()) {
+                List<String> removeBerth = new ArrayList<>();
+                removeBerth.add("TNG");
+                removeBerth.add(signalId);
+                CmdLine.send(removeBerth);
+            }
+            List<String> removeBerth2 =  new ArrayList<>();
+            removeBerth2.add("TNE");
+            removeBerth2.add(berthName);
+            CmdLine.send(removeBerth2);
+        }
         else {
             String command = "/opt/fg/bin/CLIsend.sh -d -c TNE "+berthName;
+            String command1 = "/opt/fg/bin/CLIsend.sh -d -c TNG "+berthName;
             if (!stationMode.getControlDevice().getIpAddress().isEmpty()) {
                 sshManager = SSHManager.getInstance("sysadmin", "tcms2009", stationMode.getControlDevice().getIpAddress(), 22);
             }
             sshManager.sendCommand(command);
+            sshManager.sendCommand(command1);
         }
         System.out.println("Berth "+berthName+" removed ");
     }

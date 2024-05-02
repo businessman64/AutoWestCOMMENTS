@@ -7,52 +7,7 @@ import java.util.List;
 
 public class Route extends RailwayObject{
 
-    private String routeEntry;
-    private String routeExit;
-    private List<String> routeTracks;
-    private List<String> conflictRoute;
 
-    private String direction;
-
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
-
-    public String getRouteEntry() {
-        return routeEntry;
-    }
-
-    public void setRouteEntry(String routeEntry) {
-        this.routeEntry = routeEntry;
-    }
-
-    public String getRouteExit() {
-        return routeExit;
-    }
-
-    public void setRouteExit(String routeExit) {
-        this.routeExit = routeExit;
-    }
-
-    public List<String> getRouteTracks() {
-        return routeTracks;
-    }
-
-    public void setRouteTracks(List<String> routeTracks) {
-        this.routeTracks = routeTracks;
-    }
-    public List<String> getConflictRoute() {
-        return conflictRoute;
-    }
-
-    public void setConflictRoute(List<String> conflictRoute) {
-        this.conflictRoute = conflictRoute;
-    }
     private String beforeTrack;
     private String afterTrack;
 
@@ -61,6 +16,34 @@ public class Route extends RailwayObject{
 
     private boolean additionalRoute;
     private boolean trackDrop;
+
+    public String getGroundFrame() {
+        return groundFrame;
+    }
+
+    public void setGroundFrame(String groundFrame) {
+        this.groundFrame = groundFrame;
+    }
+
+    public String getControlLine() {
+        return controlLine;
+    }
+
+    public void setControlLine(String controlLine) {
+        this.controlLine = controlLine;
+    }
+
+    public String getExtractControlledRoute() {
+        return extractControlledRoute;
+    }
+
+    public void setExtractControlledRoute(String extractControlledRoute) {
+        this.extractControlledRoute = extractControlledRoute;
+    }
+
+    private String groundFrame;
+    private String controlLine;
+    private String extractControlledRoute;
 
     public String getPrecedenceTrack() {
         return precedenceTrack;
@@ -91,25 +74,48 @@ public class Route extends RailwayObject{
         this.trackDrop = trackDrop;
     }
 
-    public Route(String id, String name, String direction,
-                 String beforeTrack, String afterTrack, int precedence, String precedenceTrack,
-                 String routeEntry, String routeExit, List<String> routeTracks, List<String> conflictRoute,
+    private RouteSetInfo setInfo;
+    private RouteInfo routeInfo;
+
+    public RouteSetInfo getSetInfo() {
+        return setInfo;
+    }
+
+    public void setSetInfo(RouteSetInfo setInfo) {
+        this.setInfo = setInfo;
+    }
+
+    public RouteInfo getRouteInfo() {
+        return routeInfo;
+    }
+
+    public void setRouteInfo(RouteInfo routeInfo) {
+        this.routeInfo = routeInfo;
+    }
+
+
+    public Route(String id, String name, String beforeTrack, String afterTrack,RouteInfo routeInfo,RouteSetInfo setInfo,
+                   String precedenceTrack,String groundFrame, String controlLine, String extractControlledRoute,
                  boolean additionalRoute, boolean trackDrop,
+
                  Interlocking interlocking, Location location,
-                 Location screenCoordinate){
+                 Location screenCoordinate)
+
+    {
         super(id,name,interlocking,location,screenCoordinate);
 
-        this.routeEntry = routeEntry ;
-        this.routeExit = routeExit;
-        this.routeTracks = routeTracks ;
-        this.conflictRoute= conflictRoute;
-        this.direction= direction;
+        this.groundFrame= groundFrame;
+        this.controlLine=controlLine;
+        this.extractControlledRoute =extractControlledRoute;
         this.beforeTrack = beforeTrack;
         this.afterTrack = afterTrack;
-        this.precedence = precedence;
-        this.precedenceTrack = precedenceTrack;
         this.additionalRoute = additionalRoute;
+
+        this.setInfo= setInfo;
+        this.routeInfo= routeInfo;
         this.trackDrop = trackDrop;
+       this.precedenceTrack = precedenceTrack;
+
     }
 
     public String getBeforeTrack() {

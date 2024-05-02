@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import Service.*;
 import com.jcraft.jsch.JSchException;
+import exceptions.NetworkException;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -85,7 +86,7 @@ public class Deps {
 		this.routeService = routeService;
 	}
 
-	public Deps() throws ParserConfigurationException, IOException, SAXException, InterruptedException, JSchException, AWTException {
+	public Deps() throws ParserConfigurationException, IOException, SAXException, InterruptedException, JSchException, AWTException, NetworkException {
 		interlockingService = InterlockingService.getInstance();
 		screenService  = ScreenService.getInstance();
 		trackService = TrackService.getInstance();

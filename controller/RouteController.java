@@ -151,7 +151,7 @@ public class RouteController {
             switch (action) {
                 case SET_ROUTE:
 
-                    deps.getRouteService().setRouteBySignalDropDownId(route);
+                    deps.getRouteService().setRouteById(route,false);
                     Thread.sleep(1000);
                     deps.getRouteService().unSetRouteBySignalDropDownId(route);
                     break;
@@ -210,7 +210,7 @@ public class RouteController {
                 try {
                     switch (action) {
                         case SET_ROUTE_DROP:
-                            deps.getRouteService().setRouteBySignalDropDownId(o);
+                            deps.getRouteService().setRouteById(o,false);
                             break;
                         case UNSET_ROUTE_DROP:
                             deps.getRouteService().unSetRouteBySignalDropDownId(o);

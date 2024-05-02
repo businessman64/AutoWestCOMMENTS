@@ -45,6 +45,11 @@
                         <Insets left="150.0" top="100.0"/>
                     </GridPane.margin>
                 </Button>
+                <Button fx:id="uploadButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="upload" >
+                    <GridPane.margin>
+                        <Insets left="280.0" top="100.0"/>
+                    </GridPane.margin>
+                </Button>
                 <Button fx:id="buttonClose" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="Close" GridPane.rowIndex="4">
                     <GridPane.margin>
                         <Insets left="20.0" />
@@ -123,6 +128,12 @@
                   <Insets bottom="240.0" left="140.0" top="250.0" />
                </GridPane.margin>
             </Button>
+                <Button fx:id="LowSpeedButton" mnemonicParsing="false" text="Start" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets bottom="240.0" left="80.0" top="350.0" />
+                    </GridPane.margin>
+                </Button>
+
                 <Button fx:id="blockButton" mnemonicParsing="false" text="On" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets bottom="240.0" left="80.0" />
@@ -148,6 +159,11 @@
                   <Insets bottom="200.0" left="5.0" top="210.0" />
                </GridPane.margin>
             </Label>
+                <Label text="LowSpeed" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets bottom="150.0" left="5.0" top="260.0" />
+                    </GridPane.margin>
+                </Label>
 <!--            <Label text="Route" GridPane.rowIndex="1">-->
 <!--               <GridPane.margin>-->
 <!--                  <Insets bottom="170.0" left="5.0" top="260.0" />-->
@@ -163,6 +179,12 @@
                   <Insets bottom="210.0" left="190.0" top="130.0"  />
                </GridPane.margin>
             </CheckBox>
+                <CheckBox fx:id="lowCheckbox" mnemonicParsing="false" prefHeight="17.0" prefWidth="80.0"  GridPane.rowIndex="1" selected="true">
+                    <GridPane.margin>
+                        <Insets bottom="210.0" left="190.0" top="320.0"  />
+                    </GridPane.margin>
+                </CheckBox>
+
             <CheckBox fx:id="disregardCheckbox" mnemonicParsing="false" prefHeight="17.0" prefWidth="106.0" GridPane.rowIndex="1" selected="true">
                <GridPane.margin>
                   <Insets bottom="240.0" left="190.0" top="250.0"  />

@@ -4,7 +4,8 @@ public enum SignalOperations {
     BLOCKANDUNBLOCK,
     DISREGARDONOFF,
     FLEETINGONOFF,
-    ARSONOFF
+    ARSONOFF,
 
+    LOWSPEED
 
 }

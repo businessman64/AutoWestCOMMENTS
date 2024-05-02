@@ -128,8 +128,7 @@ Button buttonTestAll;
     }
 
     private void handleTestAction(BerthAction action, String signal){
-        controlNotificationLabel.setText("");
-        testNotificationLabel.setText("");
+
         try {
             switch (action) {
                 case INSERT:

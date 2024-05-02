@@ -50,6 +50,7 @@ public class PointService {
     }
 
     public void initialHouseKeeping(String point) throws FindFailed, InterruptedException {
+        currentView = ViewManager.getInstance().getCurrentView();
 
         Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
         Region region = new Region(currentView.getCoordinateX()-200, currentView.getCoordinateY() - 200, 600, 600,screen);
@@ -83,7 +84,7 @@ public class PointService {
                 }
             }
 
-        CmdLine.getResponseSocketDifferent(currentView.getName(),object,"Point",ipAddress);
+        CmdLine.getResponseSocketDifferent(currentView.getName(),object,"Point",ipAddress,"control");
         Location centerLocation = new Location(currentView.getCoordinateX(), currentView.getCoordinateY());
         Thread.sleep(1000);
         if (!Objects.equals(action, "nonClickable")) {

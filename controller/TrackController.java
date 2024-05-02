@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableListBase;
 import javafx.fxml.FXML;
@@ -7,13 +8,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Deps;
+import model.Point;
+import model.StationMode;
 import model.Track;
 import org.sikuli.script.FindFailed;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import javafx.collections.ListChangeListener;
@@ -30,7 +35,8 @@ public class TrackController {
     TextField trackSearchTextField;
     @FXML
     CheckBox blockuUblockCheckBox;
-
+    @FXML
+    Button uploadButton;
     @FXML
     Button configureButton;
 
@@ -81,20 +87,22 @@ public class TrackController {
     @FXML
     Button unfailSimButton;
     @FXML
-    CheckBox blockCheck;
+    CheckBox blockTrackCheck;
 
     @FXML
     CheckBox simDropCheck;
+    @FXML
+    CheckBox FailCheck;
 
     Set<TrackController.ButtonAction> operations;
     @FXML
-    CheckBox disregardCheck;
+    CheckBox disregardTrackCheck;
 
     private Deps deps;
     private Stage stage;
 
     private boolean paused = false;
-
+    File file = null;
 
     public enum ButtonAction {
         BLOCK,
@@ -117,8 +125,11 @@ public class TrackController {
         this.deps = deps;
     }
     private void handleTestAction(TrackController.ButtonAction action, String track){
-        controlNotificationLabel.setText("");
-        testNotificationLabel.setText("");
+//        Platform.runLater(() -> {
+//
+//            controlNotificationLabel.setText("");
+//            testNotificationLabel.setText("");
+//        });
         try {
             switch (action) {
                 case BLOCK:
@@ -131,29 +142,32 @@ public class TrackController {
                 case SET_DISREGARD_ON:
                     deps.getTrackService().setDisregardOnTrackById(track);
                     deps.getTrackService().setDisregardOffTrackById(track);
+
+                    Thread.sleep(1000);
                     break;
                 case SET_DISREGARD_OFF:
                     deps.getTrackService().setDisregardOffTrackById(track);
                     break;
                 case DROP_SIM:
                     deps.getTrackService().dropSimTrackById(track);
-                    deps.getTrackService().pickSimTrackById(track);
+                    //deps.getTrackService().pickSimTrackById(track);
                     break;
-                case PICK_SIM:
-                    deps.getTrackService().pickSimTrackById(track);
-                    break;
-                case FAIL_SIM:
-                    deps.getTrackService().failTrackById(track);
-                    break;
-                case UNFAIL_SIM:
-                    deps.getTrackService().unfailTrackById(track);
-                    break;
+//                case PICK_SIM:
+//                    deps.getTrackService().pickSimTrackById(track);
+//                    break;
+//                case FAIL_SIM:
+//                    deps.getTrackService().failTrackById(track);
+//                    break;
+//                case UNFAIL_SIM:
+//                    deps.getTrackService().unfailTrackById(track);
+//                    break;
             }
         }catch (Exception e) {
             logger.info(e.getMessage());
         }
     }
     private void handleButtonAction(ButtonAction action) {
+
         controlNotificationLabel.setText("");
         testNotificationLabel.setText("");
         ObservableList<String> selectedTracksList = trackListView.getSelectionModel().getSelectedItems();
@@ -191,15 +205,15 @@ public class TrackController {
                             deps.getTrackService().dropSimTrackById(o);
 
                             break;
-                        case PICK_SIM:
-                            deps.getTrackService().pickSimTrackById(o);
-                            break;
+//                        case PICK_SIM:
+//                            deps.getTrackService().pickSimTrackById(o);
+//                            break;
                         case FAIL_SIM:
                             deps.getTrackService().failTrackById(o);
                             break;
-                        case UNFAIL_SIM:
-                            deps.getTrackService().unfailTrackById(o);
-                            break;
+//                        case UNFAIL_SIM:
+//                            deps.getTrackService().unfailTrackById(o);
+//                            break;
                         case CONFIGURE:
                             deps.getTrackService().configureTrackById(o);
                             break;
@@ -216,7 +230,7 @@ public class TrackController {
 //                                    if (stopRequested) {
 //                                        break;
 //                                    }
-                                    Thread.sleep(5000);
+                                    Thread.sleep(4000);
                                 }
                             }
                             break;
@@ -225,7 +239,7 @@ public class TrackController {
                     }
                     Platform.runLater(() -> {
                         if (selectedTracksList.size() > 1) {
-                            controlNotificationLabel.setText("Pause Now, Or cry forever");
+                            controlNotificationLabel.setText("Pause Now");
                         }
                     });
                     Thread.sleep(3000);
@@ -244,16 +258,20 @@ public class TrackController {
     }
 
     private boolean noCheckboxSelected() {
-        return !blockCheck.isSelected() &&
-                !disregardCheck.isSelected() ;
+        return !blockTrackCheck.isSelected() &&
+                !disregardTrackCheck.isSelected() &&
+                !FailCheck.isSelected() &&
+                !simDropCheck.isSelected() ;
 
     }
     private Set<TrackController.ButtonAction> createOperationsSet() {
         Set<TrackController.ButtonAction> operations = EnumSet.noneOf(TrackController.ButtonAction.class);
 
-        if (blockCheck.isSelected()) operations.add(TrackController.ButtonAction.BLOCK);
-        if (disregardCheck.isSelected()) operations.add(TrackController.ButtonAction.SET_DISREGARD_ON);
+        if (blockTrackCheck.isSelected()) operations.add(TrackController.ButtonAction.BLOCK);
+        if (disregardTrackCheck.isSelected()) operations.add(TrackController.ButtonAction.SET_DISREGARD_ON);
         if (simDropCheck.isSelected()) operations.add(ButtonAction.DROP_SIM);
+        if(FailCheck.isSelected()) operations.add(ButtonAction.FAIL_SIM);
+        System.out.println(operations.size());
         return operations;
     }
     @FXML
@@ -261,44 +279,44 @@ public class TrackController {
         this.trackListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 
-        trackList = new ObservableListBase() {
-             List<Track> tracks = deps.getTrackService().getTracks();
 
-             @Override
-             public Object get(int index) {
-                 return tracks.get(index).getCircuitName();
-             }
-             @Override
-             public int size() {
-                 return tracks.size();
-             }
-         };
 
-        trackListView.setItems(trackList);
+        List<Track> tracks = deps.getTrackService().getTracks();
+        Set<String> uniqueCircuitNames = new HashSet<>();
+        for (Track track : tracks) {
+            uniqueCircuitNames.add(track.getCircuitName());
+        }
 
-        trackSearchTextField.setOnKeyReleased(event-> {
-                    trackListView.setItems(trackList.filtered(trackId -> trackId.toUpperCase().contains(trackSearchTextField.getText().toUpperCase())));
-                    trackListView.refresh();
-                });
+        // Create an ObservableList from the Set of unique names
+        ObservableList<String> observableCircuitNames = FXCollections.observableArrayList(uniqueCircuitNames);
 
-        trackListView.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change<? extends String> change) -> {
-            pauseButton.setDisable(!(trackListView.getSelectionModel().getSelectedItems().size() > 1));
+        // Set the list to ListView
+        trackListView.setItems(observableCircuitNames);
+        trackListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
+        // Filter functionality
+        trackSearchTextField.setOnKeyReleased(event -> {
+            trackListView.setItems(observableCircuitNames.filtered(circuitName ->
+                    circuitName.toUpperCase().contains(trackSearchTextField.getText().toUpperCase())));
+            trackListView.refresh();
         });
 
-
+        // Listener for changes in selection
+        trackListView.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change<? extends String> change) -> {
+            pauseButton.setDisable(!(trackListView.getSelectionModel().getSelectedItems().size() > 1));
+        });
         ObservableList<String> selectedTracksList = trackListView.getSelectionModel().getSelectedItems();
 
         //pauseButton.setDisable(selectedTracksList.size() <= 1);
-
+        uploadButton.setOnAction(event ->  openFileChooser());
         blockButton.setOnAction(event -> handleButtonAction(ButtonAction.BLOCK));
         //unblockButton.setOnAction(event -> handleButtonAction(ButtonAction.UNBLOCK));
         disregardOnButton.setOnAction(event -> handleButtonAction(ButtonAction.SET_DISREGARD_ON));
        // disregardOffButton.setOnAction(event -> handleButtonAction(ButtonAction.SET_DISREGARD_OFF));
         dropSimButton.setOnAction(event -> handleButtonAction(ButtonAction.DROP_SIM));
-        pickSimButton.setOnAction(event -> handleButtonAction(ButtonAction.PICK_SIM));
+//        pickSimButton.setOnAction(event -> handleButtonAction(ButtonAction.PICK_SIM));
         failSimButton.setOnAction(event -> handleButtonAction(ButtonAction.FAIL_SIM));
-        unfailSimButton.setOnAction(event -> handleButtonAction(ButtonAction.UNFAIL_SIM));
+//        unfailSimButton.setOnAction(event -> handleButtonAction(ButtonAction.UNFAIL_SIM));
         configureButton.setOnAction(event -> handleButtonAction(ButtonAction.CONFIGURE));
         testButton.setOnAction(event -> handleButtonAction(ButtonAction.TEST));
         buttonClose.setOnAction(event->{
@@ -328,6 +346,47 @@ public class TrackController {
                 pauseButton.setText("Resume");
             }
         });
+    }
+
+    private void openFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Document");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("CSV", "*.csv")
+        );
+
+        file = fileChooser.showOpenDialog(new Stage());
+        if (file != null) {
+            System.out.println("File selected: " + file.getAbsolutePath());
+
+            StationMode stationMode = StationMode.getInstance();
+            stationMode.setFile(file);
+            List<Track> tracks = deps.getTrackService().getUpdatedTrack();
+            Set<String> uniqueCircuitNames = new HashSet<>();
+            for (Track track : tracks) {
+                uniqueCircuitNames.add(track.getCircuitName());
+            }
+
+            ObservableList<String> observableCircuitNames = FXCollections.observableArrayList(uniqueCircuitNames);
+
+            trackListView.setItems(observableCircuitNames);
+//            trackList = new ObservableListBase() {
+//                List<Track> Tracks = deps.getTrackService().getUpdatedTrack();
+//
+//                @Override
+//                public Object get(int index) {
+//                    return Tracks.get(index).getId();
+//                }
+//
+//                @Override
+//                public int size() {
+//                    return Tracks.size();
+//                }
+//            };
+
+//            trackListView.setItems(trackList);
+        }
+
     }
     public void showStage(Pane root){
         Scene scene = new Scene(root,800,800);

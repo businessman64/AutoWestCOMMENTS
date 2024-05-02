@@ -4,16 +4,19 @@ import exceptions.DescriptionNotFoundException;
 import exceptions.NetworkException;
 import model.*;
 import org.xml.sax.SAXException;
+import util.CmdLine;
 import util.XMLParser;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class RailwayStateManagerService {
 
     private static RailwayStateManagerService railwayStateManagerService;
-    private static final String URL = "http://RailwayStateManager.DNG:8080/xml/";
+    private static final String URL = "curlics http://RailwayStateManager.TCMS/";
     private RailwayStateManagerService(){
     }
     public static RailwayStateManagerService getInstance(){
@@ -45,13 +48,20 @@ public class RailwayStateManagerService {
         String response = util.HttpRequest.sendGetRequest(this.URL + "track/" + point.getId());
         return XMLParser.parseRailwayStateManagerMessage(response);
     }
-    public SignalRsmMessage getSignalState(Signal signal) throws ParserConfigurationException, SAXException, NetworkException {
+    public String getSignalState(String signal, String State) throws ParserConfigurationException, SAXException, NetworkException {
         //String response = util.CmdLine.executeCurlics(this.URL + "track/" + track.getId());
         try{
-            String response = util.HttpRequest.sendGetRequest(this.URL + "signal/" + signal.getId());
-            return XMLParser.parseRailwayStateManagerMessageForSignal(response);
+
+            List<String> cmd = Arrays.asList("curlics", "-s", "http://RailwayStateManager."+State+"/signal/" + signal );
+           // System.out.println(cmd);
+
+            String response = CmdLine.executeCurlics(cmd);
+           // System.out.println(response);
+            return response;//XMLParser.parseRailwayStateManagerMessageForSignal(response);
         }catch (IOException nee){
                 throw new NetworkException("Could not connect to the Railway state manager"+nee.getMessage());
-            }
+            } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+    }
     }

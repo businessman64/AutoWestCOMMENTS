@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.logging.*;
 
 import com.jcraft.jsch.JSchException;
+import exceptions.NetworkException;
 import javafx.application.Application;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -13,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 
 import model.Deps;
 import controller.LoginController;
+import model.StationMode;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,8 +22,9 @@ import javax.xml.parsers.ParserConfigurationException;
 public class Main extends Application {
 	private Deps deps;
 
+
 	@Override
-	public void init() throws ParserConfigurationException, IOException, SAXException, InterruptedException, JSchException, AWTException {
+	public void init() throws ParserConfigurationException, IOException, SAXException, InterruptedException, JSchException, AWTException, NetworkException {
 		deps = new Deps();
 	}
 
@@ -78,6 +81,11 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
+		if (args.length > 0) {
+			StationMode stationMode = StationMode.getInstance();
+			System.out.println("Argument 1: " + args[0]);
+			stationMode.setLocalServer(args[0]);
+		}
 		launch(args);
 	}
 }

@@ -174,27 +174,27 @@
                             </Label>
                 <Button fx:id="buttonTwoBerth" mnemonicParsing="false" text="TracKDrop" GridPane.rowIndex="1">
                                <GridPane.margin>
-                                  <Insets left="80.0"  top="300"  />
+                                  <Insets left="90.0"  top="300"  />
                                </GridPane.margin>
                             </Button>
                 <Button fx:id="buttonSpadDrop" mnemonicParsing="false" text="SPAD" GridPane.rowIndex="1">
                     <GridPane.margin>
-                        <Insets left="160.0" top="300" />
+                        <Insets left="200.0" top="300" />
                     </GridPane.margin>
                 </Button>
                 <Button fx:id="buttonPick" mnemonicParsing="false" text="Pick" GridPane.rowIndex="1">
                     <GridPane.margin>
-                        <Insets left="220.0"  top="300"  />
+                        <Insets left="260.0"  top="300"  />
                     </GridPane.margin>
                 </Button>
                 <Button fx:id="buttonRemove" mnemonicParsing="false" text="Remove" GridPane.rowIndex="1">
                     <GridPane.margin>
-                        <Insets left="270.0"  top="300"  />
+                        <Insets left="350.0"  top="300"  />
                     </GridPane.margin>
                 </Button>
                 <Button fx:id="buttonTestAll" GridPane.rowIndex="1" text="Test TDN Stack" >
                     <GridPane.margin>
-                        <Insets left="350.0" top="300" />
+                        <Insets left="450.0" top="300" />
                     </GridPane.margin>
                 </Button>
 

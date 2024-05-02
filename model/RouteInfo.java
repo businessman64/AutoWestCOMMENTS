@@ -13,8 +13,6 @@ public class RouteInfo {
 
     private String direction;
 
-    private String beforeTrack;
-    private String afterTrack;
     private int precedence;
 
     public String getDirection() {
@@ -25,21 +23,7 @@ public class RouteInfo {
         this.direction = direction;
     }
 
-    public String getBeforeTrack() {
-        return beforeTrack;
-    }
 
-    public void setBeforeTrack(String beforeTrack) {
-        this.beforeTrack = beforeTrack;
-    }
-
-    public String getAfterTrack() {
-        return afterTrack;
-    }
-
-    public void setAfterTrack(String afterTrack) {
-        this.afterTrack = afterTrack;
-    }
 
     public int getPrecedence() {
         return precedence;
@@ -50,7 +34,7 @@ public class RouteInfo {
     }
 
     public RouteInfo(String routeId, String direction, int precedence, String routeEntry,
-                     String routeExit, String beforeTrack, String afterTrack,
+                     String routeExit,
                      List<String> routeTracks, List<String> conflictRoute) {
         this.routeId = routeId;
         this.routeEntry = routeEntry ;
@@ -58,8 +42,8 @@ public class RouteInfo {
         this.routeTracks = routeTracks ;
         this.conflictRoute= conflictRoute;
         this.direction= direction;
-        this.beforeTrack= beforeTrack;
-        this.afterTrack= afterTrack;
+//        this.beforeTrack= beforeTrack;
+//        this.afterTrack= afterTrack;
         this.precedence = precedence;
     }
 

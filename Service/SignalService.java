@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 enum SignalState{
@@ -36,40 +37,76 @@ public class SignalService {
     InterlockingService interlockingService;
     CoordinateService coordinateService;
     StationMode stationMode = StationMode.getInstance();
-
+    RouteService routeService;
     private static final Logger logger = Logger.getLogger(TrackService.class.getName());
 
-    Boolean blockDisabled;
-    Boolean fleetDisabled;
-    Boolean arsDisabled;
-    Boolean disregardDisabled;
+    Boolean isBlock;
+    Boolean isFleet;
+    Boolean isArs;
+    Boolean isDisregard;
+    private Deps deps;
+    Boolean isLowSpeed;
     View currentView;
-     SignalService() throws ParserConfigurationException, IOException, SAXException {
+
+
+     SignalService() throws ParserConfigurationException, IOException, SAXException, NetworkException {
         screenService = ScreenService.getInstance();
         interlockingService = InterlockingService.getInstance();
         coordinateService = CoordinateService.getInstance();
         generateSignals();
+
+
+
     }
 
-    private void generateSignals() throws ParserConfigurationException, IOException, SAXException {
-        signals = new ArrayList<>();
-        List<SignalInfo> al= util.XMLParser.parseSignals("RailwaySignals.xml");
-        for(SignalInfo eachSignal:al){
-            String signalName[] = eachSignal.getSignalId().split("/");
-            Location location = coordinateService.getCoordinatedById(eachSignal.getSignalId());
-            Location coordinate = coordinateService.getScreenCoordinatedById(eachSignal.getSignalId());
+    private void generateSignals() throws ParserConfigurationException, IOException, SAXException, NetworkException {
 
-            signals.add(new Signal(eachSignal.getSignalId(),signalName[1],eachSignal.getType() ,eachSignal.getsignalTrack(),
-                    eachSignal.getRelation(),
-                    blockDisabled, fleetDisabled,
-                    arsDisabled, disregardDisabled,
-                    this.interlockingService.getInterlockingByName(signalName[0]),location
-                    ,coordinate
-            ));
-        }
-    }
+             signals = new ArrayList<>();
+             List<SignalInfo> al = util.XMLParser.parseSignals("RailwaySignals.xml");
+            String state="";
+            if (stationMode != null && stationMode.getLocalServer() != null) {
+                if ("sim".equalsIgnoreCase(stationMode.getLocalServer())) {
+                    state = "SIMTCMS";
+                } else {
+                    state = "TCMS";
+                }
+            }else {
+                state = "TCMS";
+            }
+        System.out.println(state);
+             for (SignalInfo eachSignal : al) {
+                 String signalName[] = eachSignal.getSignalId().split("/");
+                 Location location = coordinateService.getCoordinatedById(eachSignal.getSignalId());
+                 Location coordinate = coordinateService.getScreenCoordinatedById(eachSignal.getSignalId());
 
-    public static SignalService getInstance() throws ParserConfigurationException, IOException, SAXException {
+                 String rsmMessage = RailwayStateManagerService.getInstance().getSignalState(eachSignal.getSignalId(),state);
+                 try {
+
+                     isBlock = rsmMessage.charAt(6) != 'x' || rsmMessage.charAt(7) != 'x' || rsmMessage.charAt(8) != 'x';
+//                     isArs = rsmMessage.charAt(22) == '0'||rsmMessage.charAt(22) == '1';
+                     isFleet = rsmMessage.charAt(19) == '0'|| rsmMessage.charAt(19) == '1';
+                     isDisregard = rsmMessage.charAt(5) == '0'||rsmMessage.charAt(5) == '1';
+                     isLowSpeed = rsmMessage.charAt(17) == '0' || rsmMessage.charAt(17) == '1';
+
+                 } catch (Exception e) {
+                     isBlock = false;
+                     isFleet = false;
+                     isDisregard = false;
+                     isLowSpeed = false;
+                 }
+
+                 signals.add(new Signal(eachSignal.getSignalId(), signalName[1], eachSignal.getType(), eachSignal.getsignalTrack(),
+                         eachSignal.getRelation(),
+                         isBlock, isFleet,
+                         eachSignal.getHasArs(), isDisregard, isLowSpeed,
+                         this.interlockingService.getInterlockingByName(signalName[0]), location
+                         , coordinate
+                 ));
+             }
+         }
+
+
+    public static SignalService getInstance() throws ParserConfigurationException, IOException, SAXException, NetworkException {
         if(signalService==null){
             signalService = new SignalService();
             return signalService;
@@ -80,27 +117,59 @@ public class SignalService {
         return this.signals;
     }
 
-    public String getRandomSignal() {
-        List<Signal> signals = getSignals();
-        if (signals.isEmpty()) {
-            return null; // or handle the empty list scenario
+    public String getRandomSignal(boolean railwayData) {
+        List<Signal> signals =null;
+         if(railwayData){
+              signals = getSignals();
+         }else {
+              signals = getUpdatedSignal();
+         }
+        List<Signal> filteredSignals = signals.stream()
+                .filter(signal -> signal.getId().contains("/S"))
+                .collect(Collectors.toList());
+
+        if (filteredSignals.isEmpty()) {
+            return null; // Handle the case where no signals meet the criteria
         }
+
         Random random = new Random();
-        return signals.get(random.nextInt(signals.size())).getId();
+        return filteredSignals.get(random.nextInt(filteredSignals.size())).getId();
+//        if (signals.isEmpty()) {
+//            return null; // or handle the empty list scenario
+//        }
+//        Random random = new Random();
+//        return signals.get(random.nextInt(signals.size())).getId();
     }
-    private void setScreen(@NotNull String signal, String action) throws InterruptedException {
+    private void setScreen(String object, String action) throws InterruptedException {
 
         currentView = ViewManager.getInstance().getCurrentView();
-        signal.replaceFirst("[A-Z]{3}/S(.*)","[A-Z]{3}S\1");
-        String type = signal.split("/")[1].contains("S")? "Route": "Berth";
-        CmdLine.sendSocketCmdTest(currentView.getName(), signal, "Signal");
+        object.replaceFirst("[A-Z]{3}/S(.*)","[A-Z]{3}S\1");
+        // String type ="";
 
+        String ipAddress="localhost";
+        if(stationMode.getControlType().equals("noncontrol")) {
+
+            ipAddress = stationMode.getSimDevice().getIpAddress();
+        }
+        if(stationMode.isTCWindowRequired()){
+            CmdLine.getResponseSocket(stationMode.getTcDevice().getScreen(),object,"Signal",stationMode.getTcDevice().getIpAddress());
+
+        }
+
+        CmdLine.getResponseSocketDifferent(currentView.getName(),object,"Signal",ipAddress,"control");
+
+        // CmdLine.sendSocketCmdTest(currentView.getName(), signal, type);
+        Thread.sleep(3000);
         Location centerLocation = new Location(currentView.getCoordinateX(), currentView.getCoordinateY());
         Thread.sleep(1000);
         if (!Objects.equals(action, "nonClickable")) {
             if (Objects.equals(action, "cancel")) {
                 centerLocation.rightClick();
-            } else {
+            }
+            else if (Objects.equals(action, "SignalDropDownDouble")) {
+                centerLocation.doubleClick();
+            }
+            else {
                 centerLocation.click();
             }
             Thread.sleep(2000);
@@ -126,43 +195,47 @@ public class SignalService {
         System.out.print("Did not find the object for signal"+ signalId);
         return null;
     }
-    public void blockSignalById(String signalId) throws FindFailed, NetworkException, ParserConfigurationException, SAXException, ObjectStateException, FileNotFoundException, InterruptedException {
+    public void blockSignalById(String signalId) throws FindFailed, NetworkException, ParserConfigurationException, SAXException, ObjectStateException, IOException, InterruptedException, JSchException, AWTException {
         Signal signal = this.getSignalById(signalId);
-        List result = null;
-            this.blockSignal(signal);
-        //}
+        if(signal.getBlock()){
+        this.blockSignal(signal); }else{
+        System.out.println("no block");
     }
+
+
+}
     public void unblockSignalById(String signalId) throws FindFailed, ParserConfigurationException, SAXException, ObjectStateException, NetworkException, FileNotFoundException, InterruptedException {
 
         Signal signal = this.getSignalById(signalId);
-        List result = null;
+        if (signal.getBlock()) {
             this.unblockSignal(signal);
-        //}
+        }else{
+            System.out.println("no block");
+        }
+
     }
 
-    public List setDisregardOnById(String signalId) throws FindFailed, ObjectStateException, NetworkException, ParserConfigurationException, SAXException, FileNotFoundException, InterruptedException {
+    public void setDisregardOnById(String signalId) throws FindFailed, ObjectStateException, NetworkException, ParserConfigurationException, SAXException, FileNotFoundException, InterruptedException {
 
         Signal signal = this.getSignalById(signalId);
-        List result = null;
             this.setDisregardOn(signal);
-        //}
-        return result;
+
+
+
 
     }
     public void setDisregardOffById(String signalId) throws FindFailed, ObjectStateException, NetworkException, ParserConfigurationException, SAXException, FileNotFoundException, InterruptedException {
 
         Signal signal = this.getSignalById(signalId);
-        List result = null;
-
             this.setDisregardOff(signal);
-
     }
     public void setFleetingOffById(String signalId) throws ParserConfigurationException, NetworkException, SAXException, FileNotFoundException, ObjectStateException, FindFailed, InterruptedException {
         Signal signal = this.getSignalById(signalId);
-            //result = IPEngineService.getMatch(signal,signal.getImagePathFleeting(),null);
+        if(signal.getFleet()){
             this.setFleetingOff(signal);
-        //}
-
+    }else{
+        System.out.println("no Fleeting");
+    }
 
     }
 
@@ -184,49 +257,159 @@ public class SignalService {
         }catch(FindFailed ff){
             screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
 
-            throw new FindFailed("Dropdown Menu option was not located. "+ff.getMessage());
+            System.out.println("Dropdown Menu option was not located. "+ff.getMessage());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void setFleetingOnById(String signalId) throws ObjectStateException, ParserConfigurationException, NetworkException, SAXException, FileNotFoundException, FindFailed, InterruptedException {
+
+
+
+
+    public void setFleetingOnById(String signalId, RouteService routeServiceDeps) throws ObjectStateException, ParserConfigurationException, NetworkException, SAXException, FileNotFoundException, FindFailed, InterruptedException {
 
         Signal signal = this.getSignalById(signalId);
-            this.setFleetingOn(signal);
-
+//        this.setFleetingOn(signal,routeServiceDeps);
+        if(signal.getFleet()){
+            this.setFleetingOn(signal,routeServiceDeps);
+    }else{
+        System.out.println("no Fleeting");
+    }
     }
 
-    private void setFleetingOn(Signal signal) throws FindFailed, InterruptedException {
+    private void setFleetingOn(Signal signal,RouteService routeServiceDeps) throws FindFailed, InterruptedException {
         //Screen screen = (Screen) signal.getLocation().getScreen();
         logger.info("Attempting to Block Signal "+signal.getId());
         //signal.getLocation().click();
-        setScreen(signal.getId(),"click");
+        setScreen(signal.getId(),"nonClickable");
+
        // Location signalLocation = new Location(currentView.getCoordinateX(),currentView.getCoordinateY());//signal.getLocation()
 
         Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
 
         try{
-            screen.wait(System.getProperty("user.dir")+"/src/resources/signals/signal_fleeting_on.png",3).click();
-            screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
-            Thread.sleep(1000);
-            takeScreenShot(signal.getId()+":fleeting",false,"","");
+            Route route = routeServiceDeps.getRouteBySignal(signal.getId(),"forward");
 
+            routeServiceDeps.setRouteById(route.getId(),true);
+
+
+            Thread.sleep(2000);
+
+            setScreen(signal.getId(),"click");
+            Thread.sleep(1000);
+
+            if (stationMode.getLocalServer().equals("noncontrol")){
+                screen.wait(System.getProperty("user.dir")+"/src/resources/signals/signal_fleeting_on.png",3).click();
+
+            }else {
+                for (int i = 0; i < 4; i++) {
+                    screen.type(Key.DOWN);
+                    Thread.sleep(500);
+                }
+            }
+            screen.type(null,Key.ENTER);
+
+            screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
+            Thread.sleep(2000);
+            takeScreenShot(signal.getId()+":fleeting",false,"","");
+            Thread.sleep(1000);
+//            routeServiceDeps.unsetRouteById(route.getId());
         }catch(FindFailed ff){
             screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
 
-            throw new FindFailed("Dropdown Menu option was not located. "+ff.getMessage());
+            System.out.println("Dropdown Menu option was not located. "+ff.getMessage());
 
         } catch (InterruptedException | JSchException | IOException | AWTException e) {
+            throw new RuntimeException(e);
+        } catch (ObjectStateException e) {
+            throw new RuntimeException(e);
+        } catch (ParserConfigurationException e) {
+            throw new RuntimeException(e);
+        } catch (NetworkException e) {
+            throw new RuntimeException(e);
+        } catch (SAXException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void setArsOffById(String signalId) throws ObjectStateException, FileNotFoundException, FindFailed, ParserConfigurationException, NetworkException, SAXException, InterruptedException {
+public void setLowSpeedByID(String signalID,RouteService routeServiceDeps) throws FindFailed, InterruptedException {
+    Signal signal = this.getSignalById(signalID);
+    if(signal.getLowSpeed()){
+        this.setLowSpeedOn(signal,routeServiceDeps);
+    }else{
+        System.out.println("no LowSpeed");
+    }
+}
+    private void setLowSpeedOn(Signal signal,RouteService routeServiceDeps) throws FindFailed, InterruptedException {
+        //Screen screen = (Screen) signal.getLocation().getScreen();
+        logger.info("Attempting to Block Signal "+signal.getId());
+        //signal.getLocation().click();
+        setScreen(signal.getId(),"nonClickable");
+        // Location signalLocation = new Location(currentView.getCoordinateX(),currentView.getCoordinateY());//signal.getLocation()
+
+        Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
+
+        try{
+            Route route = routeServiceDeps.getRouteBySignal(signal.getId(),"forward");
+
+            routeServiceDeps.setRouteById(route.getId(),true);
+            Thread.sleep(2000);
+            screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
+            routeServiceDeps.trackOperation("Drop",route.getAfterTrack());
+            Thread.sleep(1000);
+            routeServiceDeps.trackOperation("Drop",route.getBeforeTrack());
+            setScreen(signal.getId(),"click");
+
+            screen.wait(System.getProperty("user.dir")+"/src/resources/signals/signal_lowSpeed.png",3).click();
+            Thread.sleep(20000);
+            takeScreenShot(signal.getId()+":LowSpeedPip",false,"","");
+            Thread.sleep(20000);
+            takeScreenShot(signal.getId()+":LowSpeed",false,"","");
+            Thread.sleep(500);
+            routeServiceDeps.unsetRouteById(route.getId());
+            routeServiceDeps.trackOperation("Pick",route.getAfterTrack());
+            Thread.sleep(1000);
+            routeServiceDeps.trackOperation("Pick",route.getBeforeTrack());
+            routeServiceDeps.unsetRouteById(route.getId());
+
+
+            routeServiceDeps.unsetRouteById(route.getId());
+        }catch(FindFailed ff){
+            screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
+
+            System.out.println("Dropdown Menu option was not located. "+ff.getMessage());
+
+        } catch (InterruptedException | JSchException | IOException | AWTException e) {
+            throw new RuntimeException(e);
+        } catch (ObjectStateException e) {
+            throw new RuntimeException(e);
+        } catch (ParserConfigurationException e) {
+            throw new RuntimeException(e);
+        } catch (NetworkException e) {
+            throw new RuntimeException(e);
+        } catch (SAXException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setArsOffById(String signalId) throws ObjectStateException, IOException, FindFailed, ParserConfigurationException, NetworkException, SAXException, InterruptedException {
         Signal signal = this.getSignalById(signalId);
-        this.setArsOff(signal);
+        if(signal.getArs()) {
+           // this.setArsOff(signal);
+            this.turnArsOffByCli(signal.getId());
+        }
+        else{
+            System.out.println("no ARS");
+        }
 
     }
+
+
 
     private void setArsOff(Signal signal) throws FindFailed, InterruptedException {
         //Screen screen = (Screen) signal.getLocation().getScreen();
@@ -236,17 +419,27 @@ public class SignalService {
        // Location signalLocation = new Location(currentView.getCoordinateX(),currentView.getCoordinateY());//signal.getLocation()
 
         Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
-        try{
-            screen.wait(System.getProperty("user.dir")+"/src/resources/signals/signal_ars_off.png",3).click();
-            new Location(1280, 740).click();
-        }catch(FindFailed ff){
-            throw new FindFailed("Dropdown Menu option was not located. "+ff.getMessage());
-        }
+
+        screen.type(Key.DOWN);
+        Thread.sleep(500);
+        screen.type(Key.DOWN);
+        Thread.sleep(500);
+        screen.type(Key.DOWN);
+        Thread.sleep(500);
+        screen.type(null,Key.ENTER);
+        screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
+
+
     }
 
     public void setArsOnById(String signalId) throws ParserConfigurationException, NetworkException, SAXException, ObjectStateException, FileNotFoundException, FindFailed, InterruptedException {
         Signal signal = this.getSignalById(signalId);
-        this.setArsOn(signal);
+        System.out.println(signal.getArs());
+        if(signal.getArs()) {
+            this.setArsOn(signal);
+        }else{
+            System.out.println("no ARS");
+        }
     }
 
     private void setArsOn(Signal signal) throws FindFailed, InterruptedException {
@@ -259,10 +452,11 @@ public class SignalService {
         try{
             screen.wait(System.getProperty("user.dir")+"/src/resources/signals/signal_ars_on.png",3).click();
             screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
+            Thread.sleep(1000);
             takeScreenShot(signal.getId()+":ARS",false,"","");
 
         }catch(FindFailed ff){
-            throw new FindFailed("Dropdown Menu option was not located. "+ff.getMessage());
+            System.out.println("Dropdown Menu option was not located. "+ff.getMessage());
         } catch (JSchException | IOException | AWTException e) {
             throw new RuntimeException(e);
         }
@@ -274,7 +468,7 @@ public class SignalService {
     public void setRouteById(String signalId) throws ObjectStateException, IOException, ParserConfigurationException, NetworkException, SAXException, FindFailed {
 
         String exitSignalId = util.XMLParser.parseExitSignal(signalId);
-        this.setRoute(this.getSignalById(signalId),this.getSignalById(exitSignalId));
+       // this.setRoute(this.getSignalById(signalId),this.getSignalById(exitSignalId));
 
     }
 
@@ -299,26 +493,31 @@ public class SignalService {
         logger.info("The route has been cancelled for signal "+signal.getId());
     }
 
-    public void blockSignal(Signal signal) throws FindFailed, InterruptedException {
+    public void blockSignal(Signal signal) throws FindFailed, InterruptedException, IOException, JSchException, AWTException {
         //Screen screen = (Screen) signal.getLocation().getScreen();
         //signal.getLocation().click();
         setScreen(signal.getId(),"click");
+        takeScreenShot(signal.getId()+":dropdown",false,"","");
+
+        this.turnArsOffByCli(signal.getId());
         //Location signalLocation = new Location(currentView.getCoordinateX(),currentView.getCoordinateY());//signal.getLocation()
 
         Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
        try{
-            screen.wait(System.getProperty("user.dir") + "/src/resources/track_block.png").click();
-            Thread.sleep(1000);
-            screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").click();
-            screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").click();
+//           screen.exists(System.getProperty("user.dir") + "/src/resources/signals/blockInit.png").click();
+//           screen.type(null,Key.ENTER);
+
+           screen.wait(System.getProperty("user.dir") + "/src/resources/track_block.png").click();
+
+           Thread.sleep(1000);
+            screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
+           Thread.sleep(1000);
            takeScreenShot(signal.getId()+":block",false,"","");
        }catch(FindFailed ff){
-           screen.wait(System.getProperty("user.dir") + "/src/resources/black.png").doubleClick();
-           System.out.println("Dropdown Menu option was not located");
-
-       } catch (InterruptedException | AWTException | IOException | JSchException e) {
-            throw new RuntimeException(e);
-        }
+           System.out.println("Dropdown Menu option was not located. "+ff.getMessage());
+       } catch (JSchException | AWTException e) {
+           throw new RuntimeException(e);
+       }
     }
     public void unblockSignal(Signal signal) throws FindFailed, InterruptedException {
 
@@ -368,8 +567,8 @@ public class SignalService {
             takeScreenShot(signal.getId()+":disregard",false,"","");
 
         }catch(FindFailed ff){
-            System.out.println("Dropdown Menu option was not located");
-        } catch (InterruptedException | JSchException | AWTException | IOException e) {
+            System.out.println("Dropdown Menu option was not located. "+ff.getMessage());
+        } catch (JSchException | AWTException | IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -406,7 +605,7 @@ public class SignalService {
 
     private void takeScreenShot(String name, Boolean fullScreen, String BLK , String PK) throws AWTException, JSchException, IOException, InterruptedException {
         int valueA= 200;
-        int valueB=200;
+        int valueB=500;
         //ScreenImage screenImage = getScreenImage(fullScreen,valueA,valueB);
         BufferedImage screenImage = getScreenImage(fullScreen,valueA,valueB, BLK, PK);
         File directory = new File("SignalImages");
@@ -431,7 +630,6 @@ public class SignalService {
 
 
     }
-
 
     private BufferedImage getScreenImage(boolean fullScreen,int valueA, int valueB,String BLK , String PK) {
         BufferedImage combined = null;
@@ -490,105 +688,16 @@ public class SignalService {
         }
         return  fullScreen?  screenshot.capture().getImage():imageScreen.getImage();
     }
-    public void testSignal(Set operations,String signalId) throws Exception {
-        int count=0;
-        logger.info("\n==================================Test case "+count+++"=========================================");
 
-        for(Object o :operations) {
-
-            try {
-                List result;
-                if (o.equals(SignalOperations.BLOCKANDUNBLOCK)) {
-
-                    //Test Blocked signal
-                    logger.info("\nBlock Operation ");
-                    this.blockSignalById(signalId);
-                    //Thread.sleep(4000);
-                    //IPEngineService.getMatch(this.getSignalById(signalId),this.getSignalById(signalId).getImagePathBlockedState() , (View) result.get(1),8);
-                    logger.info("Completed Blocking Signal " + signalId+"\n");
-
-                    //Test Unblocked signal
-                    logger.info("\nUnBlock Operation ");
-                    this.unblockSignalById(signalId);
-                    //Thread.sleep(4000);
-                    //IPEngineService.getMatch(this.getSignalById(signalId),this.getSignalById(signalId).getImagePath(), (View) result.get(1),8);
-                    logger.info("Completed Unblocking Signal "+signalId);
-
-                    logger.info("\n\nTest for Block/Unblock passed");
-                }
-                if (o.equals(SignalOperations.DISREGARDONOFF)) {
-                    // Test Disregarded signal
-                    logger.info("\nSet Disregard On Operation ");
-                    result = this.setDisregardOnById(signalId);
-                    //Thread.sleep(4000);
-                    //IPEngineService.getMatch(this.getSignalById(signalId),this.getSignalById(signalId).getImagePathDisregardedState(), (View) result.get(1),8);
-                    logger.info("Completed Disregarding Signal "+signalId);
-
-                    //Test Disregard off
-                    logger.info("\nSet Disregard Off Operation ");
-                    this.setDisregardOffById(signalId);
-                    //Thread.sleep(4000);
-                    //IPEngineService.getMatch(this.getSignalById(signalId),this.getSignalById(signalId).getImagePath(), (View) result.get(1),8);
-                    logger.info("Completed setting disregard off for Signal "+signalId);
-
-                    logger.info("\n\nTest for Disregard/Regard passed");
-
-                }
-                if (o.equals(SignalOperations.ARSONOFF)) {
-                    // Test Disregarded signal
-                    logger.info("\nSet Disregard On Operation ");
-                    this.setArsOnById(signalId);
-                    Thread.sleep(4000);
-                    //IPEngineService.getMatch(this.getSignalById(signalId),this.getSignalById(signalId).getImagePathArs(), (View) result.get(1),8);
-                    logger.info("Completed Disregarding Signal "+signalId);
-
-                    //Test Disregard off
-                    logger.info("\nSet Disregard Off Operation ");
-                    this.setArsOffById(signalId);
-                    Thread.sleep(5000);
-                    //IPEngineService.getMatch(this.getSignalById(signalId),this.getSignalById(signalId).getImagePath(), (View) result.get(1),8);
-                    logger.info("Completed setting disregard off for Signal "+signalId);
-
-                    logger.info("\n\nTest for ARS On/Off passed");
-
-                }
-                if (o.equals(SignalOperations.FLEETINGONOFF)) {
-                    // Test Disregarded signal
-
-                    logger.info("\nSetting route On Operation");
-                    this.setRouteById(signalId);
-                    //Thread.sleep(4000);
-                    //IPEngineService.getMatch(this.getSignalById(signalId),this.getSignalById(signalId).getImagePathRouteSet(), (View) result.get(1),8);
-                    logger.info("Completed setting the route "+signalId);
-
-                    logger.info("\nSet fleeting On Operation");
-                    this.setFleetingOnById(signalId);
-                    //Thread.sleep(4000);
-                    //IPEngineService.getMatch(this.getSignalById(signalId),this.getSignalById(signalId).getImagePathFleeting(), (View) result.get(1),8);
-                    logger.info("Completed turning the fleeting on Signal "+signalId);
-
-                    //Test Disregard off
-                    logger.info("\nSet fleeting Off Operation ");
-                    this.setFleetingOffById(signalId);
-                    //Thread.sleep(4000);
-                    //IPEngineService.getMatch(this.getSignalById(signalId),this.getSignalById(signalId).getImagePathRouteSet(), (View) result.get(1),8);
-                    logger.info("Completed turning the fleeting off for Signal "+signalId);
-
-                    //Test Disregard off
-                    logger.info("\nSet fleeting Off Operation ");
-                    this.unsetRouteById(signalId);
-                    //Thread.sleep(6000);
-                    //IPEngineService.getMatch(this.getSignalById(signalId),this.getSignalById(signalId).getImagePath(), (View) result.get(1),8);
-                    logger.info("Completed turning the fleeting off for Signal "+signalId);
-
-                }
-            }catch (FindFailed e){
-                throw new FindFailed(signalId+": "+e.getMessage()+". The object was not located on the screen");
-            }catch (FileNotFoundException e){
-                throw new FileNotFoundException(signalId+": "+e.getMessage()+". This object is not configured in the system.");
-            }catch (ObjectStateException | ParserConfigurationException | NetworkException | SAXException | InterruptedException | IOException e) {
-                throw new Exception(signalId + ": " + e.getMessage() + ". Communication for this object might have been broken");
-            }
+    public List<Signal> getUpdatedSignal(){
+        if (stationMode.getFile() != null) {
+            List<String> values = util.XMLParser.parseCSV(stationMode.getFile().getAbsolutePath()); // Assuming parseCSV returns List<String> and getFile() returns a File object.
+            List<Signal> matchingSignal = this.signals.stream()
+                    .filter(signal -> values.contains(signal.getId()))
+                    .collect(Collectors.toList());
+            return matchingSignal;
+        }else{
+            return this.signals;
         }
     }
 
@@ -639,16 +748,16 @@ public class SignalService {
     private void setRouteByCli(String entrySignal,String exitSignal) throws InterruptedException, IOException {
         ArrayList<String> al = new ArrayList<>();
         al.add("SRO");
-        al.add(entrySignal);
-        al.add(exitSignal);
+        al.add(entrySignal.trim());
+        al.add(exitSignal.trim());
         CmdLine.send(al);
         Thread.sleep(1000);
     }
 
-    private void turnArsOffByCli(Signal signal) throws InterruptedException, IOException {
+    private void turnArsOffByCli(String signal) throws InterruptedException, IOException {
         ArrayList<String> al = new ArrayList<>();
         al.add("SMO");
-        al.add(signal.getId());
+        al.add(signal);
         CmdLine.send(al);
         Thread.sleep(1000);
     }

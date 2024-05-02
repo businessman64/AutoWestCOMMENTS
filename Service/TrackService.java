@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 enum TrackState{
@@ -55,24 +56,26 @@ public class TrackService {
     }
 
     private void generateTracks() throws ParserConfigurationException, IOException, SAXException {
-        tracks = new ArrayList<Track>();
-        berths= util.XMLParser.parseBerth("RailwayBerths.xml");
 
-        List<TrackInfo> al= util.XMLParser.parseTracks("RailwayTracks.xml");
-        for(TrackInfo eachTrack:al){
-            if (!Objects.equals(eachTrack.getCircuitName(), "")) {
-                String trackName[] = eachTrack.getCircuitName().split("/");
-                Location location = coordinateService.getCoordinatedById(eachTrack.getCircuitName());
-                Location coordinate = coordinateService.getScreenCoordinatedById(eachTrack.getCircuitName());
-                tracks.add(new Track(eachTrack.getTrackId(), trackName[1], eachTrack.getCircuitName(),
-                        eachTrack.getTrackNormalDown(),
-                        eachTrack.getTrackNormalUp(),
-                        eachTrack.getTrackReverseDown(),
-                        eachTrack.getTrackReverseUp(),
-                        this.interlockingService.getInterlockingByName(trackName[0]), location,coordinate ));
+            tracks = new ArrayList<Track>();
+            berths = util.XMLParser.parseBerth("RailwayBerths.xml");
+
+            List<TrackInfo> al = util.XMLParser.parseTracks("RailwayTracks.xml");
+            for (TrackInfo eachTrack : al) {
+                if (!Objects.equals(eachTrack.getCircuitName(), "")) {
+                    String trackName[] = eachTrack.getCircuitName().split("/");
+                    Location location = coordinateService.getCoordinatedById(eachTrack.getCircuitName());
+                    Location coordinate = coordinateService.getScreenCoordinatedById(eachTrack.getCircuitName());
+                    tracks.add(new Track(eachTrack.getTrackId(), trackName[1], eachTrack.getCircuitName(),
+                            eachTrack.getTrackNormalDown(),
+                            eachTrack.getTrackNormalUp(),
+                            eachTrack.getTrackReverseDown(),
+                            eachTrack.getTrackReverseUp(),
+                            this.interlockingService.getInterlockingByName(trackName[0]), location, coordinate));
+                }
             }
         }
-    }
+
 
     public static TrackService getInstance() throws ParserConfigurationException, IOException, SAXException {
         if(trackService==null){
@@ -86,24 +89,35 @@ public class TrackService {
         return this.tracks;
     }
 
-private void setScreen(@NotNull String signal, String action) throws InterruptedException {
+    private void setScreen(@NotNull String object, String action) throws InterruptedException {
         currentView = ViewManager.getInstance().getCurrentView();
-    signal.replaceFirst("[A-Z]{3}/S(.*)","[A-Z]{3}S\1");
-    String type = signal.split("/")[1].contains("S")? "Route": "Berth";
-    CmdLine.sendSocketCmdTest(currentView.getName(), signal, "Track");
-    CmdLine.sendSocketCmdTest("rnv5", signal, "Track");
-    Location centerLocation = new Location(currentView.getCoordinateX(), currentView.getCoordinateY());
-    Thread.sleep(1000);
-    if (!Objects.equals(action, "nonClickable")) {
-        if (Objects.equals(action, "cancel")) {
-            centerLocation.rightClick();
-        } else {
-            centerLocation.click();
+        for (Device device : stationMode.getAllDevice()) {
+            String ipAddress = !device.getIpAddress().isEmpty() ?"localhost":device.getIpAddress();
+            CmdLine.getResponseSocketDifferent(currentView.getName(), object, "Track", ipAddress,device.getType());
         }
-        Thread.sleep(2000);
+        Location centerLocation = new Location(currentView.getCoordinateX(), currentView.getCoordinateY());
+        Thread.sleep(1000);
+        if (!Objects.equals(action, "nonClickable")) {
+            if (Objects.equals(action, "cancel")) {
+                centerLocation.rightClick();
+            } else {
+                centerLocation.click();
+            }
+            Thread.sleep(2000);
 
+        }
     }
-}
+    public List<Track> getUpdatedTrack(){
+        if (stationMode.getFile() != null) {
+            List<String> values = util.XMLParser.parseCSV(stationMode.getFile().getAbsolutePath()); // Assuming parseCSV returns List<String> and getFile() returns a File object.
+            List<Track> matchingPoint = this.tracks.stream()
+                    .filter(track -> values.contains(track.getId()) || values.contains(track.getCircuitName()))
+                    .collect(Collectors.toList());
+            return matchingPoint;
+        }else{
+            return this.tracks;
+        }
+    }
 
     private void takeScreenShot(String name, Boolean fullScreen, String BLK , String PK) throws AWTException, JSchException, IOException, InterruptedException {
         int valueA= 200;
@@ -132,6 +146,7 @@ private void setScreen(@NotNull String signal, String action) throws Interrupted
 
 
     }
+
 
 
     private BufferedImage getScreenImage(boolean fullScreen,int valueA, int valueB,String BLK , String PK) {
@@ -230,7 +245,7 @@ private void setScreen(@NotNull String signal, String action) throws Interrupted
     public Location getCoordinateById(String trackId){
         Location currentCorrdinate = null;
         for(Track track : this.getTracks()){
-            if(track.getCircuitName() == trackId){
+            if(Objects.equals(track.getCircuitName(), trackId)){
                 currentCorrdinate = track.getScreenCoordinates();
                 break;
             }
@@ -240,12 +255,9 @@ private void setScreen(@NotNull String signal, String action) throws Interrupted
     }
 
 
-    public List blockTrackById(String trackId) throws ImageNotConfiguredException, FindFailed, NetworkException, ParserConfigurationException, SAXException, ObjectStateException, IOException, InterruptedException {
+    public void blockTrackById(String trackId) throws ImageNotConfiguredException, FindFailed, NetworkException, ParserConfigurationException, SAXException, ObjectStateException, IOException, InterruptedException {
         Track track = this.getTrackById(trackId);
-        Location OriginalLocation = this.getCoordinateById(trackId);
-        List result = null;
-        this.blockTrack(track, OriginalLocation);
-        return result;
+        this.blockTrack(track);
 
     }
 
@@ -258,13 +270,10 @@ private void setScreen(@NotNull String signal, String action) throws Interrupted
 
     }
 
-    public List setDisregardOnTrackById(String trackId) throws FindFailed, ObjectStateException, NetworkException, ParserConfigurationException, SAXException, FileNotFoundException, InterruptedException {
+    public void setDisregardOnTrackById(String trackId) throws FindFailed, ObjectStateException, NetworkException, ParserConfigurationException, SAXException, FileNotFoundException, InterruptedException {
 
         Track track = this.getTrackById(trackId);
-        List result = null;
-        //result = IPEngineService.getMatch(track,track.getImagePath(),null);
         this.setDisregardOn(track);
-        return result;
 
     }
     public List setDisregardOffTrackById(String trackId) throws FindFailed, ObjectStateException, NetworkException, ParserConfigurationException, SAXException, FileNotFoundException, InterruptedException {
@@ -279,18 +288,17 @@ private void setScreen(@NotNull String signal, String action) throws Interrupted
     public void configureTrackById(String trackId) throws IOException, FindFailed, InterruptedException {
         this.configureTrack(getTrackById(trackId));
     }
-    public void blockTrack(Track track, Location ScreenCoordinate) throws FindFailed, InterruptedException, IOException {
+    public void blockTrack(Track track) throws FindFailed, InterruptedException, IOException {
         //Screen screen = (Screen) track.getLocation().getScreen();
-        logger.info("Attempting to Block Track "+track.getId());
+        logger.info("Attempting to Block Track "+track.getCircuitName());
         //screenService.findScreen(screen,ScreenCoordinate);
-        setScreen(track.getId(),"click");
+        setScreen(track.getCircuitName(),"click");
         Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
 
         try{// in build
-            Match match = screen.wait(System.getProperty("user.dir")+"/src/resources/track_block.png",3);
-            match.click();
-            Thread.sleep(1000);
-            takeScreenShot(track.getId()+":block",false,"track","block");
+            screen.wait(System.getProperty("user.dir")+"/src/resources/track_block.png",2).click();
+            Thread.sleep(2000);
+            takeScreenShot(track.getCircuitName()+":block",false,"track","block");
         }catch(FindFailed ff){
             throw new FindFailed("Dropdown Menu option was not located. "+ff.getMessage());
         } catch (JSchException | AWTException e) {
@@ -303,9 +311,9 @@ private void setScreen(@NotNull String signal, String action) throws Interrupted
 
     public void unblockTrack(Track track) throws FindFailed, InterruptedException {
         //Screen screen = (Screen) track.getLocation().getScreen();
-        logger.info("Attempting to unblock Track "+track.getId());
+        logger.info("Attempting to unblock Track "+track.getCircuitName());
         //track.getLocation().click();
-        setScreen(track.getId(),"click");
+        setScreen(track.getCircuitName(),"click");
         Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
         try{
             Match match1 =screen.wait(System.getProperty("user.dir")+"/src/resources/track_unblock.png");
@@ -321,16 +329,16 @@ private void setScreen(@NotNull String signal, String action) throws Interrupted
     }
     public void setDisregardOn(Track track) throws FindFailed, InterruptedException {
         //Screen screen = (Screen) track.getLocation().getScreen();
-        logger.info("Attempting to set the disregard on for Track "+track.getId());
+        logger.info("Attempting to set the disregard on for Track "+track.getCircuitName());
         //track.getLocation().click();
-        setScreen(track.getId(),"click");
+        setScreen(track.getCircuitName(),"click");
         Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
         try{
             Match match = screen.wait(System.getProperty("user.dir")+"/src/resources/track_disregard.png",2);
             match.click();
-            logger.info("Completed turning on disregard for Track "+track.getId());
+            logger.info("Completed turning on disregard for Track "+track.getCircuitName());
             Thread.sleep(1000);
-            takeScreenShot(track.getId()+":disregard",false,"track","disregard");
+            takeScreenShot(track.getCircuitName()+":disregard",false,"track","disregard");
 
         }catch(FindFailed ff){
             System.out.println("This track cannot be disregarded:Dropdown Menu option was not located");
@@ -340,9 +348,9 @@ private void setScreen(@NotNull String signal, String action) throws Interrupted
     }
     public void setDisregardOff(Track track) throws FindFailed, InterruptedException {
         //Screen screen = (Screen) track.getLocation().getScreen();
-        logger.info("Attempting to set the disregard off for Track:  "+track.getId());
+        logger.info("Attempting to set the disregard off for Track:  "+track.getCircuitName());
         //track.getLocation().click();
-        setScreen(track.getId(),"click");
+        setScreen(track.getCircuitName(),"click");
         Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
         try{
             Match match = screen.wait(System.getProperty("user.dir")+"/src/resources/track_disregard.png",2);
@@ -376,58 +384,7 @@ private void setScreen(@NotNull String signal, String action) throws Interrupted
         }
     }
 
-    public void testTrack(Set operations,String trackId)  {
-        int count=0;
-        logger.info("\nTest case "+count++);
-        for(Object o :operations) {
 
-            try {
-                List result;
-                if (o.equals(TrackOperations.BLOCKANDUNBLOCK)) {
-
-                    //Test Blocked track
-                    logger.info("\nBlock Operation ");
-                    this.blockTrackById(trackId);
-                    //Thread.sleep(8000);
-                    //IPEngineService.getMatch(this.getTrackById(trackId),this.getTrackById(trackId).getImagePathBlockedState() , (View) result.get(1),8);
-                    logger.info("Completed Blocking Track " + trackId+"\n");
-
-                    //Test Unblocked track
-                    logger.info("\nUnBlock Operation ");
-                    this.unblockTrackById(trackId);
-                    //Thread.sleep(4000);
-                    //IPEngineService.getMatch(this.getTrackById(trackId),this.getTrackById(trackId).getImagePath(), (View) result.get(1),8);
-                    logger.info("Completed Unblocking Track "+trackId);
-
-                }
-                if (o.equals(TrackOperations.SETDISREGARDONOFF)) {
-                    // Test Disregarded track
-                    logger.info("\nSet Disregard On Operation ");
-                    result = this.setDisregardOnTrackById(trackId);
-                    //Thread.sleep(4000);
-                    //IPEngineService.getMatch(this.getTrackById(trackId),this.getTrackById(trackId).getImagePathDisregardedState(), (View) result.get(1),8);
-                    logger.info("Completed Disregarding Track "+trackId);
-
-                    //Test Disregard off
-                    logger.info("\nSet Disregard Off Operation ");
-                    this.setDisregardOffTrackById(trackId);
-                    //Thread.sleep(4000);
-                    //IPEngineService.getMatch(this.getTrackById(trackId),this.getTrackById(trackId).getImagePath(), (View) result.get(1),8);
-                    logger.info("Completed setting disregard off for Track "+trackId);
-                }
-            }catch (FindFailed e){
-                logger.info(trackId+": "+e.getMessage()+". The object was not located on the screen");
-            }catch (ImageNotConfiguredException | IOException e){
-                logger.info(trackId+": "+e.getMessage()+". This object is not configured in the system.");
-            }catch (ObjectStateException | ParserConfigurationException | NetworkException | SAXException e){
-                logger.info(trackId+": "+e.getMessage()+". Communication for this object might have been broken");
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            } finally {
-                logger.info("Test case:"+trackId+" failed.");
-            }
-        }
-    }
     public void blockTrackByCli(Track track) throws IOException, InterruptedException, FindFailed {
         ArrayList<String> al = new ArrayList<>();
         al.add("TKB");
@@ -463,10 +420,102 @@ private void setScreen(@NotNull String signal, String action) throws Interrupted
     }
 
 
-    public void dropSimTrackById(String o) throws JSchException, IOException, InterruptedException, AWTException {
+    public void dropSimTrackById(String o) throws JSchException, IOException, InterruptedException, AWTException, FindFailed {
         Track track= this.getTrackById(o);
-        this.trackOperation("Drop",track.getId());
+        System.out.println(track.getCircuitName());
+        if(!stationMode.isSimWindowRequired()) {
+            setScreen(track.getCircuitName(), "cancel");
+            Thread.sleep(2000);
+            takeScreenShot(track.getCircuitName() + ":drop", false, "track", "drop");
+            Thread.sleep(1500);
+            setScreen(track.getCircuitName(), "cancel");
+        }else{
+            simDrop(track);
+            Thread.sleep(1000);
+            simPick(track);
+        }
+
     }
+
+    private void simDrop(Track track) throws InterruptedException, FindFailed {
+        logger.info("Attempting to Drop Track "+track.getCircuitName());
+        //screenService.findScreen(screen,ScreenCoordinate);
+        setScreen(track.getCircuitName(),"click");
+        Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
+
+        try{// in build
+            screen.wait(System.getProperty("user.dir")+"/src/resources/sim_command.png",3).click();
+            Thread.sleep(1000);
+            for (int i = 0; i < 4; i++) {
+                screen.type(Key.DOWN);
+            }
+            screen.type(null,Key.ENTER);
+            Thread.sleep(1500);
+            takeScreenShot(track.getCircuitName()+":Drop",false,"track","DROP");
+        }catch(FindFailed ff){
+            throw new FindFailed("Dropdown Menu option was not located. "+ff.getMessage());
+        } catch (JSchException | AWTException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void simPick(Track track) throws InterruptedException, FindFailed {
+        logger.info("Attempting to Pick Track "+track.getCircuitName());
+        //screenService.findScreen(screen,ScreenCoordinate);
+        setScreen(track.getCircuitName(),"click");
+        Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
+
+        try{// in build
+            screen.wait(System.getProperty("user.dir")+"/src/resources/sim_command.png",3).click();
+            Thread.sleep(1000);
+            for (int i = 0; i < 3; i++) {
+                screen.type(Key.DOWN);
+            }
+            screen.type(null,Key.ENTER);
+
+        }catch(FindFailed ff){
+            throw new FindFailed("Dropdown Menu option was not located. "+ff.getMessage());
+        }
+    }
+
+
+    private void simFail(Track track) throws InterruptedException, FindFailed {
+        logger.info("Attempting to Drop Track "+track.getCircuitName());
+        //screenService.findScreen(screen,ScreenCoordinate);
+        setScreen(track.getCircuitName(),"click");
+        Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
+
+        try{// in build
+            screen.wait(System.getProperty("user.dir")+"/src/resources/sim_command.png",3).click();
+            Thread.sleep(1000);
+            screen.type(Key.DOWN);
+            screen.type(null,Key.ENTER);
+            Thread.sleep(1500);
+            takeScreenShot(track.getCircuitName()+":Fail",false,"track","block");
+        }catch(FindFailed ff){
+            throw new FindFailed("Dropdown Menu option was not located. "+ff.getMessage());
+        } catch (JSchException | AWTException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void simUnFail(Track track) throws InterruptedException, FindFailed {
+        logger.info("Attempting to Pick Track "+track.getCircuitName());
+        //screenService.findScreen(screen,ScreenCoordinate);
+        setScreen(track.getCircuitName(),"click");
+        Screen screen = (Screen) new Location(currentView.getCoordinateX(),currentView.getCoordinateY()).getScreen();
+
+        try{// in build
+            screen.wait(System.getProperty("user.dir")+"/src/resources/sim_command.png",3).click();
+            Thread.sleep(1000);
+            for (int i = 0; i < 2; i++) {
+                screen.type(Key.DOWN);
+            }
+            screen.type(null,Key.ENTER);
+
+        }catch(FindFailed ff){
+            throw new FindFailed("Dropdown Menu option was not located. "+ff.getMessage());
+        }
+    }
+
 
     private void trackOperation(String operation, @NotNull String trackId) throws JSchException, IOException, InterruptedException, AWTException {
         String trackGuido = trackId.replace("/", "");
@@ -486,7 +535,16 @@ private void setScreen(@NotNull String signal, String action) throws Interrupted
         this.trackOperation("Pick",track.getId());
     }
 
-    public void failTrackById(String o) {
+    public void failTrackById(String o) throws FindFailed, InterruptedException {
+
+        Track track= this.getTrackById(o);
+        if(stationMode.isSimWindowRequired()) {
+            simFail(track);
+            Thread.sleep(1000);
+            simUnFail(track);
+        }else{
+            System.out.println("Can only be performed in sim window.");
+        }
     }
 
     public void unfailTrackById(String o) {

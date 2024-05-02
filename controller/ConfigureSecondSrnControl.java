@@ -146,9 +146,9 @@ public class ConfigureSecondSrnControl {
         buttonShow.setOnAction(event -> setSecondScreenCount(Integer.parseInt(textScreenNumber.getText())));
 
         buttonTest.setOnAction(event -> {
-            String signal = deps.getSignalService().getRandomSignal();
+            String signal = deps.getSignalService().getRandomSignal(true);
             //CmdLine.sendSocketCmdTest("rnv" + viewID, signal, "Signal");
-            CmdLine.getResponseSocketDifferent("rnv" + viewID, signal, "Signal", "localhost") ;
+            CmdLine.getResponseSocketDifferent("rnv" + viewID, signal, "Signal", "localhost","SC") ;
 
 
         });
@@ -184,15 +184,15 @@ public class ConfigureSecondSrnControl {
         buttonCalibrate.setOnAction(event -> {
             X =Integer.parseInt(textXCali.getText());
             Y =Integer.parseInt(textYCali.getText());
-            String signal = deps.getSignalService().getRandomSignal();
+            String signal = deps.getSignalService().getRandomSignal(true);
             System.out.println(signal);
-            CmdLine.getResponseSocketDifferent("rnv" + viewID, signal, "Signal",device.getIpAddress());
+            CmdLine.getResponseSocketDifferent("rnv" + viewID, signal, "Signal",device.getIpAddress(),device.getType());
             Location centerLocation = new Location(finalX+X, finalY+Y);
             centerLocation.click();
             });
 
         buttonTest.setOnAction(event -> {
-            String signal = deps.getSignalService().getRandomSignal();
+            String signal = deps.getSignalService().getRandomSignal(true);
             //CmdLine.sendSocketCmdTest("rnv" + viewID, signal, "Signal");
             CmdLine.sendSocketCmdTest("rnv" + viewID, signal, "Signal");
 

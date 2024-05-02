@@ -29,7 +29,7 @@ public class XMLParser {
     public static List<TrackInfo> parseTracks(String inputFile) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(pathFinder(inputFile));
+        Document doc = dBuilder.parse(pathFinder(inputFile,"RailwayData"));
         doc.getDocumentElement().normalize();
         NodeList nList = doc.getElementsByTagName("Track");
         Set<TrackInfo> trackInfos = new HashSet<>();
@@ -72,7 +72,7 @@ public class XMLParser {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 
-        Document doc = dBuilder.parse(pathFinder(inputFile));
+        Document doc = dBuilder.parse(pathFinder(inputFile,"RailwayData"));
         doc.getDocumentElement().normalize();
         NodeList nList = doc.getElementsByTagName("Berth");
         Set<BerthInfo> berthInfo = new HashSet<>();
@@ -110,7 +110,7 @@ public class XMLParser {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 
-        Document doc = dBuilder.parse(pathFinder(inputFile));
+        Document doc = dBuilder.parse(pathFinder(inputFile,"RailwayData"));
         doc.getDocumentElement().normalize();
         NodeList nList = doc.getElementsByTagName("OverviewBerth");
         Set<OverViewBerth> overViewBerths = new HashSet<>();
@@ -230,7 +230,7 @@ public class XMLParser {
     public static List<String> parsePoints(String inputFile) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(pathFinder(inputFile));
+        Document doc = dBuilder.parse(pathFinder(inputFile,"RailwayData"));
         doc.getDocumentElement().normalize();
         NodeList nList = doc.getElementsByTagName("Track");
         Set<String> hashset = new HashSet<>();
@@ -248,19 +248,99 @@ public class XMLParser {
     }
 
 
-    public List<String> parseControlled(String inputFile) throws ParserConfigurationException, IOException, SAXException {
-
+    public static List<RouteSetInfo> parseControlled(String inputFile) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(pathFinder(inputFile));
+        Document doc = dBuilder.parse(pathFinder(inputFile, "ControlTables"));
         doc.getDocumentElement().normalize();
 
+        NodeList nList = doc.getElementsByTagName("control_table");
+        Set<RouteSetInfo> routeSetInfos = new HashSet<>();
+
+        for (int temp = 0; temp < nList.getLength(); temp++) {
+            Node nNode = nList.item(temp);
+
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) nNode;
+                String routeId = eElement.getAttribute("id");
+                String region = getTextContentOfTag(eElement, "region");
+                String routeType = getTextContentOfTag(eElement, "route_type");
+                String frontContactObjects = getTextContentOfTag(eElement, "front_contact_objects");
+                List<PointRouteSetInfo> points = new ArrayList<>();
+
+                // Handle points_normal
+                extractPoints(points, eElement, "points_normal", "normal");
+
+                // Handle points_reverse with unless_pseudo_reverse
+                extractPointsReverse(points, eElement);
+
+                routeSetInfos.add(new RouteSetInfo(routeId, "Controlled", region, routeType, points, frontContactObjects, ""));
+            }
+        }
+
+        return new ArrayList<>(routeSetInfos);
     }
 
-    public static List<SignalInfo> parseSignals(String inputFile) throws ParserConfigurationException, IOException, SAXException {
+    private static void extractPointsReverse(List<PointRouteSetInfo> points, Element eElement) {
+        NodeList pointsReverseList = eElement.getElementsByTagName("points_reverse");
+
+        for (int i = 0; i < pointsReverseList.getLength(); i++) {
+            NodeList pointList = pointsReverseList.item(i).getChildNodes();
+            String unlessPseudoReverse = "";
+            String id="";
+            for (int j = 0; j < pointList.getLength(); j++) {
+                Node pNode = pointList.item(j);
+                if (pNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element pElement = (Element) pNode;
+                    if ("point".equals(pElement.getTagName())) {
+                        id = pElement.getAttribute("id");
+                        String state = pElement.getAttribute("state");
+                        }
+
+                    if("unless_pseudo_reverse".equals(pElement.getTagName())) {
+                            NodeList unlessNodes = pElement.getElementsByTagName("detected");
+                            if (unlessNodes.getLength() > 0) {
+                                unlessPseudoReverse = getTextContentOfTag(eElement, "detected");
+                                //unlessPseudoReverse = getTextContentOfTag(unlessElement, "detected");
+                            }
+                        }
+                        points.add(new PointRouteSetInfo(id, "reverse", unlessPseudoReverse));
+                    }
+                }
+            }
+        }
+
+
+    private static void extractPoints(List<PointRouteSetInfo> points, Element eElement, String tagName, String pointType) {
+        NodeList pointsList = eElement.getElementsByTagName(tagName);
+        for (int i = 0; i < pointsList.getLength(); i++) {
+            NodeList pointList = pointsList.item(i).getChildNodes();
+            for (int j = 0; j < pointList.getLength(); j++) {
+                Node pNode = pointList.item(j);
+                if (pNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element pElement = (Element) pNode;
+                    String id = pElement.getAttribute("id");
+                    String state = pElement.getAttribute("state");
+                    points.add(new PointRouteSetInfo(id, pointType, ""));
+                }
+            }
+        }
+    }
+
+    private static String getTextContentOfTag(Element element, String tagName) {
+        NodeList nl = element.getElementsByTagName(tagName);
+        if (nl != null && nl.getLength() > 0) {
+            Node node = nl.item(0);
+            if (node != null) {
+                return node.getTextContent();
+            }
+        }
+        return ""; // Return empty string if not found or null
+    }
+public static List<SignalInfo> parseSignals(String inputFile) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(pathFinder(inputFile));
+        Document doc = dBuilder.parse(pathFinder(inputFile,"RailwayData"));
         doc.getDocumentElement().normalize();
         NodeList nList = doc.getElementsByTagName("Signal");
         Set<SignalInfo> signalInfos = new HashSet<>();
@@ -273,19 +353,24 @@ public class XMLParser {
                 String trackID  = "";
                 String relation = "";
                 String type = "";
+                String arsDisabled ="";
+
+                Boolean hasArs = false;
+
                 if(eElement.hasAttribute("type")){
                     signalId = eElement.getAttribute("id");
                     type = eElement.getAttribute("type");
+                    arsDisabled = eElement.getAttribute("ars_disabled");
+                    hasArs = !arsDisabled.equals("true");
+
                     NodeList trackNodes = eElement.getElementsByTagName("track");
                     if (trackNodes.getLength() == 1) {
                         Element trackElement = (Element) trackNodes.item(0);
                         trackID = trackElement.getAttribute("id");
                         relation = trackElement.getAttribute("relation");
-
-
                     }
                 }
-                signalInfos.add(new SignalInfo(signalId,type,trackID,relation ));
+                signalInfos.add(new SignalInfo(signalId,type,trackID,relation,hasArs ));
             }
 
         }
@@ -314,7 +399,7 @@ public class XMLParser {
     public static List<RouteInfo> parseRoute(String inputFile) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(pathFinder(inputFile));
+        Document doc = dBuilder.parse(pathFinder(inputFile,"RailwayData"));
         doc.getDocumentElement().normalize();
         NodeList nList = doc.getElementsByTagName("Route");
         List<RouteInfo> routeInfos = new ArrayList<>();
@@ -368,7 +453,7 @@ public class XMLParser {
                     }
                 }
 
-                routeInfos.add(new RouteInfo(routeId, direction,precedence, entrySignal, exitSignal, "","", routetracks, conflictingRoutes));
+                routeInfos.add(new RouteInfo(routeId, direction,precedence, entrySignal, exitSignal, routetracks, conflictingRoutes));
             }
         }
 
@@ -438,10 +523,10 @@ public class XMLParser {
         return rsmMessage;
     }
 
-    public static File pathFinder(String objectFilename){
+    public static File pathFinder(String objectFilename, String PathName){
 
-        File primaryFile = new File("/opt/scada/data/RailwayData/"+objectFilename);
-        File secondaryFile = new File(System.getProperty("user.dir") + "/src/main/java/data/RailwayData/"+objectFilename);
+        File primaryFile = new File("/opt/scada/data/"+PathName+"/"+objectFilename);
+        File secondaryFile = new File(System.getProperty("user.dir") + "/src/main/java/data/"+PathName+"/"+objectFilename);
 
         File targetFile;
 
