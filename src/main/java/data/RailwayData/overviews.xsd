@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 2 (http://www.altova.com) by Steven Baker (private) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="common-types.xsd"/>
+	<xs:element name="Railway">
+		<xs:annotation>
+			<xs:documentation>Overviews used for overview displays. Groups many objects into one</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="OverviewObjectsType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="OverviewTracksType">
+		<xs:sequence>
+			<xs:element name="OverviewTrack" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="track" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>All tracks used to drive the overview track.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="id" type="railwayObjectId" use="required">
+									<xs:annotation>
+										<xs:documentation>id of an existing track.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="id" use="required">
+						<xs:annotation>
+							<xs:documentation>Unique id of the overview track.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:minLength value="1"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+				<xs:unique name="track_ids">
+					<xs:selector xpath=".//track"/>
+					<xs:field xpath="@id"/>
+				</xs:unique>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OverviewBerthsType">
+		<xs:sequence>
+			<xs:element name="OverviewBerth" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="berth" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>All berths used to drive the overview berth.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="id" type="railwayObjectId" use="required">
+									<xs:annotation>
+										<xs:documentation>id of an existing berth</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="id" use="required">
+						<xs:annotation>
+							<xs:documentation>Unique id of the overview berth.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:minLength value="1"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+				<xs:unique name="berth_ids">
+					<xs:selector xpath=".//berth"/>
+					<xs:field xpath="@id"/>
+				</xs:unique>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OverviewObjectsType">
+		<xs:sequence>
+			<xs:element name="Header" type="HeaderType"/>
+			<xs:element name="OverviewBerths" type="OverviewBerthsType" minOccurs="0" maxOccurs="unbounded">
+				<xs:unique name="ob_ids">
+					<xs:selector xpath=".//OverviewBerth"/>
+					<xs:field xpath="@id"/>
+				</xs:unique>
+			</xs:element>
+			<xs:element name="OverviewTracks" type="OverviewTracksType" minOccurs="0" maxOccurs="unbounded">
+				<xs:unique name="ot_ids">
+					<xs:selector xpath=".//OverviewTrack"/>
+					<xs:field xpath="@id"/>
+				</xs:unique>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

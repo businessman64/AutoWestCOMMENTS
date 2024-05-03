@@ -1,0 +1,3 @@
+# Lockstep ARS signal sets (set per line with space-separated ARS-capable signals)
+# Lines beginning with # are comments and are ignored.
+# Non-comment lines are expected to name a space separated list of RailwaySignals.xml signal ids.

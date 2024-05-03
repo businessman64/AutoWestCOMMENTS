@@ -1,0 +1,1606 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- created using XGDPS Schema Creator v0.1.13 -->
+<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns='http://www.invensys.com/XLDL' targetNamespace='http://www.invensys.com/XLDL' elementFormDefault='qualified' attributeFormDefault='unqualified'>
+        <xs:element name='XLDL'>
+                <xs:annotation>
+
+                        <xs:documentation>Represents the XML Schema implementation of LDL. This schema represents the data stored during the data-entry of geographic railway data. This schema is based on the LDL Specification (LDL SPEC, Issue 4.1). $Revision: 3.0 $ </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                        <xs:sequence>
+                                <xs:element name='CMInfo' minOccurs='0'>
+                                        <xs:annotation>
+                                                <xs:documentation>Corresponds to the CMInfo record in LDL. </xs:documentation>
+                                        </xs:annotation>
+                                        <xs:complexType>
+                                                <xs:sequence>
+                                                        <xs:element name='scheme_plan' type='xs:string'>
+                                                                <xs:annotation>
+                                                                        <xs:documentation>The name of the scheme plan.</xs:documentation>
+                                                                </xs:annotation>
+                                                        </xs:element>
+                                                        <xs:element name='version' type='xs:string'>
+                                                                <xs:annotation>
+                                                                        <xs:documentation>The version of the scheme plan.</xs:documentation>
+                                                                </xs:annotation>
+                                                        </xs:element>
+                                                        <xs:element name='date' type='xs:string'>
+                                                                <xs:annotation>
+                                                                        <xs:documentation>The date of the scheme plan.</xs:documentation>
+                                                                </xs:annotation>
+                                                        </xs:element>
+                                                        <xs:element name='source' type='xs:string'>
+                                                                <xs:annotation>
+                                                                        <xs:documentation>The source of the scheme plan.</xs:documentation>
+                                                                </xs:annotation>
+                                                        </xs:element>
+                                                        <xs:element name='xldl_schema_revision' type='xs:string'>
+                                                                <xs:annotation>
+                                                                        <xs:documentation>The revision number of the XLDL.XSD schema file used to create the graph. </xs:documentation>
+                                                                </xs:annotation>
+                                                        </xs:element>
+                                                </xs:sequence>
+                                        </xs:complexType>
+                                </xs:element>
+                                <xs:element name='Level1'>
+                                        <xs:annotation>
+                                                <xs:documentation>Track Reference and Measurement Primitives</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:complexType>
+                                                <xs:sequence>
+                                                        <xs:element name='segment' type='TrackConstructType' minOccurs='0' maxOccurs='unbounded'>
+                                                                <xs:annotation>
+                                                                        <xs:documentation>Represents the railway track between two nodes. </xs:documentation>
+                                                                </xs:annotation>
+                                                        </xs:element>
+                                                        <xs:element name='terminal_node' type='TerminalNodeConstructType' minOccurs='0' maxOccurs='unbounded'>
+                                                                <xs:annotation>
+                                                                        <xs:documentation>Occur at the end of a track so hence have only one segment connected to it. </xs:documentation>
+                                                                </xs:annotation>
+                                                        </xs:element>
+                                                        <xs:element name='track_boundary_node' type='TrackBoundaryNodeConstructType' minOccurs='0' maxOccurs='unbounded'>
+                                                                <xs:annotation>
+                                                                        <xs:documentation>A simple node that joins to another map. In this map, it only has one segment connected to it. </xs:documentation>
+                                                                </xs:annotation>
+                                                        </xs:element>
+                                                        <xs:element name='simple_node' type='SimpleNodeConstructType' minOccurs='0' maxOccurs='unbounded'>
+                                                                <xs:annotation>
+                                                                        <xs:documentation>Connects two segments together. </xs:documentation>
+                                                                </xs:annotation>
+                                                        </xs:element>
+                                                        <xs:element name='junction_node' type='JunctionNodeConstructType' minOccurs='0' maxOccurs='unbounded'>
+                                                                <xs:annotation>
+                                                                        <xs:documentation>Connects three segments together. Possible paths must be specified. </xs:documentation>
+                                                                </xs:annotation>
+                                                        </xs:element>
+                                                        <xs:element name='diamond_node' type='DiamondNodeConstructType' minOccurs='0' maxOccurs='unbounded'>
+                                                                <xs:annotation>
+                                                                        <xs:documentation>Connects four segments together. Possible paths must be specified. </xs:documentation>
+                                                                </xs:annotation>
+                                                        </xs:element>
+                                                        <xs:element name='switched_diamond_node' type='SwitchedDiamondNodeConstructType' minOccurs='0' maxOccurs='unbounded'>
+                                                                <xs:annotation>
+                                                                        <xs:documentation>Connects four segments together. Possible paths must be specified. </xs:documentation>
+                                                                </xs:annotation>
+                                                        </xs:element>
+                                                        <xs:element name='note' type='NoteConstructType' minOccurs='0' maxOccurs='unbounded'>
+                                                                <xs:annotation>
+                                                                        <xs:documentation>A message anchored to a point on the graph.</xs:documentation>
+                                                                </xs:annotation>
+                                                        </xs:element>
+                                                </xs:sequence>
+                                        </xs:complexType>
+                                </xs:element>
+                                <!-- CUSTOM LEVELS DEFINED HERE!!! -->
+    				<xs:element name='Level1A'>
+					<xs:annotation>
+						<xs:documentation>Track Reference and Measurement Primitive Constructs.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>						<xs:sequence>							<xs:element name='track_section' type='TrackSectionConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>A track section, represented as a construct for the purpose of reference by other constructs.</xs:documentation>
+									<xs:appinfo>beige</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='directed_track_section' type='DirectedTrackSectionConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>A directed track section, represented as a construct for the purpose of reference by other constructs. </xs:documentation>
+									<xs:appinfo>dodgerblue</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='datum' type='DatumConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>A location object used for the purpose of measuring the distance between it and something else.</xs:documentation>
+									<xs:appinfo>blue</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='path' type='PathConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>Fixed Text Message.</xs:documentation>
+									<xs:appinfo>darksalmon</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>					</xs:complexType>    				</xs:element>
+    				<xs:element name='Level5E'>
+					<xs:annotation>
+						<xs:documentation>Systematics Features. TD   = Train Describer; DS   = Dynamic Scheduler;  RV   = Route Validation; ARS = Automatic Route Setting; DFM = Director Furnished Material.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>						<xs:sequence>							<xs:element name='systematics_track' type='SystematicsTrackConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>Systematics track circuit. Used by DS, Timetables, TD, PRIDE, Traffic Simulation, ARS and RV.</xs:documentation>
+									<xs:appinfo>purple</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='systematics_signal' type='SystematicsSignalConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>Signal on a Systematics track circuit. Used by DS, TD, PRIDE, Timetables and ARS</xs:documentation>
+									<xs:appinfo>magenta</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='systematics_route' type='SystematicsRouteConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>Used by DS, TD, ARS and RV.</xs:documentation>
+									<xs:appinfo>greenyellow</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='systematics_interlocking' type='SystematicsInterlockingConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>Used by RV.</xs:documentation>
+									<xs:appinfo>dodgerblue</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='systematics_line' type='SystematicsLineConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>Used by DS and TD.</xs:documentation>
+									<xs:appinfo>blanchedalmond</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='systematics_region' type='SystematicsRegionConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>Used by DS and TD.</xs:documentation>
+									<xs:appinfo>aquamarine</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='systematics_station' type='SystematicsStationConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>Used by DS, TD, PRIDE and Timetable.</xs:documentation>
+									<xs:appinfo>blue</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='systematics_platform' type='SystematicsPlatformConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>Used by DS, TD and Timetable.</xs:documentation>
+									<xs:appinfo>cyan</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='systematics_station_road' type='SystematicsStationRoadConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>Used by DS, TD and Timetable. Represents a place where a train can stop which is not a platform</xs:documentation>
+									<xs:appinfo>azure</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='systematics_berth' type='SystematicsBerthConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>Used by DS and TD.</xs:documentation>
+									<xs:appinfo>maroon</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='systematics_fringe_box' type='SystematicsFringeBoxConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation>Used to group a number of tracks into one object. Currently used for display purposes and to identify passenger info roads. Used by TD.</xs:documentation>
+									<xs:appinfo>lightsalmon</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='systematics_ground_frames' type='SystematicsGroundFramesConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation></xs:documentation>
+									<xs:appinfo>hotpink</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name='systematics_level_crossing' type='SystematicsLevelCrossingConstructType' minOccurs='0' maxOccurs='unbounded'>
+								<xs:annotation>
+									<xs:documentation></xs:documentation>
+									<xs:appinfo>hotpink</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>					</xs:complexType>    				</xs:element>
+                        </xs:sequence>
+                        <xs:attribute name='AreaMnemonic' use='required'>
+                                <xs:simpleType>
+                                        <xs:restriction base='xs:string'>
+                                                <xs:pattern value='[A-Za-z0-9]{4}'/>
+                                        </xs:restriction>
+                                </xs:simpleType>
+                        </xs:attribute>
+                </xs:complexType>
+        </xs:element>
+        <xs:complexType name='track_location'>
+                <xs:sequence>
+                        <xs:element name='segment_id' type='TrackIDType'/>
+                        <xs:element name='offset' type='DistanceType'>
+                                <xs:annotation>
+                                        <xs:documentation>Metres. </xs:documentation>
+                                </xs:annotation>
+                        </xs:element>
+                        <xs:element name='height_multiplier' type='HeightType' minOccurs='0'/>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='track_section'>
+                <xs:sequence>
+                        <xs:element name='portion' type='track_portion' maxOccurs='unbounded'>
+                                <xs:annotation>
+                                        <xs:documentation>A track section consists of portions. Most portions will be as large as the segment itself. It is the responsibility of the geographic editor to enforce contiguous and correct usage of the portions. </xs:documentation>
+                                </xs:annotation>
+                        </xs:element>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='directed_track_location'>
+                <xs:complexContent>
+                        <xs:extension base='track_location'>
+                                <xs:sequence>
+                                        <xs:element name='direction'>
+                                                <xs:simpleType>
+                                                        <xs:restriction base='xs:string'>
+                                                                <xs:enumeration value='WITH'/>
+                                                                <xs:enumeration value='AGAINST'/>
+                                                        </xs:restriction>
+                                                </xs:simpleType>
+                                        </xs:element>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        <xs:complexType name='track_portion'>
+                <xs:sequence>
+                        <xs:element name='segment_id' type='TrackIDType'/>
+                        <xs:element name='offset_1' type='DistanceType'>
+                                <xs:annotation>
+                                        <xs:documentation>Metres. </xs:documentation>
+                                </xs:annotation>
+                        </xs:element>
+                        <xs:element name='offset_2' type='DistanceType'/>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='track'>
+                <xs:sequence>
+                        <xs:element name='segment_id' type='TrackIDType'/>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='directed_whole_track_section'>
+                <xs:sequence>
+                        <xs:element name='directed_track' type='directed_track' maxOccurs='unbounded'/>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='directed_track_section'>
+                <xs:sequence>
+                        <xs:element name='directed_track_portion' type='directed_track_portion' maxOccurs='unbounded'>
+                                <xs:annotation>
+                                        <xs:documentation>A directed track section consists of portions. Most portions will be as large as the segment itself. It is the responsibility of the geographic editor to enforce contiguous and correct usage of the portions. </xs:documentation>
+                                </xs:annotation>
+                        </xs:element>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='whole_track_section'>
+                <xs:sequence>
+                        <xs:element name='track' type='track' maxOccurs='unbounded'/>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='non_contiguous_whole_track_section'>
+                <xs:sequence>
+                        <xs:element name='track' type='track' maxOccurs='unbounded'/>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='directed_track_portion'>
+                <xs:complexContent>
+                        <xs:extension base='track_portion'>
+                                <xs:sequence>
+                                        <xs:element name='direction'>
+                                                <xs:simpleType>
+                                                        <xs:restriction base='xs:string'>
+                                                                <xs:enumeration value='WITH'/>
+                                                                <xs:enumeration value='AGAINST'/>
+                                                        </xs:restriction>
+                                                </xs:simpleType>
+                                        </xs:element>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        <xs:complexType name='directed_track'>
+                <xs:sequence>
+                        <xs:element name='segment_id' type='TrackIDType'/>
+                        <xs:element name='direction'>
+                                <xs:simpleType>
+                                        <xs:restriction base='xs:string'>
+                                                <xs:enumeration value='WITH'/>
+                                                <xs:enumeration value='AGAINST'/>
+                                        </xs:restriction>
+                                </xs:simpleType>
+                        </xs:element>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='track_path_type'>
+                <xs:annotation>
+                        <xs:documentation>track path is used by the point node types </xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                        <xs:element name='track_id_1' type='TrackIDType'/>
+                        <xs:element name='track_id_2' type='TrackIDType'/>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='floating_location'>
+                <xs:sequence>
+                        <xs:element name='g_point' type='g_point'/>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='g_point'>
+                <xs:annotation>
+                        <xs:documentation>A graphical point </xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                        <xs:element name='x' type='xs:integer'/>
+                        <xs:element name='y' type='xs:integer'/>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='poly_line'>
+                <xs:annotation>
+                        <xs:documentation>Represents a line </xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                        <xs:element name='point' minOccurs='2' maxOccurs='unbounded'>
+                                <xs:complexType>
+                                        <xs:complexContent>
+                                                <xs:extension base='g_point'/>
+                                        </xs:complexContent>
+                                </xs:complexType>
+                        </xs:element>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='TrackConstructType'>
+                <xs:sequence>
+                        <xs:element name='id' type='TrackIDType'/>
+                        <xs:element name='name' type='xs:string' minOccurs='0'/>
+                        <xs:element name='graphic_line' type='poly_line'/>
+                        <xs:element name='start_node_id' type='NodeIDType'/>
+                        <xs:element name='end_node_id' type='NodeIDType'/>
+                        <xs:element name='length'>
+                                <xs:annotation>
+                                        <xs:documentation>Metres </xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                        <xs:restriction base='xs:decimal'>
+                                                <xs:fractionDigits value='1'/>
+                                                <xs:minInclusive value='0.1'/>
+                                                <xs:maxInclusive value='10000.0'/>
+                                        </xs:restriction>
+                                </xs:simpleType>
+                        </xs:element>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='TerminalNodeConstructType'>
+                <xs:sequence>
+                        <xs:element name='id' type='TerminalNodeIDType'/>
+                        <xs:element name='name' type='xs:string' minOccurs='0'/>
+                        <xs:element name='graphic_point' type='g_point'/>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='TrackBoundaryNodeConstructType'>
+                <xs:sequence>
+                        <xs:element name='id' type='TrackBoundaryNodeIDType'/>
+                        <xs:element name='name' type='xs:string' minOccurs='0'/>
+                        <xs:element name='label' type='xs:string'/>
+                        <xs:element name='datumoffset' type='xs:string' minOccurs='0'/>
+                        <xs:element name='graphic_point' type='g_point'/>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='SimpleNodeConstructType'>
+                <xs:sequence>
+                        <xs:element name='id' type='SimpleNodeIDType'/>
+                        <xs:element name='name' type='xs:string' minOccurs='0'/>
+                        <xs:element name='graphic_point' type='g_point'/>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='JunctionNodeConstructType'>
+                <xs:sequence>
+                        <xs:element name='id' type='JunctionNodeIDType'/>
+                        <xs:element name='name' type='xs:string' minOccurs='0'/>
+                        <xs:element name='type' minOccurs='0'>
+                                <xs:simpleType>
+                                        <xs:restriction base='xs:string'>
+                                                <xs:enumeration value='CONTROLLED'/>
+                                                <xs:enumeration value='HAND_POINTS'/>
+                                                <xs:enumeration value='CONTROLLED_TRAP'/>
+                                                <xs:enumeration value='SPRING_CATCH'/>
+                                                <xs:enumeration value='SPRING'/>
+                                                <xs:enumeration value='TRAILABLE'/>
+                                        </xs:restriction>
+                                </xs:simpleType>
+                        </xs:element>
+                        <xs:element name='common_segment' type='TrackIDType'/>
+                        <xs:element name='normal_segment' type='TrackIDType'/>
+                        <xs:element name='reverse_segment' type='TrackIDType'/>
+                        <xs:element name='graphic_point' type='g_point'/>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='DiamondNodeConstructType'>
+                <xs:sequence>
+                        <xs:element name='id' type='DiamondNodeIDType'/>
+                        <xs:element name='name' type='xs:string' minOccurs='0'/>
+                        <xs:element name='path1_segment1' type='TrackIDType'/>
+                        <xs:element name='path1_segment2' type='TrackIDType'/>
+                        <xs:element name='path2_segment1' type='TrackIDType'/>
+                        <xs:element name='path2_segment2' type='TrackIDType'/>
+                        <xs:element name='graphic_point' type='g_point'/>
+                </xs:sequence>
+        </xs:complexType>
+        <xs:complexType name='SwitchedDiamondNodeConstructType'>
+                <xs:sequence>
+                        <xs:element name='id' type='SwitchedDiamondNodeIDType'/>
+                        <xs:element name='name' type='xs:string' minOccurs='0'/>
+                        <xs:element name='normal_segment1' type='TrackIDType'/>
+                        <xs:element name='normal_segment2' type='TrackIDType'/>
+                        <xs:element name='reverse_segment1' type='TrackIDType'/>
+                        <xs:element name='reverse_segment2' type='TrackIDType'/>
+                        <xs:element name='single_slip_path' type='xs:string' minOccurs='0'/>
+                        <xs:element name='graphic_point' type='g_point'/>
+                </xs:sequence>
+        </xs:complexType>
+	<xs:complexType name='NoteConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='NoteIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+			<xs:element name='text' type='xs:string'/>
+			<xs:element name='graphic_point' type='g_point'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='nonpositional'/>        <!-- INSERT CUSTOM COMPLEX TYPE DEFINITIONS LEVELS HERE!!! -->
+	<xs:complexType name='TrackSectionConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='TrackSectionIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 0 -->
+			<xs:element name='track_section' type='track_section'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='DirectedTrackSectionConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='DirectedTrackSectionIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 0 -->
+			<xs:element name='directed_track_section' type='directed_track_section'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='DatumConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='DatumIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 0 -->
+			<xs:element name='track_location' type='track_location'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='PathConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='PathIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 0 -->
+			<xs:element name='non_contiguous_whole_track_section' type='non_contiguous_whole_track_section'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='SystematicsTrackConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='SystematicsTrackIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 20 -->
+<xs:element name='data_name' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not use</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[^ ]+/[^ ]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='track_circuit_name'>
+       <xs:annotation>
+       	<xs:documentation>Txxx, as per AS Plan. Used by TD and ARS.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='T[a-zA-Z0-9]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='generated_track_circuit_name' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>This property is generated by scripts. If the user places a value in this field, it will override the value generated by scripts. If a script places a value here, it does so by fetching the neighbouring interlocking object and its 3 letter code, then placing the code (and a slash) in front of the value stored in track_circuit_name.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='interlocking' type='SystematicsInterlockingIDType'>
+       <xs:annotation>
+       	<xs:documentation>Reference to interlocking that track belongs to. (See SystematicsInterlockingConstructType). Used by RV</xs:documentation>
+       </xs:annotation>
+</xs:element><xs:element name='line' type='SystematicsLineIDType' minOccurs='0' maxOccurs='unbounded'>
+       <xs:annotation>
+       	<xs:documentation>Reference to line(s) that track belongs to. (See SystematicsLineConstructType).Used by SD and TD.</xs:documentation>
+       </xs:annotation>
+</xs:element><xs:element name='region' type='SystematicsRegionIDType' minOccurs='0' maxOccurs='unbounded'>
+       <xs:annotation>
+       	<xs:documentation>Reference to control region(s) that track belongs to. (See SystematicsRegionConstructType).Used by DS and TD.</xs:documentation>
+       </xs:annotation>
+</xs:element><xs:element name='station' type='SystematicsStationIDType' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Reference to station, if applicable, that track belongs to. (Track is within station platform area, including centre tracks. See SystematicsStationConstructType).Used by DS and TD.</xs:documentation>
+       </xs:annotation>
+</xs:element><xs:element name='up_follow_distance' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Separation distance in metres for following up moves onto permissive section. Distance (in metres) from starter signal to beyond first automatic signal overlap in permissive section (in up direction).  Used by DS.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:integer'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='down_follow_distance' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Separation distance in metres for following up moves onto permissive section. Distance (in metres) from starter signal to beyond first automatic signal overlap in permissive section (in down direction).  Used by DS.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:integer'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='boundary' default='NOT'>
+       <xs:annotation>
+       	<xs:documentation>Set for track at edge of dark territory. Used by DS and TD.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:enumeration value='NOT'/>
+<xs:enumeration value='ENTRY'/>
+<xs:enumeration value='EXIT'/>
+<xs:enumeration value='BOTH'/>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='line_speed'>
+       <xs:annotation>
+       	<xs:documentation>A speed limit in metres per second on systematics track sections. Used by DS and TD. Source: DFM</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='up_normal_speed'>
+       <xs:annotation>
+       	<xs:documentation>Max speed for up-normal.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:decimal'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='up_reverse_speed' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Max speed for up-reverse.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:decimal'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='down_normal_speed'>
+       <xs:annotation>
+       	<xs:documentation>Max speed for down-normal.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:decimal'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='down_reverse_speed' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Max speed for down-reverse.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:decimal'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+<xs:element name='platform' type='SystematicsPlatformIDType' minOccurs='0' maxOccurs='unbounded'>
+       <xs:annotation>
+       	<xs:documentation>The platform name needs to match the name as entered in the GEO object pair (e.g. N07FSS).</xs:documentation>
+       </xs:annotation>
+</xs:element><xs:element name='permissive' default='NO'>
+       <xs:annotation>
+       	<xs:documentation>Can have more than one train occupying the track. The value can be No, Yes, Up only or Down only. This value can be auto generated by XGDPS. Used by TD.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:enumeration value='NO'/>
+<xs:enumeration value='YES'/>
+<xs:enumeration value='UP_ONLY'/>
+<xs:enumeration value='DOWN_ONLY'/>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='remove_TDN_up' type='xs:boolean' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>The TDN is removed when trains, travelling in the specified direction, vacate the track. This flag is used at entrances to track circuited sidings and yards that do not contain TD berths.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='remove_TDN_down' type='xs:boolean' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>The TDN is removed when trains, travelling in the specified direction, vacate the track. This flag is used at entrances to track circuited sidings and yards that do not contain TD berths.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='station_road' type='xs:boolean' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Station roads associated with station. Note: station roads comprise of track at a station not associated with any platform. Used by DS.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='length' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>The length of the track.This is an optional element. If supplied, it will force the length to be exactly as specified.If not supplied, it will become the responsibility of the Export scripts to calculate the length based on the length of the segments which this object occupies.(excluding segments on the reverse arm).</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:decimal'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='axle_counter' type='xs:boolean' minOccurs='0' default='false'/>
+<xs:element name='generated_data' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>This property is populated by scripts. Do not put any data in here during data entry.</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='track_connections' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Contains references to the systematics_track objects which are immediately adjacent to this one.</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='up_normal' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>The IDs of the systematics_track which is in the up direction to this one and not along the reverse arm of a set of points (if this systematics_track occupies a set of points)</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='xgdps_id' type='xs:string'/>
+<xs:element name='coretcms_id'>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[a-zA-Z]{3}/[PT][a-zA-Z0-9]+ '/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+<xs:element name='down_normal' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>The IDs of the systematics_track which is in the down direction to this one and not along the reverse arm of a set of points (if this systematics_track occupies a set of points)</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='xgdps_id' type='xs:string'/>
+<xs:element name='coretcms_id'>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[a-zA-Z]{3}/[PT][a-zA-Z0-9]+ '/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+<xs:element name='up_reverse' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>The IDs of the systematics_track which is in the up direction to this one and along the reverse arm of a set of points (only valid if this systematics_track occupies a set of points)</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='xgdps_id' type='xs:string'/>
+<xs:element name='coretcms_id'>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[a-zA-Z]{3}/[PT][a-zA-Z0-9]+ '/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+<xs:element name='down_reverse' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>The IDs of the systematics_track which is in the down direction to this one and along the reverse arm of a set of points (only valid if this systematics_track occupies a set of points)</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='xgdps_id' type='xs:string'/>
+<xs:element name='coretcms_id'>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[a-zA-Z]{3}/[PT][a-zA-Z0-9]+ '/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+<xs:element name='special_point' minOccurs='0'>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:enumeration value='SECURITY_GATE'/>
+<xs:enumeration value='DERAILER'/>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+			<xs:element name='track_section' type='track_section'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='SystematicsSignalConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='SystematicsSignalIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 11 -->
+<xs:element name='data_name' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not use</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[^ ]+/[^ ]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='type'>
+       <xs:annotation>
+       	<xs:documentation>Type of Systematics Signal. Used by CTC, PRIDE and Traffic Simulator. Source: DFM, Signalling Arrangements</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:choice>
+<xs:element name='permissive' default='INDICATED_AUTOMATIC'>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:enumeration value='CONTROLLED_AUTOMATIC'/>
+<xs:enumeration value='INDICATED_AUTOMATIC'/>
+<xs:enumeration value='NON_INDICATED_AUTOMATIC'/>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='absolute' default='CONTROLLED'>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:enumeration value='CONTROLLED'/>
+<xs:enumeration value='TUNNEL'/>
+<xs:enumeration value='TUNNEL_WITH_REPLACEMENT_FACILITY'/>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='dwarf'>
+       <xs:annotation>
+       	<xs:documentation>This is a low speed (shunt) signal.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:enumeration value='DWARF'/>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='phantom'>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:enumeration value='PHANTOM'/>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='buffer'>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:enumeration value='BUFFER'/>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='selection'>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:enumeration value='SELECTION'/>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='single_line_control'>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:enumeration value='SINGLE_LINE_CONTROL'/>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+                   </xs:choice>
+            </xs:complexType>
+    </xs:element>
+<xs:element name='interlocking' type='SystematicsInterlockingIDType'>
+       <xs:annotation>
+       	<xs:documentation>Reference to interlocking that track belongs to. (See SystematicsInterlockingConstructType). Used by RV</xs:documentation>
+       </xs:annotation>
+</xs:element><xs:element name='region' type='SystematicsRegionIDType' minOccurs='0' maxOccurs='unbounded'>
+       <xs:annotation>
+       	<xs:documentation>Reference to control region(s) that track belongs to. (See SystematicsRegionConstructType).Used by DS and TD.</xs:documentation>
+       </xs:annotation>
+</xs:element><xs:element name='spad_time' default='6'>
+       <xs:annotation>
+       	<xs:documentation>Time period (in seconds) between signal going to not reverse, and the track is rear of the signal becoming occupied. Leave as default unless there is a specific need to change it. Used by DS and TD.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:integer'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='is_spad_enabled' type='xs:boolean' default='true'>
+       <xs:annotation>
+       	<xs:documentation>If set to False, no SPADs will be reported for the signal. Leave as default (True) unless there is a specific need to disable it.Used by SD and TD.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='trigger_distance' default='0'>
+       <xs:annotation>
+       	<xs:documentation>Distance (in metres) that a train has to be within distance of the signal before ARS will request a route for the signal. Used by ARS. Source: DFM; A system W340 Data Extraction Values.xls (route set lengh column); A system W290 Data Extraction Values.xls (route set lengh column); A system W282 Data Extraction Values.xls (route set lengh column);</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:integer'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='is_ARS_enabled' type='xs:boolean' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>If set to False, ARS will never request a route for the signal. Leave as default (True) unless there is a specific need to disable it.Used by ARS.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='intermediate' type='xs:boolean' minOccurs='0' default='false'>
+       <xs:annotation>
+       	<xs:documentation>This value is not in use at the moment, wait to see future changes.
+Used by ARS. If ARS is requesting a route up to a signal flagged as an intermediate, it must also request the next route as part of a long route.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='train_stop' type='xs:boolean' default='true'>
+       <xs:annotation>
+       	<xs:documentation>Whether or not the signal has a train stop associated with it. The value is 1 (default) for train stop equipped.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='offset' default='0'>
+       <xs:annotation>
+       	<xs:documentation>Distance from the start of the track, to this signal. in meters.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:integer'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+			<xs:element name='directed_track_location' type='directed_track_location'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='SystematicsRouteConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='SystematicsRouteIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 14 -->
+<xs:element name='data_name' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not use</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[^ ]+/[^ ]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='direction'>
+       <xs:annotation>
+       	<xs:documentation>The value can be UP or DOWN direction.Auto generated by control table.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:enumeration value='UP'/>
+<xs:enumeration value='DOWN'/>
+<xs:enumeration value='NOT'/>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='entry_signal_id' type='SystematicsSignalIDType'>
+       <xs:annotation>
+       	<xs:documentation>Auto generated by control table.</xs:documentation>
+       </xs:annotation>
+</xs:element><xs:element name='entry_signal_intermediate' type='xs:boolean' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Used by ARS. If ARS is requesting a route up to a signal flagged as an intermediate, it must also request the next route as part of a long route.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='exit_signal_id' type='SystematicsSignalIDType'>
+       <xs:annotation>
+       	<xs:documentation>Used by ARS and Route Validation.</xs:documentation>
+       </xs:annotation>
+</xs:element><xs:element name='exit_signal_intermediate' type='xs:boolean' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Used by ARS. If ARS is requesting a route up to a signal flagged as an intermediate, it must also request the next route as part of a long route.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='route_precedence' default='1'>
+       <xs:annotation>
+       	<xs:documentation>Order of route as preferred. 1st alternative, 2nd alternative, etc. Default (1) is preferred. 2 = 1st alternative, etc. Source: DFM. GNP diagrams (where thick line shows preferred lie of points). Used by ARS and RV.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:integer'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='long_route' type='xs:boolean' default='false'>
+       <xs:annotation>
+       	<xs:documentation>This route is permitted to be used as part of a long route. Used by RV.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='preceding_first' type='xs:boolean' default='false'>
+       <xs:annotation>
+       	<xs:documentation>If this route and the preceding route are both used as part of a long route, then this route must be set first. Used by RV.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='track_override' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>If this element is used, it indicates that the track names should be used as specified, verbatum and in order, instead of the transformation script doing it based on track objects overlapping this one. This should be used at area boundaries where the route extends into the other area. Used by ARS and RV.</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='track_name' maxOccurs='unbounded'>
+       <xs:annotation>
+       	<xs:documentation>Represents a single track name. The names must match the names used for systematics tracks either in this file or a neighbouring file</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[a-zA-Z]{3}/[PT][a-zA-Z0-9]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+<xs:element name='non_overlapping_conflicting_routes' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>If this element is used, it indicates that the route references which are children to this element are considered to conflict with this route. THIS IS NOT TWO-WAY. If this route conflicts with another, edit that other route and add this one to it. </xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='non_overlapping_conflicting_route' type='SystematicsRouteIDType' maxOccurs='unbounded'>
+       <xs:annotation>
+       	<xs:documentation>A reference to a route object which conflicts with this route. See parent element for more information. </xs:documentation>
+       </xs:annotation>
+</xs:element>                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+<xs:element name='locks_out_forward_routes' type='xs:boolean' minOccurs='0'/>
+<xs:element name='locked_out_by_preceeding_routes' type='xs:boolean' minOccurs='0'/>
+<xs:element name='generated_data' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not enter any data in here. During Preliminary Processing (part of the export process), all data within this property will be populated. Any data placed in here by data entry operators will be overwritten.</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='coretcms_name'>
+       <xs:annotation>
+       	<xs:documentation>The Core TCMS Name has a 3 letter interlocking code, followed by a slash, followed by a name from the schema plan. Eg FSA/R123D</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='occupied_sys_tracks'>
+       <xs:annotation>
+       	<xs:documentation>This property contains the systematics_tracks (or tracks, as WESTROL calls them) which this route occupies. Note: if the user enters names into the track_override property, these names will appear in here as coretcms_id's in the same order.</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='sys_track' minOccurs='0' maxOccurs='unbounded'>
+       <xs:annotation>
+       	<xs:documentation>An individual systematics_track/track record.</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='xgdps_id'>
+       <xs:annotation>
+       	<xs:documentation>Eg FSA1-STR2</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='coretcms_id'>
+       <xs:annotation>
+       	<xs:documentation>Eg FSA/T112, SSS/P211</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+<xs:element name='overlapping_routes'>
+       <xs:annotation>
+       	<xs:documentation>This property contains all the routes which overlap this one. In order to overlap, the route needs to be resting on the same segments as other routes; OR the route needs a list of coretcms_id's in its "track_override" section which match the actual coretcms_ids of existing systematics_tracks/tracks.</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='overlapping_route' minOccurs='0' maxOccurs='unbounded'>
+       <xs:annotation>
+       	<xs:documentation>An individual overlapping route.</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='xgdps_id'>
+       <xs:annotation>
+       	<xs:documentation>Eg FSA1-SRU2</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='coretcms_id'>
+       <xs:annotation>
+       	<xs:documentation>Eg FSA/R112, SSS/R211</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+<xs:element name='non_overlapping_conflicting_routes'>
+       <xs:annotation>
+       	<xs:documentation>This property contains the IDs of routes which have been manually specified in the route's properties as non overlapping conflicting routes to this one. THIS IS NOT TWO-WAY. If this route conflicts with another, edit that other route. These are routes which do not overlap but still conflict due to proximity to other routes.  </xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='non_overlapping_conflicting_route' minOccurs='0' maxOccurs='unbounded'>
+       <xs:annotation>
+       	<xs:documentation>An individual non-overlapping conflicting route.</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='xgdps_id'>
+       <xs:annotation>
+       	<xs:documentation>FSA1-SRU2</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='coretcms_id'>
+       <xs:annotation>
+       	<xs:documentation>Eg FSA/R112, SSS/R211</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+			<xs:element name='directed_track_section' type='directed_track_section'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='SystematicsInterlockingConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='SystematicsInterlockingIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 2 -->
+<xs:element name='data_name' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not use</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[a-zA-Z0-9() ]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='code'>
+       <xs:annotation>
+       	<xs:documentation>Interlocking abbreviation. e.g. ERM. Source: DFM, FieldStationListTDSA.txt, FieldStationListTDSB.txt, FieldStationListTDSC.txt.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+			<xs:element name='nonpositional' type='nonpositional'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='SystematicsLineConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='SystematicsLineIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 1 -->
+<xs:element name='data_name' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not use</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[a-zA-Z0-9() ]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+			<xs:element name='nonpositional' type='nonpositional'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='SystematicsRegionConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='SystematicsRegionIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 1 -->
+<xs:element name='data_name' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not use</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[a-zA-Z0-9() ]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+			<xs:element name='nonpositional' type='nonpositional'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='SystematicsStationConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='SystematicsStationIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 4 -->
+<xs:element name='data_name' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not use</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[a-zA-Z0-9() ]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='code'>
+       <xs:annotation>
+       	<xs:documentation>3 letters station code. Source: DFM, Concord Timetable.mdb / Station.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='dark_territory' minOccurs='0'>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:enumeration value='inner'/>
+<xs:enumeration value='outer'/>
+<xs:enumeration value='inner_and_outer'/>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='generated_data' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not enter data here. This is used by scripts to generate derived data. Any data placed in here by the operator will be removed. </xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='station_id'>
+       <xs:annotation>
+       	<xs:documentation>This is the station ID in a format which is acceptable to the stations ICD. Examples of the correct format are: BrightonBeach, FlindersStreetStation, Epping.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:minLength value='1'/><xs:pattern value='([a-z]|[A-Z])+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='platforms' minOccurs='0' maxOccurs='unbounded'>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='platform_id'>
+       <xs:annotation>
+       	<xs:documentation>This is a list of platform IDs of platforms which belong to the station. Platforms belong to a station if they occupy track circuits which refer to the station. The IDs are formatted in a way which is acceptable to the stations ICD. Examples of properly formatted IDs are: N33FFS, N1SSS</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='N[0-9]{1,2}[A-Z]{3}'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='track_ids' minOccurs='0' maxOccurs='unbounded'>
+       <xs:annotation>
+       	<xs:documentation>This is the systematics_track IDs in a format which is acceptable to the stations ICD. Examples of the correct format are: FFS/T001 SSS/P321X.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[a-zA-Z]{3}/[PT][a-zA-Z0-9]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+<xs:element name='station_roads' minOccurs='0' maxOccurs='unbounded'>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='station_road_id'>
+       <xs:annotation>
+       	<xs:documentation>This is a list of station IDs of station roads which belong to the station. Station roads belong to a station if they occupy track circuits which refer to the station. The IDs are formatted in a way which is acceptable to the stations ICD. Examples of properly formatted IDs are: X33FFS, X1SSS</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='X[0-9]{1,2}[A-Z]{3}'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='track_ids' minOccurs='0' maxOccurs='unbounded'>
+       <xs:annotation>
+       	<xs:documentation>This is the systematics_track IDs in a format which is acceptable to the stations ICD. Examples of the correct format are: FFS/T001 SSS/P321X.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[a-zA-Z]{3}/[PT][a-zA-Z0-9]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+			<xs:element name='nonpositional' type='nonpositional'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='SystematicsPlatformConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='SystematicsPlatformIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 3 -->
+<xs:element name='data_name' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not use</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[a-zA-Z0-9() ]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='platform_number' default='1'>
+       <xs:annotation>
+       	<xs:documentation>Platform number is from 1 to 99. Source: DFM, Signalling Diagrams</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:integer'>
+<xs:minInclusive value='1'/><xs:maxInclusive value='99'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='other_segments' type='TrackIDType' minOccurs='0' maxOccurs='unbounded'>
+       <xs:annotation>
+       	<xs:documentation>If used, this property indicates that this platform object actually occupies segments in another file in addition to the ones that it occupies in this file. The ID/Name of the other segments are entered here. During export, these segments are combined with segments occupied by this object and the track circuits which correspond also occupy those segments are considered to belong to the platform. </xs:documentation>
+       </xs:annotation>
+</xs:element>			<xs:element name='whole_track_section' type='whole_track_section'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='SystematicsStationRoadConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='SystematicsStationRoadIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 3 -->
+<xs:element name='data_name' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not use</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[a-zA-Z0-9() ]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='station_road_number' default='1'>
+       <xs:annotation>
+       	<xs:documentation>Station road number is from 1 to 99. Source: DFM, Signalling Diagrams</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:integer'>
+<xs:minInclusive value='1'/><xs:maxInclusive value='99'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='other_segments' type='TrackIDType' minOccurs='0' maxOccurs='unbounded'>
+       <xs:annotation>
+       	<xs:documentation>If used, this property indicates that this station road object actually occupies segments in another file in addition to the ones that it occupies in this file. The ID/Name of the other segments are entered here. During export, these segments are combined with segments occupied by this object and the track circuits which correspond also occupy those segments are considered to belong to the platform. </xs:documentation>
+       </xs:annotation>
+</xs:element>			<xs:element name='whole_track_section' type='whole_track_section'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='SystematicsBerthConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='SystematicsBerthIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 8 -->
+<xs:element name='data_name' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not use</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[^ ]+/[^ ]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='display' minOccurs='0' default='BOTH'>
+       <xs:annotation>
+       	<xs:documentation>Berth displays Up direction TDNs, Down direction TDNs or both direction.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:enumeration value='UP'/>
+<xs:enumeration value='DOWN'/>
+<xs:enumeration value='BOTH'/>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='max_stored_TDNs' minOccurs='0' default='1'>
+       <xs:annotation>
+       	<xs:documentation>(Do NOT fill this property in this version.) Maximum number of TDNs that can be stored in the berth.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:integer'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='is_next_timetable' type='xs:boolean' minOccurs='0' default='false'>
+       <xs:annotation>
+       	<xs:documentation>If true, Berth displays the TDN(s) for upcoming trains based on timetable trips.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='is_approach' type='xs:boolean' minOccurs='0' default='false'>
+       <xs:annotation>
+       	<xs:documentation>If true, Berth is used to store TDN(s) for trains approaching from dark territory. Leave as default (false) for Core TCMS.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='is_last_sent' type='xs:boolean' minOccurs='0' default='false'>
+       <xs:annotation>
+       	<xs:documentation>If true, Berth displays the TDN of the last train that passed through. Leave as default(false) for Core TCMS.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='is_boundary' type='xs:boolean' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>If true, Berth is on a track at the boundary to dark territory. Used by TD.</xs:documentation>
+       </xs:annotation>
+</xs:element>
+<xs:element name='fringe_location' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>fringe box location id.</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+			<xs:element name='track_location' type='track_location'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='SystematicsFringeBoxConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='SystematicsFringeBoxIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 2 -->
+<xs:element name='data_name' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not use</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[^ ]+/[^ ]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+<xs:element name='berth' maxOccurs='unbounded'>
+       <xs:annotation>
+       	<xs:documentation>berth associated with the fringe box.</xs:documentation>
+       </xs:annotation>
+            <xs:complexType>
+                   <xs:sequence>
+<xs:element name='berth_id' type='SystematicsBerthIDType'/>
+                   </xs:sequence>
+            </xs:complexType>
+    </xs:element>
+			<xs:element name='nonpositional' type='nonpositional'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='SystematicsGroundFramesConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='SystematicsGroundFramesIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 1 -->
+<xs:element name='data_name' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not use</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[^ ]+/[^ ]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+			<xs:element name='directed_track_location' type='directed_track_location'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name='SystematicsLevelCrossingConstructType'>
+		<xs:sequence>
+			<xs:element name='id' type='SystematicsLevelCrossingIDType'/>
+			<xs:element name='name' type='xs:string' minOccurs='0'/>
+                       <!-- Number of child properties = 1 -->
+<xs:element name='data_name' minOccurs='0'>
+       <xs:annotation>
+       	<xs:documentation>Do not use</xs:documentation>
+       </xs:annotation>
+            <xs:simpleType>
+                   <xs:restriction base='xs:string'>
+<xs:pattern value='[^ ]+/[^ ]+'/>                    </xs:restriction>
+            </xs:simpleType>
+    </xs:element>
+			<xs:element name='non_contiguous_whole_track_section' type='non_contiguous_whole_track_section'/>
+		</xs:sequence>
+	</xs:complexType>
+        <xs:simpleType name='TrackIDType' final='restriction'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-SEG[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='NodeIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-(TMN|JCN|SPN|DMN|SDN)[0-9]{1,}'/>
+                        <xs:pattern value='[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-TBN[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='TrackBoundaryNodeIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-TBN[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SimpleNodeIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-SPN[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='JunctionNodeIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-JCN[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='TerminalNodeIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-TMN[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='DiamondNodeIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-DMN[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SwitchedDiamondNodeIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-SDN[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+	<xs:simpleType name='NoteIDType'>
+		<xs:restriction base='xs:string'>
+			<xs:pattern value='[A-Za-z0-9]{4}-NOT[0-9]{1,}'/>
+		</xs:restriction>
+	</xs:simpleType>
+        <xs:simpleType name='DistanceType'>
+                <xs:restriction base='xs:decimal'>
+                        <xs:minInclusive value='0.0'/>
+                        <xs:maxInclusive value='10000.0'/>
+                        <xs:fractionDigits value='1'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='HeightType'>
+                <xs:restriction base='xs:decimal'>
+                        <xs:minInclusive value='-10'/>
+                        <xs:maxInclusive value='10'/>
+                        <xs:fractionDigits value='1'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <!-- INSERT CUSTOM SIMPLE TYPE DEFINITIONS LEVELS HERE!!! -->
+        <xs:simpleType name='TrackSectionIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-TKS[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='DirectedTrackSectionIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-DTS[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='DatumIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-DAT[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='PathIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-PAH[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SystematicsTrackIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-STR[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SystematicsSignalIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-SSI[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SystematicsRouteIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-SRU[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SystematicsInterlockingIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-SIT[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SystematicsLineIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-SLI[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SystematicsRegionIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-SRG[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SystematicsStationIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-STN[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SystematicsPlatformIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-SPF[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SystematicsStationRoadIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-SSR[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SystematicsBerthIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-SBR[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SystematicsFringeBoxIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-SFB[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SystematicsGroundFramesIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-SGF[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name='SystematicsLevelCrossingIDType'>
+                <xs:restriction base='xs:string'>
+                        <xs:pattern value='[A-Za-z0-9]{4}-SLC[0-9]{1,}'/>
+                </xs:restriction>
+        </xs:simpleType>
+</xs:schema>

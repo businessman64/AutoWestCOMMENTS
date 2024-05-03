@@ -1,0 +1,1874 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Railway xsi:noNamespaceSchemaLocation="C:/ccm_wa/DataConfiguration.../World/XGDPS/Schemas/correction_factors.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Header version="5.3" date="15/03/2023" source="NWPA PKM Stage 3"/>
+	<CorrectionFactors>
+		<CorrectionFactor id="MetroArrBEW001Up">
+			<consist_class id="EMU3" offset="12" express_factor="0.6859"/>
+			<consist_class id="EMU6" offset="8" express_factor="0.8644"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrBEW001Up">
+			<consist_class id="DMU3" offset="22" express_factor="0.7007"/>
+			<consist_class id="DMU6" offset="25" express_factor="0.894"/>
+			<consist_class id="Loco3" offset="25" express_factor="0.6776"/>
+			<consist_class id="Loco6" offset="28" express_factor="0.8478"/>
+			<consist_class id="VLY3" offset="19" express_factor="0.6959"/>
+			<consist_class id="VLY6" offset="22" express_factor="0.8843"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepBEW001Up">
+			<consist_class id="EMU3" offset="-15" express_factor="0.6859"/>
+			<consist_class id="EMU6" offset="-10" express_factor="0.8644"/>
+			<consist_class id="DMU3" offset="-25" express_factor="0.7007"/>
+			<consist_class id="DMU6" offset="-16" express_factor="0.894"/>
+			<consist_class id="Loco3" offset="-27" express_factor="0.6776"/>
+			<consist_class id="Loco6" offset="-19" express_factor="0.8478"/>
+			<consist_class id="VLY3" offset="-16" express_factor="0.6959"/>
+			<consist_class id="VLY6" offset="-11" express_factor="0.8843"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrBEW001Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrBEW001Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepBEW001Down">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrBEW002Down">
+			<consist_class id="EMU3" offset="10" express_factor="0.6357"/>
+			<consist_class id="EMU6" offset="4" express_factor="0.8275"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrBEW002Down">
+			<consist_class id="DMU3" offset="20" express_factor="0.6516"/>
+			<consist_class id="DMU6" offset="24" express_factor="0.8594"/>
+			<consist_class id="Loco3" offset="23" express_factor="0.6267"/>
+			<consist_class id="Loco6" offset="26" express_factor="0.8096"/>
+			<consist_class id="VLY3" offset="18" express_factor="0.6464"/>
+			<consist_class id="VLY6" offset="20" express_factor="0.8489"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepBEW002Down">
+			<consist_class id="EMU3" offset="-15" express_factor="0.6357"/>
+			<consist_class id="EMU6" offset="-11" express_factor="0.8275"/>
+			<consist_class id="DMU3" offset="-26" express_factor="0.6516"/>
+			<consist_class id="DMU6" offset="-17" express_factor="0.8594"/>
+			<consist_class id="Loco3" offset="-28" express_factor="0.6267"/>
+			<consist_class id="Loco6" offset="-21" express_factor="0.8096"/>
+			<consist_class id="VLY3" offset="-17" express_factor="0.6464"/>
+			<consist_class id="VLY6" offset="-12" express_factor="0.8489"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrBFD001Up">
+			<consist_class id="EMU3" offset="16" express_factor="0.7652"/>
+			<consist_class id="EMU6" offset="13" express_factor="0.9153"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrBFD001Up">
+			<consist_class id="DMU3" offset="26" express_factor="0.7776"/>
+			<consist_class id="DMU6" offset="28" express_factor="0.9402"/>
+			<consist_class id="Loco3" offset="29" express_factor="0.7582"/>
+			<consist_class id="Loco6" offset="32" express_factor="0.9013"/>
+			<consist_class id="VLY3" offset="22" express_factor="0.7735"/>
+			<consist_class id="VLY6" offset="25" express_factor="0.932"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepBFD001Up">
+			<consist_class id="EMU3" offset="-14" express_factor="0.7652"/>
+			<consist_class id="EMU6" offset="-9" express_factor="0.9153"/>
+			<consist_class id="DMU3" offset="-23" express_factor="0.7776"/>
+			<consist_class id="DMU6" offset="-13" express_factor="0.9402"/>
+			<consist_class id="Loco3" offset="-26" express_factor="0.7582"/>
+			<consist_class id="Loco6" offset="-17" express_factor="0.9013"/>
+			<consist_class id="VLY3" offset="-15" express_factor="0.7735"/>
+			<consist_class id="VLY6" offset="-9" express_factor="0.932"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrBFD002Down">
+			<consist_class id="EMU3" offset="11" express_factor="0.5097"/>
+			<consist_class id="EMU6" offset="5" express_factor="0.6561"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrBFD002Down">
+			<consist_class id="DMU3" offset="21" express_factor="0.5218"/>
+			<consist_class id="DMU6" offset="24" express_factor="0.6804"/>
+			<consist_class id="Loco3" offset="23" express_factor="0.5029"/>
+			<consist_class id="Loco6" offset="27" express_factor="0.6424"/>
+			<consist_class id="VLY3" offset="18" express_factor="0.5179"/>
+			<consist_class id="VLY6" offset="21" express_factor="0.6724"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepBFD002Down">
+			<consist_class id="EMU3" offset="-19" express_factor="0.5097"/>
+			<consist_class id="EMU6" offset="-17" express_factor="0.6561"/>
+			<consist_class id="DMU3" offset="-34" express_factor="0.5218"/>
+			<consist_class id="DMU6" offset="-28" express_factor="0.6804"/>
+			<consist_class id="Loco3" offset="-37" express_factor="0.5029"/>
+			<consist_class id="Loco6" offset="-32" express_factor="0.6424"/>
+			<consist_class id="VLY3" offset="-22" express_factor="0.5179"/>
+			<consist_class id="VLY6" offset="-18" express_factor="0.6724"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrBYP001Up">
+			<consist_class id="EMU3" offset="0" express_factor="0.6143"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.8061"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrBYP001Up">
+			<consist_class id="DMU3" offset="20" express_factor="0.6302"/>
+			<consist_class id="DMU6" offset="23" express_factor="0.838"/>
+			<consist_class id="Loco3" offset="22" express_factor="0.6053"/>
+			<consist_class id="Loco6" offset="26" express_factor="0.7882"/>
+			<consist_class id="VLY3" offset="17" express_factor="0.625"/>
+			<consist_class id="VLY6" offset="20" express_factor="0.8275"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepBYP001Up">
+			<consist_class id="EMU3" offset="-15" express_factor="0.6143"/>
+			<consist_class id="EMU6" offset="-12" express_factor="0.8061"/>
+			<consist_class id="DMU3" offset="-27" express_factor="0.6302"/>
+			<consist_class id="DMU6" offset="-18" express_factor="0.838"/>
+			<consist_class id="Loco3" offset="-29" express_factor="0.6053"/>
+			<consist_class id="Loco6" offset="-22" express_factor="0.7882"/>
+			<consist_class id="VLY3" offset="-17" express_factor="0.625"/>
+			<consist_class id="VLY6" offset="-12" express_factor="0.8275"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrBYP001Down">
+			<consist_class id="EMU3" offset="0" express_factor="0.7694"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.9612"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrBYP001Down">
+			<consist_class id="DMU3" offset="23" express_factor="0.7853"/>
+			<consist_class id="DMU6" offset="26" express_factor="0.993"/>
+			<consist_class id="Loco3" offset="25" express_factor="0.7604"/>
+			<consist_class id="Loco6" offset="28" express_factor="0.9433"/>
+			<consist_class id="VLY3" offset="19" express_factor="0.7801"/>
+			<consist_class id="VLY6" offset="22" express_factor="0.9826"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepBYP001Down">
+			<consist_class id="EMU3" offset="-12" express_factor="0.7694"/>
+			<consist_class id="EMU6" offset="-6" express_factor="0.9612"/>
+			<consist_class id="DMU3" offset="-21" express_factor="0.7853"/>
+			<consist_class id="DMU6" offset="-5" express_factor="0.993"/>
+			<consist_class id="Loco3" offset="-23" express_factor="0.7604"/>
+			<consist_class id="Loco6" offset="-12" express_factor="0.9433"/>
+			<consist_class id="VLY3" offset="-14" express_factor="0.7801"/>
+			<consist_class id="VLY6" offset="-5" express_factor="0.9826"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepCBE001Up">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrCBE001Down">
+			<consist_class id="EMU3" offset="6" express_factor="0"/>
+			<consist_class id="EMU6" offset="6" express_factor="0"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrCBE001Down">
+			<consist_class id="DMU3" offset="2" express_factor="0"/>
+			<consist_class id="DMU6" offset="2" express_factor="0"/>
+			<consist_class id="Loco3" offset="2" express_factor="0"/>
+			<consist_class id="Loco6" offset="2" express_factor="0"/>
+			<consist_class id="VLY3" offset="2" express_factor="0"/>
+			<consist_class id="VLY6" offset="2" express_factor="0"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrCBE002Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrCBE002Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepCBE002Up">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrCBE002Down">
+			<consist_class id="EMU3" offset="9" express_factor="0"/>
+			<consist_class id="EMU6" offset="9" express_factor="0"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrCBE002Down">
+			<consist_class id="DMU3" offset="2" express_factor="0"/>
+			<consist_class id="DMU6" offset="2" express_factor="0"/>
+			<consist_class id="Loco3" offset="2" express_factor="0"/>
+			<consist_class id="Loco6" offset="2" express_factor="0"/>
+			<consist_class id="VLY3" offset="2" express_factor="0"/>
+			<consist_class id="VLY6" offset="2" express_factor="0"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepCBE002Down">
+			<consist_class id="EMU3" offset="-17" express_factor="0"/>
+			<consist_class id="EMU6" offset="-5" express_factor="0"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrCDA001Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrCDA001Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepCDA001Up">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrCDA002Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrCDA002Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepCDA002Down">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrDNG001Up">
+			<consist_class id="EMU3" offset="14" express_factor="0.7119"/>
+			<consist_class id="EMU6" offset="13" express_factor="0.9602"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrDNG001Up">
+			<consist_class id="DMU3" offset="24" express_factor="0.7119"/>
+			<consist_class id="DMU6" offset="28" express_factor="0.9602"/>
+			<consist_class id="Loco3" offset="27" express_factor="0.7119"/>
+			<consist_class id="Loco6" offset="32" express_factor="0.9602"/>
+			<consist_class id="VLY3" offset="21" express_factor="0.7119"/>
+			<consist_class id="VLY6" offset="24" express_factor="0.9602"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepDNG001Up">
+			<consist_class id="EMU3" offset="-15" express_factor="0.7119"/>
+			<consist_class id="EMU6" offset="-7" express_factor="0.9602"/>
+			<consist_class id="DMU3" offset="-26" express_factor="0.7119"/>
+			<consist_class id="DMU6" offset="-11" express_factor="0.9602"/>
+			<consist_class id="Loco3" offset="-28" express_factor="0.7119"/>
+			<consist_class id="Loco6" offset="-11" express_factor="0.9602"/>
+			<consist_class id="VLY3" offset="-17" express_factor="0.7119"/>
+			<consist_class id="VLY6" offset="-7" express_factor="0.9602"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrDNG001Down">
+			<consist_class id="EMU3" offset="12" express_factor="0.6009"/>
+			<consist_class id="EMU6" offset="4" express_factor="0.6867"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrDNG001Down">
+			<consist_class id="DMU3" offset="22" express_factor="0.6009"/>
+			<consist_class id="DMU6" offset="23" express_factor="0.6867"/>
+			<consist_class id="Loco3" offset="25" express_factor="0.6009"/>
+			<consist_class id="Loco6" offset="27" express_factor="0.6867"/>
+			<consist_class id="VLY3" offset="19" express_factor="0.6009"/>
+			<consist_class id="VLY6" offset="20" express_factor="0.6867"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepDNG001Down">
+			<consist_class id="EMU3" offset="-17" express_factor="0.6009"/>
+			<consist_class id="EMU6" offset="-15" express_factor="0.6867"/>
+			<consist_class id="DMU3" offset="-30" express_factor="0.6009"/>
+			<consist_class id="DMU6" offset="-27" express_factor="0.6867"/>
+			<consist_class id="Loco3" offset="-32" express_factor="0.6009"/>
+			<consist_class id="Loco6" offset="-29" express_factor="0.6867"/>
+			<consist_class id="VLY3" offset="-19" express_factor="0.6009"/>
+			<consist_class id="VLY6" offset="-17" express_factor="0.6867"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrDNG002Up">
+			<consist_class id="EMU3" offset="13" express_factor="0.6066"/>
+			<consist_class id="EMU6" offset="6" express_factor="0.6811"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrDNG002Up">
+			<consist_class id="DMU3" offset="23" express_factor="0.6066"/>
+			<consist_class id="DMU6" offset="24" express_factor="0.6811"/>
+			<consist_class id="Loco3" offset="26" express_factor="0.6066"/>
+			<consist_class id="Loco6" offset="28" express_factor="0.6811"/>
+			<consist_class id="VLY3" offset="20" express_factor="0.6066"/>
+			<consist_class id="VLY6" offset="21" express_factor="0.6811"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepDNG002Up">
+			<consist_class id="EMU3" offset="-17" express_factor="0.6066"/>
+			<consist_class id="EMU6" offset="-16" express_factor="0.6811"/>
+			<consist_class id="DMU3" offset="-31" express_factor="0.6066"/>
+			<consist_class id="DMU6" offset="-28" express_factor="0.6811"/>
+			<consist_class id="Loco3" offset="-33" express_factor="0.6066"/>
+			<consist_class id="Loco6" offset="-30" express_factor="0.6811"/>
+			<consist_class id="VLY3" offset="-20" express_factor="0.6066"/>
+			<consist_class id="VLY6" offset="-18" express_factor="0.6811"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrDNG002Down">
+			<consist_class id="EMU3" offset="15" express_factor="0.6832"/>
+			<consist_class id="EMU6" offset="13" express_factor="0.8889"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrDNG002Down">
+			<consist_class id="DMU3" offset="24" express_factor="0.6832"/>
+			<consist_class id="DMU6" offset="28" express_factor="0.8889"/>
+			<consist_class id="Loco3" offset="28" express_factor="0.6832"/>
+			<consist_class id="Loco6" offset="32" express_factor="0.8889"/>
+			<consist_class id="VLY3" offset="21" express_factor="0.6832"/>
+			<consist_class id="VLY6" offset="24" express_factor="0.8889"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepDNG002Down">
+			<consist_class id="EMU3" offset="-16" express_factor="0.6832"/>
+			<consist_class id="EMU6" offset="-10" express_factor="0.8889"/>
+			<consist_class id="DMU3" offset="-28" express_factor="0.6832"/>
+			<consist_class id="DMU6" offset="-17" express_factor="0.8889"/>
+			<consist_class id="Loco3" offset="-30" express_factor="0.6832"/>
+			<consist_class id="Loco6" offset="-18" express_factor="0.8889"/>
+			<consist_class id="VLY3" offset="-18" express_factor="0.6832"/>
+			<consist_class id="VLY6" offset="-11" express_factor="0.8889"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrDNG003Up">
+			<consist_class id="EMU3" offset="13" express_factor="0.8114"/>
+			<consist_class id="EMU6" offset="5" express_factor="0.8686"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrDNG003Up">
+			<consist_class id="DMU3" offset="23" express_factor="0.8114"/>
+			<consist_class id="DMU6" offset="24" express_factor="0.8686"/>
+			<consist_class id="Loco3" offset="26" express_factor="0.8114"/>
+			<consist_class id="Loco6" offset="27" express_factor="0.8686"/>
+			<consist_class id="VLY3" offset="20" express_factor="0.8114"/>
+			<consist_class id="VLY6" offset="21" express_factor="0.8686"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepDNG003Up">
+			<consist_class id="EMU3" offset="-11" express_factor="0.8114"/>
+			<consist_class id="EMU6" offset="-10" express_factor="0.8686"/>
+			<consist_class id="DMU3" offset="-19" express_factor="0.8114"/>
+			<consist_class id="DMU6" offset="-17" express_factor="0.8686"/>
+			<consist_class id="Loco3" offset="-21" express_factor="0.8114"/>
+			<consist_class id="Loco6" offset="-18" express_factor="0.8686"/>
+			<consist_class id="VLY3" offset="-13" express_factor="0.8114"/>
+			<consist_class id="VLY6" offset="-11" express_factor="0.8686"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrDNG003Down">
+			<consist_class id="EMU3" offset="8" express_factor="0.5724"/>
+			<consist_class id="EMU6" offset="6" express_factor="0.8957"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrDNG003Down">
+			<consist_class id="DMU3" offset="19" express_factor="0.5724"/>
+			<consist_class id="DMU6" offset="24" express_factor="0.8957"/>
+			<consist_class id="Loco3" offset="22" express_factor="0.5724"/>
+			<consist_class id="Loco6" offset="28" express_factor="0.8957"/>
+			<consist_class id="VLY3" offset="16" express_factor="0.5724"/>
+			<consist_class id="VLY6" offset="21" express_factor="0.8957"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepDNG003Down">
+			<consist_class id="EMU3" offset="-16" express_factor="0.5724"/>
+			<consist_class id="EMU6" offset="-9" express_factor="0.8957"/>
+			<consist_class id="DMU3" offset="-28" express_factor="0.5724"/>
+			<consist_class id="DMU6" offset="-15" express_factor="0.8957"/>
+			<consist_class id="Loco3" offset="-30" express_factor="0.5724"/>
+			<consist_class id="Loco6" offset="-16" express_factor="0.8957"/>
+			<consist_class id="VLY3" offset="-18" express_factor="0.5724"/>
+			<consist_class id="VLY6" offset="-10" express_factor="0.8957"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrDNGS01Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrDNGS01Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrDNGS02Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrDNGS02Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepDNGS0MUp">
+			<consist_class id="EMU3" offset="-13" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-7" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-21" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-8" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-24" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-14" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-14" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-7" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrDNGS0MDown">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrDNGS0MDown">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrGFD001Up">
+			<consist_class id="EMU3" offset="0" express_factor="0.299"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.3696"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrGFD001Up">
+			<consist_class id="DMU3" offset="23" express_factor="0.3048"/>
+			<consist_class id="DMU6" offset="26" express_factor="0.3813"/>
+			<consist_class id="Loco3" offset="26" express_factor="0.2957"/>
+			<consist_class id="Loco6" offset="29" express_factor="0.363"/>
+			<consist_class id="VLY3" offset="20" express_factor="0.3029"/>
+			<consist_class id="VLY6" offset="23" express_factor="0.3775"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepGFD001Up">
+			<consist_class id="EMU3" offset="-32" express_factor="0.299"/>
+			<consist_class id="EMU6" offset="-30" express_factor="0.3696"/>
+			<consist_class id="DMU3" offset="-57" express_factor="0.3048"/>
+			<consist_class id="DMU6" offset="-54" express_factor="0.3813"/>
+			<consist_class id="Loco3" offset="-62" express_factor="0.2957"/>
+			<consist_class id="Loco6" offset="-59" express_factor="0.363"/>
+			<consist_class id="VLY3" offset="-36" express_factor="0.3029"/>
+			<consist_class id="VLY6" offset="-34" express_factor="0.3775"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrGFD001Down">
+			<consist_class id="EMU3" offset="0" express_factor="0.8423"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.9129"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrGFD001Down">
+			<consist_class id="DMU3" offset="40" express_factor="0.8481"/>
+			<consist_class id="DMU6" offset="42" express_factor="0.9246"/>
+			<consist_class id="Loco3" offset="45" express_factor="0.839"/>
+			<consist_class id="Loco6" offset="47" express_factor="0.9063"/>
+			<consist_class id="VLY3" offset="35" express_factor="0.8462"/>
+			<consist_class id="VLY6" offset="36" express_factor="0.9208"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepGFD001Down">
+			<consist_class id="EMU3" offset="-16" express_factor="0.8423"/>
+			<consist_class id="EMU6" offset="-13" express_factor="0.9129"/>
+			<consist_class id="DMU3" offset="-28" express_factor="0.8481"/>
+			<consist_class id="DMU6" offset="-20" express_factor="0.9246"/>
+			<consist_class id="Loco3" offset="-31" express_factor="0.839"/>
+			<consist_class id="Loco6" offset="-24" express_factor="0.9063"/>
+			<consist_class id="VLY3" offset="-18" express_factor="0.8462"/>
+			<consist_class id="VLY6" offset="-14" express_factor="0.9208"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrGFD002Up">
+			<consist_class id="EMU3" offset="0" express_factor="0.195"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.241"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrGFD002Up">
+			<consist_class id="DMU3" offset="23" express_factor="0.1988"/>
+			<consist_class id="DMU6" offset="26" express_factor="0.2487"/>
+			<consist_class id="Loco3" offset="26" express_factor="0.1928"/>
+			<consist_class id="Loco6" offset="29" express_factor="0.2367"/>
+			<consist_class id="VLY3" offset="20" express_factor="0.1975"/>
+			<consist_class id="VLY6" offset="23" express_factor="0.2461"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepGFD002Up">
+			<consist_class id="EMU3" offset="-42" express_factor="0.195"/>
+			<consist_class id="EMU6" offset="-40" express_factor="0.241"/>
+			<consist_class id="DMU3" offset="-76" express_factor="0.1988"/>
+			<consist_class id="DMU6" offset="-73" express_factor="0.2487"/>
+			<consist_class id="Loco3" offset="-81" express_factor="0.1928"/>
+			<consist_class id="Loco6" offset="-79" express_factor="0.2367"/>
+			<consist_class id="VLY3" offset="-48" express_factor="0.1975"/>
+			<consist_class id="VLY6" offset="-46" express_factor="0.2461"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrGFD002Down">
+			<consist_class id="EMU3" offset="0" express_factor="0.8971"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.9432"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrGFD002Down">
+			<consist_class id="DMU3" offset="52" express_factor="0.901"/>
+			<consist_class id="DMU6" offset="53" express_factor="0.9508"/>
+			<consist_class id="Loco3" offset="59" express_factor="0.895"/>
+			<consist_class id="Loco6" offset="60" express_factor="0.9389"/>
+			<consist_class id="VLY3" offset="45" express_factor="0.8997"/>
+			<consist_class id="VLY6" offset="46" express_factor="0.9483"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepGFD002Down">
+			<consist_class id="EMU3" offset="-16" express_factor="0.8971"/>
+			<consist_class id="EMU6" offset="-13" express_factor="0.9432"/>
+			<consist_class id="DMU3" offset="-28" express_factor="0.901"/>
+			<consist_class id="DMU6" offset="-20" express_factor="0.9508"/>
+			<consist_class id="Loco3" offset="-31" express_factor="0.895"/>
+			<consist_class id="Loco6" offset="-24" express_factor="0.9389"/>
+			<consist_class id="VLY3" offset="-18" express_factor="0.8997"/>
+			<consist_class id="VLY6" offset="-14" express_factor="0.9483"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrGRSS0TUp">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrGRSS0TUp">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepGRSS0TUp">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrGRSS0TDown">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrGRSS0TDown">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepGRSS0TDown">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrHLM001Up">
+			<consist_class id="EMU3" offset="13" express_factor="0.6836"/>
+			<consist_class id="EMU6" offset="8" express_factor="0.8553"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrHLM001Up">
+			<consist_class id="DMU3" offset="22" express_factor="0.6978"/>
+			<consist_class id="DMU6" offset="26" express_factor="0.8837"/>
+			<consist_class id="Loco3" offset="25" express_factor="0.6756"/>
+			<consist_class id="Loco6" offset="28" express_factor="0.8392"/>
+			<consist_class id="VLY3" offset="19" express_factor="0.6932"/>
+			<consist_class id="VLY6" offset="22" express_factor="0.8744"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepHLM001Up">
+			<consist_class id="DMU3" offset="-25" express_factor="0.6978"/>
+			<consist_class id="DMU6" offset="-17" express_factor="0.8837"/>
+			<consist_class id="EMU3" offset="-15" express_factor="0.6836"/>
+			<consist_class id="EMU6" offset="-11" express_factor="0.8553"/>
+			<consist_class id="Loco3" offset="-28" express_factor="0.6756"/>
+			<consist_class id="Loco6" offset="-20" express_factor="0.8392"/>
+			<consist_class id="VLY3" offset="-17" express_factor="0.6932"/>
+			<consist_class id="VLY6" offset="-11" express_factor="0.8744"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrHLM002Down">
+			<consist_class id="EMU3" offset="12" express_factor="0.6597"/>
+			<consist_class id="EMU6" offset="8" express_factor="0.8313"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrHLM002Down">
+			<consist_class id="DMU3" offset="22" express_factor="0.6739"/>
+			<consist_class id="DMU6" offset="25" express_factor="0.8598"/>
+			<consist_class id="Loco3" offset="25" express_factor="0.6517"/>
+			<consist_class id="Loco6" offset="28" express_factor="0.8153"/>
+			<consist_class id="VLY3" offset="19" express_factor="0.6693"/>
+			<consist_class id="VLY6" offset="22" express_factor="0.8505"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepHLM002Down">
+			<consist_class id="DMU3" offset="-26" express_factor="0.6739"/>
+			<consist_class id="DMU6" offset="-18" express_factor="0.8598"/>
+			<consist_class id="EMU3" offset="-15" express_factor="0.6597"/>
+			<consist_class id="EMU6" offset="-11" express_factor="0.8313"/>
+			<consist_class id="Loco3" offset="-29" express_factor="0.6517"/>
+			<consist_class id="Loco6" offset="-22" express_factor="0.8153"/>
+			<consist_class id="VLY3" offset="-17" express_factor="0.6693"/>
+			<consist_class id="VLY6" offset="-12" express_factor="0.8505"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrLBK001Up">
+			<consist_class id="EMU3" offset="12" express_factor="0.6794"/>
+			<consist_class id="EMU6" offset="7" express_factor="0.8588"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrLBK001Up">
+			<consist_class id="DMU3" offset="22" express_factor="0.6942"/>
+			<consist_class id="DMU6" offset="25" express_factor="0.8885"/>
+			<consist_class id="Loco3" offset="25" express_factor="0.671"/>
+			<consist_class id="Loco6" offset="28" express_factor="0.842"/>
+			<consist_class id="VLY3" offset="19" express_factor="0.6894"/>
+			<consist_class id="VLY6" offset="22" express_factor="0.8788"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepLBK001Up">
+			<consist_class id="DMU3" offset="-25" express_factor="0.6942"/>
+			<consist_class id="DMU6" offset="-16" express_factor="0.8885"/>
+			<consist_class id="EMU3" offset="-15" express_factor="0.6794"/>
+			<consist_class id="EMU6" offset="-10" express_factor="0.8588"/>
+			<consist_class id="Loco3" offset="-28" express_factor="0.671"/>
+			<consist_class id="Loco6" offset="-20" express_factor="0.842"/>
+			<consist_class id="VLY3" offset="-16" express_factor="0.6894"/>
+			<consist_class id="VLY6" offset="-11" express_factor="0.8788"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrLBK002Down">
+			<consist_class id="EMU3" offset="12" express_factor="0.6794"/>
+			<consist_class id="EMU6" offset="7" express_factor="0.8588"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrLBK002Down">
+			<consist_class id="DMU3" offset="22" express_factor="0.6942"/>
+			<consist_class id="DMU6" offset="25" express_factor="0.8885"/>
+			<consist_class id="Loco3" offset="25" express_factor="0.671"/>
+			<consist_class id="Loco6" offset="28" express_factor="0.842"/>
+			<consist_class id="VLY3" offset="19" express_factor="0.6894"/>
+			<consist_class id="VLY6" offset="22" express_factor="0.8788"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepLBK002Down">
+			<consist_class id="DMU3" offset="-25" express_factor="0.6942"/>
+			<consist_class id="DMU6" offset="-16" express_factor="0.8885"/>
+			<consist_class id="EMU3" offset="-15" express_factor="0.6794"/>
+			<consist_class id="EMU6" offset="-10" express_factor="0.8588"/>
+			<consist_class id="Loco3" offset="-28" express_factor="0.671"/>
+			<consist_class id="Loco6" offset="-20" express_factor="0.842"/>
+			<consist_class id="VLY3" offset="-16" express_factor="0.6894"/>
+			<consist_class id="VLY6" offset="-11" express_factor="0.8788"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrLWY001Up">
+			<consist_class id="EMU3" offset="0" express_factor="0.3763"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.4958"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrLWY001Up">
+			<consist_class id="DMU3" offset="20" express_factor="0.3862"/>
+			<consist_class id="DMU6" offset="23" express_factor="0.5157"/>
+			<consist_class id="Loco3" offset="22" express_factor="0.3707"/>
+			<consist_class id="Loco6" offset="26" express_factor="0.4847"/>
+			<consist_class id="VLY3" offset="17" express_factor="0.3829"/>
+			<consist_class id="VLY6" offset="20" express_factor="0.5092"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepLWY001Up">
+			<consist_class id="EMU3" offset="-24" express_factor="0.3763"/>
+			<consist_class id="EMU6" offset="-21" express_factor="0.4958"/>
+			<consist_class id="DMU3" offset="-42" express_factor="0.3862"/>
+			<consist_class id="DMU6" offset="-38" express_factor="0.5157"/>
+			<consist_class id="Loco3" offset="-45" express_factor="0.3707"/>
+			<consist_class id="Loco6" offset="-41" express_factor="0.4847"/>
+			<consist_class id="VLY3" offset="-27" express_factor="0.3829"/>
+			<consist_class id="VLY6" offset="-24" express_factor="0.5092"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrLWY001Down">
+			<consist_class id="EMU3" offset="0" express_factor="0.8629"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.9825"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrLWY001Down">
+			<consist_class id="DMU3" offset="31" express_factor="0.8728"/>
+			<consist_class id="DMU6" offset="33" express_factor="1"/>
+			<consist_class id="Loco3" offset="35" express_factor="0.8573"/>
+			<consist_class id="Loco6" offset="37" express_factor="0.9713"/>
+			<consist_class id="VLY3" offset="27" express_factor="0.8696"/>
+			<consist_class id="VLY6" offset="29" express_factor="0.9958"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepLWY001Down">
+			<consist_class id="EMU3" offset="-12" express_factor="0.8629"/>
+			<consist_class id="EMU6" offset="-6" express_factor="0.9825"/>
+			<consist_class id="DMU3" offset="-20" express_factor="0.8728"/>
+			<consist_class id="DMU6" offset="-4" express_factor="1"/>
+			<consist_class id="Loco3" offset="-23" express_factor="0.8573"/>
+			<consist_class id="Loco6" offset="-11" express_factor="0.9713"/>
+			<consist_class id="VLY3" offset="-13" express_factor="0.8696"/>
+			<consist_class id="VLY6" offset="-4" express_factor="0.9958"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrMPK001Up">
+			<consist_class id="EMU3" offset="12" express_factor="0.5014"/>
+			<consist_class id="EMU6" offset="7" express_factor="0.6338"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrMPK001Up">
+			<consist_class id="DMU3" offset="22" express_factor="0.5124"/>
+			<consist_class id="DMU6" offset="25" express_factor="0.6557"/>
+			<consist_class id="Loco3" offset="25" express_factor="0.4952"/>
+			<consist_class id="Loco6" offset="28" express_factor="0.6214"/>
+			<consist_class id="VLY3" offset="19" express_factor="0.5088"/>
+			<consist_class id="VLY6" offset="22" express_factor="0.6485"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepMPK001Up">
+			<consist_class id="DMU3" offset="-36" express_factor="0.5124"/>
+			<consist_class id="DMU6" offset="-30" express_factor="0.6557"/>
+			<consist_class id="EMU3" offset="-20" express_factor="0.5014"/>
+			<consist_class id="EMU6" offset="-18" express_factor="0.6338"/>
+			<consist_class id="Loco3" offset="-39" express_factor="0.4952"/>
+			<consist_class id="Loco6" offset="-34" express_factor="0.6214"/>
+			<consist_class id="VLY3" offset="-23" express_factor="0.5088"/>
+			<consist_class id="VLY6" offset="-20" express_factor="0.6485"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrMPK002Down">
+			<consist_class id="EMU3" offset="18" express_factor="0.7634"/>
+			<consist_class id="EMU6" offset="15" express_factor="0.8958"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrMPK002Down">
+			<consist_class id="DMU3" offset="27" express_factor="0.7744"/>
+			<consist_class id="DMU6" offset="30" express_factor="0.9177"/>
+			<consist_class id="Loco3" offset="31" express_factor="0.7572"/>
+			<consist_class id="Loco6" offset="33" express_factor="0.8834"/>
+			<consist_class id="VLY3" offset="24" express_factor="0.7708"/>
+			<consist_class id="VLY6" offset="26" express_factor="0.9105"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepMPK002Down">
+			<consist_class id="DMU3" offset="-25" express_factor="0.7744"/>
+			<consist_class id="DMU6" offset="-16" express_factor="0.9177"/>
+			<consist_class id="EMU3" offset="-15" express_factor="0.7634"/>
+			<consist_class id="EMU6" offset="-10" express_factor="0.8958"/>
+			<consist_class id="Loco3" offset="-28" express_factor="0.7572"/>
+			<consist_class id="Loco6" offset="-20" express_factor="0.8834"/>
+			<consist_class id="VLY3" offset="-16" express_factor="0.7708"/>
+			<consist_class id="VLY6" offset="-11" express_factor="0.9105"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrNNG001Up">
+			<consist_class id="EMU3" offset="0" express_factor="0.8264"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.8892"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrNNG001Up">
+			<consist_class id="DMU3" offset="42" express_factor="0.8316"/>
+			<consist_class id="DMU6" offset="44" express_factor="0.8996"/>
+			<consist_class id="Loco3" offset="48" express_factor="0.8235"/>
+			<consist_class id="Loco6" offset="50" express_factor="0.8834"/>
+			<consist_class id="VLY3" offset="37" express_factor="0.8299"/>
+			<consist_class id="VLY6" offset="38" express_factor="0.8962"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepNNG001Up">
+			<consist_class id="EMU3" offset="-18" express_factor="0.8264"/>
+			<consist_class id="EMU6" offset="-15" express_factor="0.8892"/>
+			<consist_class id="DMU3" offset="-31" express_factor="0.8316"/>
+			<consist_class id="DMU6" offset="-24" express_factor="0.8996"/>
+			<consist_class id="Loco3" offset="-34" express_factor="0.8235"/>
+			<consist_class id="Loco6" offset="-28" express_factor="0.8834"/>
+			<consist_class id="VLY3" offset="-20" express_factor="0.8299"/>
+			<consist_class id="VLY6" offset="-16" express_factor="0.8962"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrNNG001Down">
+			<consist_class id="EMU3" offset="0" express_factor="0.2993"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.3621"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrNNG001Down">
+			<consist_class id="DMU3" offset="25" express_factor="0.3045"/>
+			<consist_class id="DMU6" offset="28" express_factor="0.3725"/>
+			<consist_class id="Loco3" offset="28" express_factor="0.2963"/>
+			<consist_class id="Loco6" offset="31" express_factor="0.3562"/>
+			<consist_class id="VLY3" offset="21" express_factor="0.3028"/>
+			<consist_class id="VLY6" offset="24" express_factor="0.3691"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepNNG001Down">
+			<consist_class id="EMU3" offset="-34" express_factor="0.2993"/>
+			<consist_class id="EMU6" offset="-32" express_factor="0.3621"/>
+			<consist_class id="DMU3" offset="-61" express_factor="0.3045"/>
+			<consist_class id="DMU6" offset="-58" express_factor="0.3725"/>
+			<consist_class id="Loco3" offset="-65" express_factor="0.2963"/>
+			<consist_class id="Loco6" offset="-63" express_factor="0.3562"/>
+			<consist_class id="VLY3" offset="-38" express_factor="0.3028"/>
+			<consist_class id="VLY6" offset="-37" express_factor="0.3691"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrNNG002Up">
+			<consist_class id="EMU3" offset="0" express_factor="0.9234"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.9936"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrNNG002Up">
+			<consist_class id="DMU3" offset="42" express_factor="0.9293"/>
+			<consist_class id="DMU6" offset="44" express_factor="1"/>
+			<consist_class id="Loco3" offset="48" express_factor="0.9202"/>
+			<consist_class id="Loco6" offset="50" express_factor="0.9871"/>
+			<consist_class id="VLY3" offset="37" express_factor="0.9273"/>
+			<consist_class id="VLY6" offset="38" express_factor="1"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepNNG002Up">
+			<consist_class id="EMU3" offset="-12" express_factor="0.9234"/>
+			<consist_class id="EMU6" offset="-5" express_factor="0.9936"/>
+			<consist_class id="DMU3" offset="-20" express_factor="0.9293"/>
+			<consist_class id="DMU6" offset="-7" express_factor="1"/>
+			<consist_class id="Loco3" offset="-22" express_factor="0.9202"/>
+			<consist_class id="Loco6" offset="-10" express_factor="0.9871"/>
+			<consist_class id="VLY3" offset="-13" express_factor="0.9273"/>
+			<consist_class id="VLY6" offset="-4" express_factor="1"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrNNG002Down">
+			<consist_class id="EMU3" offset="0" express_factor="0.217"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.2872"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrNNG002Down">
+			<consist_class id="DMU3" offset="20" express_factor="0.2228"/>
+			<consist_class id="DMU6" offset="23" express_factor="0.2988"/>
+			<consist_class id="Loco3" offset="22" express_factor="0.2137"/>
+			<consist_class id="Loco6" offset="25" express_factor="0.2806"/>
+			<consist_class id="VLY3" offset="17" express_factor="0.2209"/>
+			<consist_class id="VLY6" offset="20" express_factor="0.295"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepNNG002Down">
+			<consist_class id="EMU3" offset="-34" express_factor="0.217"/>
+			<consist_class id="EMU6" offset="-32" express_factor="0.2872"/>
+			<consist_class id="DMU3" offset="-61" express_factor="0.2228"/>
+			<consist_class id="DMU6" offset="-58" express_factor="0.2988"/>
+			<consist_class id="Loco3" offset="-65" express_factor="0.2137"/>
+			<consist_class id="Loco6" offset="-63" express_factor="0.2806"/>
+			<consist_class id="VLY3" offset="-38" express_factor="0.2209"/>
+			<consist_class id="VLY6" offset="-37" express_factor="0.295"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrNPK001Up">
+			<consist_class id="EMU3" offset="8" express_factor="0.5983"/>
+			<consist_class id="EMU6" offset="3" express_factor="0.8878"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrNPK001Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5983"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.8878"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5983"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.8878"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5983"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.8878"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepNPK001Up">
+			<consist_class id="EMU3" offset="-15" express_factor="0.5983"/>
+			<consist_class id="EMU6" offset="-9" express_factor="0.8878"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5983"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.8878"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5983"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.8878"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5983"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.8878"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrNPK001Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrNPK001Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepNPK001Down">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrNPK002Down">
+			<consist_class id="EMU3" offset="14" express_factor="0.9223"/>
+			<consist_class id="EMU6" offset="3" express_factor="0.9223"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrNPK002Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.9223"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.9223"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.9223"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.9223"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.9223"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.9223"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepNPK002Down">
+			<consist_class id="EMU3" offset="-8" express_factor="0.9223"/>
+			<consist_class id="EMU6" offset="-8" express_factor="0.9223"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.9223"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.9223"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.9223"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.9223"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.9223"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.9223"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrNWA001Up">
+			<consist_class id="EMU3" offset="19" express_factor="0.7704"/>
+			<consist_class id="EMU6" offset="17" express_factor="0.895"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrNWA001Up">
+			<consist_class id="DMU3" offset="28" express_factor="0.7807"/>
+			<consist_class id="DMU6" offset="31" express_factor="0.9156"/>
+			<consist_class id="Loco3" offset="32" express_factor="0.7646"/>
+			<consist_class id="Loco6" offset="35" express_factor="0.8833"/>
+			<consist_class id="VLY3" offset="25" express_factor="0.7773"/>
+			<consist_class id="VLY6" offset="27" express_factor="0.9089"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepNWA001Up">
+			<consist_class id="DMU3" offset="-25" express_factor="0.7807"/>
+			<consist_class id="DMU6" offset="-17" express_factor="0.9156"/>
+			<consist_class id="EMU3" offset="-15" express_factor="0.7704"/>
+			<consist_class id="EMU6" offset="-11" express_factor="0.895"/>
+			<consist_class id="Loco3" offset="-28" express_factor="0.7646"/>
+			<consist_class id="Loco6" offset="-20" express_factor="0.8833"/>
+			<consist_class id="VLY3" offset="-17" express_factor="0.7773"/>
+			<consist_class id="VLY6" offset="-11" express_factor="0.9089"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrNWA002Down">
+			<consist_class id="EMU3" offset="12" express_factor="0.4787"/>
+			<consist_class id="EMU6" offset="8" express_factor="0.6033"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrNWA002Down">
+			<consist_class id="DMU3" offset="22" express_factor="0.4891"/>
+			<consist_class id="DMU6" offset="25" express_factor="0.624"/>
+			<consist_class id="Loco3" offset="25" express_factor="0.4729"/>
+			<consist_class id="Loco6" offset="28" express_factor="0.5917"/>
+			<consist_class id="VLY3" offset="19" express_factor="0.4857"/>
+			<consist_class id="VLY6" offset="22" express_factor="0.6172"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepNWA002Down">
+			<consist_class id="DMU3" offset="-38" express_factor="0.4891"/>
+			<consist_class id="DMU6" offset="-33" express_factor="0.624"/>
+			<consist_class id="EMU3" offset="-21" express_factor="0.4787"/>
+			<consist_class id="EMU6" offset="-19" express_factor="0.6033"/>
+			<consist_class id="Loco3" offset="-41" express_factor="0.4729"/>
+			<consist_class id="Loco6" offset="-36" express_factor="0.5917"/>
+			<consist_class id="VLY3" offset="-24" express_factor="0.4857"/>
+			<consist_class id="VLY6" offset="-21" express_factor="0.6172"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrOFC001Up">
+			<consist_class id="EMU3" offset="13" express_factor="0.6989"/>
+			<consist_class id="EMU6" offset="9" express_factor="0.8674"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrOFC001Up">
+			<consist_class id="DMU3" offset="23" express_factor="0.7129"/>
+			<consist_class id="DMU6" offset="26" express_factor="0.8953"/>
+			<consist_class id="Loco3" offset="26" express_factor="0.6911"/>
+			<consist_class id="Loco6" offset="29" express_factor="0.8516"/>
+			<consist_class id="VLY3" offset="20" express_factor="0.7083"/>
+			<consist_class id="VLY6" offset="22" express_factor="0.8862"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepOFC001Up">
+			<consist_class id="EMU3" offset="-15" express_factor="0.6989"/>
+			<consist_class id="EMU6" offset="-10" express_factor="0.8674"/>
+			<consist_class id="DMU3" offset="-25" express_factor="0.7129"/>
+			<consist_class id="DMU6" offset="-16" express_factor="0.8953"/>
+			<consist_class id="Loco3" offset="-28" express_factor="0.6911"/>
+			<consist_class id="Loco6" offset="-20" express_factor="0.8516"/>
+			<consist_class id="VLY3" offset="-16" express_factor="0.7083"/>
+			<consist_class id="VLY6" offset="-11" express_factor="0.8862"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrOFC002Down">
+			<consist_class id="EMU3" offset="13" express_factor="0.6953"/>
+			<consist_class id="EMU6" offset="9" express_factor="0.8606"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrOFC002Down">
+			<consist_class id="DMU3" offset="23" express_factor="0.709"/>
+			<consist_class id="DMU6" offset="26" express_factor="0.888"/>
+			<consist_class id="Loco3" offset="26" express_factor="0.6876"/>
+			<consist_class id="Loco6" offset="29" express_factor="0.8452"/>
+			<consist_class id="VLY3" offset="20" express_factor="0.7045"/>
+			<consist_class id="VLY6" offset="23" express_factor="0.879"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepOFC002Down">
+			<consist_class id="EMU3" offset="-15" express_factor="0.6953"/>
+			<consist_class id="EMU6" offset="-11" express_factor="0.8606"/>
+			<consist_class id="DMU3" offset="-25" express_factor="0.709"/>
+			<consist_class id="DMU6" offset="-17" express_factor="0.888"/>
+			<consist_class id="Loco3" offset="-28" express_factor="0.6876"/>
+			<consist_class id="Loco6" offset="-20" express_factor="0.8452"/>
+			<consist_class id="VLY3" offset="-17" express_factor="0.7045"/>
+			<consist_class id="VLY6" offset="-11" express_factor="0.879"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrPKEARRUp">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrPKEARRUp">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepPKEARRUp">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrPKEARRDown">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrPKEARRDown">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepPKEARRDown">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrPKEDEPUp">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrPKEDEPUp">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepPKEDEPUp">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrPKEDEPDown">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrPKEDEPDown">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepPKEDEPDown">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrPKEWSHUp">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrPKEWSHUp">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepPKEWSHUp">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrPKEWSHDown">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrPKEWSHDown">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepPKEWSHDown">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrPKM001Up">
+			<consist_class id="EMU3" offset="10" express_factor="0.7161"/>
+			<consist_class id="EMU6" offset="4" express_factor="0.9322"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrPKM001Up">
+			<consist_class id="DMU3" offset="20" express_factor="0.734"/>
+			<consist_class id="DMU6" offset="24" express_factor="0.9681"/>
+			<consist_class id="Loco3" offset="23" express_factor="0.706"/>
+			<consist_class id="Loco6" offset="26" express_factor="0.912"/>
+			<consist_class id="VLY3" offset="18" express_factor="0.7282"/>
+			<consist_class id="VLY6" offset="20" express_factor="0.9563"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepPKM001Up">
+			<consist_class id="EMU3" offset="-13" express_factor="0.7161"/>
+			<consist_class id="EMU6" offset="-7" express_factor="0.9322"/>
+			<consist_class id="DMU3" offset="-22" express_factor="0.734"/>
+			<consist_class id="DMU6" offset="-9" express_factor="0.9681"/>
+			<consist_class id="Loco3" offset="-24" express_factor="0.706"/>
+			<consist_class id="Loco6" offset="-14" express_factor="0.912"/>
+			<consist_class id="VLY3" offset="-14" express_factor="0.7282"/>
+			<consist_class id="VLY6" offset="-7" express_factor="0.9563"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrPKM001Down">
+			<consist_class id="EMU3" offset="10" express_factor="0.7161"/>
+			<consist_class id="EMU6" offset="4" express_factor="0.9322"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrPKM001Down">
+			<consist_class id="DMU3" offset="20" express_factor="0.734"/>
+			<consist_class id="DMU6" offset="24" express_factor="0.9681"/>
+			<consist_class id="Loco3" offset="23" express_factor="0.706"/>
+			<consist_class id="Loco6" offset="26" express_factor="0.912"/>
+			<consist_class id="VLY3" offset="18" express_factor="0.7282"/>
+			<consist_class id="VLY6" offset="20" express_factor="0.9563"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepPKM001Down">
+			<consist_class id="EMU3" offset="-13" express_factor="0.7161"/>
+			<consist_class id="EMU6" offset="-7" express_factor="0.9322"/>
+			<consist_class id="DMU3" offset="-22" express_factor="0.734"/>
+			<consist_class id="DMU6" offset="-9" express_factor="0.9681"/>
+			<consist_class id="Loco3" offset="-24" express_factor="0.706"/>
+			<consist_class id="Loco6" offset="-14" express_factor="0.912"/>
+			<consist_class id="VLY3" offset="-14" express_factor="0.7282"/>
+			<consist_class id="VLY6" offset="-7" express_factor="0.9563"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrPKM002Up">
+			<consist_class id="EMU3" offset="10" express_factor="0.6982"/>
+			<consist_class id="EMU6" offset="5" express_factor="0.902"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrPKM002Up">
+			<consist_class id="DMU3" offset="21" express_factor="0.7151"/>
+			<consist_class id="DMU6" offset="24" express_factor="0.9358"/>
+			<consist_class id="Loco3" offset="23" express_factor="0.6886"/>
+			<consist_class id="Loco6" offset="27" express_factor="0.883"/>
+			<consist_class id="VLY3" offset="18" express_factor="0.7095"/>
+			<consist_class id="VLY6" offset="21" express_factor="0.9247"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepPKM002Up">
+			<consist_class id="EMU3" offset="-14" express_factor="0.6982"/>
+			<consist_class id="EMU6" offset="-9" express_factor="0.902"/>
+			<consist_class id="DMU3" offset="-23" express_factor="0.7151"/>
+			<consist_class id="DMU6" offset="-12" express_factor="0.9358"/>
+			<consist_class id="Loco3" offset="-25" express_factor="0.6886"/>
+			<consist_class id="Loco6" offset="-16" express_factor="0.883"/>
+			<consist_class id="VLY3" offset="-15" express_factor="0.7095"/>
+			<consist_class id="VLY6" offset="-9" express_factor="0.9247"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrPKM002Down">
+			<consist_class id="EMU3" offset="11" express_factor="0.7095"/>
+			<consist_class id="EMU6" offset="5" express_factor="0.9134"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrPKM002Down">
+			<consist_class id="DMU3" offset="21" express_factor="0.7264"/>
+			<consist_class id="DMU6" offset="24" express_factor="0.9472"/>
+			<consist_class id="Loco3" offset="23" express_factor="0.7"/>
+			<consist_class id="Loco6" offset="27" express_factor="0.8943"/>
+			<consist_class id="VLY3" offset="18" express_factor="0.7209"/>
+			<consist_class id="VLY6" offset="21" express_factor="0.9361"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepPKM002Down">
+			<consist_class id="EMU3" offset="-13" express_factor="0.7095"/>
+			<consist_class id="EMU6" offset="-8" express_factor="0.9134"/>
+			<consist_class id="DMU3" offset="-22" express_factor="0.7264"/>
+			<consist_class id="DMU6" offset="-11" express_factor="0.9472"/>
+			<consist_class id="Loco3" offset="-25" express_factor="0.7"/>
+			<consist_class id="Loco6" offset="-16" express_factor="0.8943"/>
+			<consist_class id="VLY3" offset="-15" express_factor="0.7209"/>
+			<consist_class id="VLY6" offset="-8" express_factor="0.9361"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrSNP001Up">
+			<consist_class id="EMU3" offset="8" express_factor="0.5414"/>
+			<consist_class id="EMU6" offset="9" express_factor="0.9192"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrSNP001Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5414"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.9192"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5414"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.9192"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5414"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.9192"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepSNP001Up">
+			<consist_class id="EMU3" offset="-17" express_factor="0.5414"/>
+			<consist_class id="EMU6" offset="-8" express_factor="0.9192"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5414"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.9192"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5414"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.9192"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5414"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.9192"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrSNP001Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrSNP001Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepSNP001Down">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrSNP002Down">
+			<consist_class id="EMU3" offset="16" express_factor="0.8762"/>
+			<consist_class id="EMU6" offset="9" express_factor="0.8762"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrSNP002Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.8762"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.8762"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.8762"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.8762"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.8762"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.8762"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepSNP002Down">
+			<consist_class id="EMU3" offset="-10" express_factor="0.8762"/>
+			<consist_class id="EMU6" offset="-10" express_factor="0.8762"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.8762"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.8762"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.8762"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.8762"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.8762"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.8762"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrSPG001Up">
+			<consist_class id="EMU3" offset="10" express_factor="0.7246"/>
+			<consist_class id="EMU6" offset="5" express_factor="0.9641"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrSPG001Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.7246"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.9641"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.7246"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.9641"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.7246"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.9641"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepSPG001Up">
+			<consist_class id="EMU3" offset="-13" express_factor="0.7246"/>
+			<consist_class id="EMU6" offset="-6" express_factor="0.9641"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.7246"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.9641"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.7246"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.9641"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.7246"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.9641"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrSPG001Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrSPG001Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepSPG001Down">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrSPG002Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrSPG002Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepSPG002Up">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrSPG002Down">
+			<consist_class id="EMU3" offset="0" express_factor="0.4627"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.9373"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrSPG002Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.4627"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.9373"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.4627"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.9373"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.4627"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.9373"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepSPG002Down">
+			<consist_class id="EMU3" offset="-17" express_factor="0.4627"/>
+			<consist_class id="EMU6" offset="-7" express_factor="0.9373"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.4627"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.9373"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.4627"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.9373"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.4627"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.9373"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrTYN001Up">
+			<consist_class id="EMU3" offset="0" express_factor="0.6995"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.7303"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrTYN001Up">
+			<consist_class id="DMU3" offset="56" express_factor="0.702"/>
+			<consist_class id="DMU6" offset="57" express_factor="0.7354"/>
+			<consist_class id="Loco3" offset="63" express_factor="0.698"/>
+			<consist_class id="Loco6" offset="65" express_factor="0.7274"/>
+			<consist_class id="VLY3" offset="49" express_factor="0.7012"/>
+			<consist_class id="VLY6" offset="50" express_factor="0.7337"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepTYN001Up">
+			<consist_class id="EMU3" offset="-32" express_factor="0.6995"/>
+			<consist_class id="EMU6" offset="-30" express_factor="0.7303"/>
+			<consist_class id="DMU3" offset="-57" express_factor="0.702"/>
+			<consist_class id="DMU6" offset="-54" express_factor="0.7354"/>
+			<consist_class id="Loco3" offset="-61" express_factor="0.698"/>
+			<consist_class id="Loco6" offset="-58" express_factor="0.7274"/>
+			<consist_class id="VLY3" offset="-36" express_factor="0.7012"/>
+			<consist_class id="VLY6" offset="-34" express_factor="0.7337"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrTYN001Down">
+			<consist_class id="EMU3" offset="0" express_factor="0.3621"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.3929"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrTYN001Down">
+			<consist_class id="DMU3" offset="40" express_factor="0.3647"/>
+			<consist_class id="DMU6" offset="42" express_factor="0.398"/>
+			<consist_class id="Loco3" offset="45" express_factor="0.3607"/>
+			<consist_class id="Loco6" offset="47" express_factor="0.39"/>
+			<consist_class id="VLY3" offset="35" express_factor="0.3638"/>
+			<consist_class id="VLY6" offset="36" express_factor="0.3964"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepTYN001Down">
+			<consist_class id="EMU3" offset="-45" express_factor="0.3621"/>
+			<consist_class id="EMU6" offset="-44" express_factor="0.3929"/>
+			<consist_class id="DMU3" offset="-82" express_factor="0.3647"/>
+			<consist_class id="DMU6" offset="-80" express_factor="0.398"/>
+			<consist_class id="Loco3" offset="-88" express_factor="0.3607"/>
+			<consist_class id="Loco6" offset="-86" express_factor="0.39"/>
+			<consist_class id="VLY3" offset="-52" express_factor="0.3638"/>
+			<consist_class id="VLY6" offset="-50" express_factor="0.3964"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrTYN002Up">
+			<consist_class id="EMU3" offset="0" express_factor="0.6995"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.7303"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrTYN002Up">
+			<consist_class id="DMU3" offset="56" express_factor="0.702"/>
+			<consist_class id="DMU6" offset="57" express_factor="0.7354"/>
+			<consist_class id="Loco3" offset="63" express_factor="0.698"/>
+			<consist_class id="Loco6" offset="65" express_factor="0.7274"/>
+			<consist_class id="VLY3" offset="49" express_factor="0.7012"/>
+			<consist_class id="VLY6" offset="50" express_factor="0.7337"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepTYN002Up">
+			<consist_class id="EMU3" offset="-32" express_factor="0.6995"/>
+			<consist_class id="EMU6" offset="-30" express_factor="0.7303"/>
+			<consist_class id="DMU3" offset="-57" express_factor="0.702"/>
+			<consist_class id="DMU6" offset="-54" express_factor="0.7354"/>
+			<consist_class id="Loco3" offset="-61" express_factor="0.698"/>
+			<consist_class id="Loco6" offset="-58" express_factor="0.7274"/>
+			<consist_class id="VLY3" offset="-36" express_factor="0.7012"/>
+			<consist_class id="VLY6" offset="-34" express_factor="0.7337"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrTYN002Down">
+			<consist_class id="EMU3" offset="0" express_factor="0.3621"/>
+			<consist_class id="EMU6" offset="0" express_factor="0.3929"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrTYN002Down">
+			<consist_class id="DMU3" offset="40" express_factor="0.3647"/>
+			<consist_class id="DMU6" offset="42" express_factor="0.398"/>
+			<consist_class id="Loco3" offset="45" express_factor="0.3607"/>
+			<consist_class id="Loco6" offset="47" express_factor="0.39"/>
+			<consist_class id="VLY3" offset="35" express_factor="0.3638"/>
+			<consist_class id="VLY6" offset="36" express_factor="0.3964"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepTYN002Down">
+			<consist_class id="EMU3" offset="-45" express_factor="0.3621"/>
+			<consist_class id="EMU6" offset="-44" express_factor="0.3929"/>
+			<consist_class id="DMU3" offset="-82" express_factor="0.3647"/>
+			<consist_class id="DMU6" offset="-80" express_factor="0.398"/>
+			<consist_class id="Loco3" offset="-88" express_factor="0.3607"/>
+			<consist_class id="Loco6" offset="-86" express_factor="0.39"/>
+			<consist_class id="VLY3" offset="-52" express_factor="0.3638"/>
+			<consist_class id="VLY6" offset="-50" express_factor="0.3964"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTL001Up">
+			<consist_class id="EMU3" offset="7" express_factor="0.5652"/>
+			<consist_class id="EMU6" offset="5" express_factor="0.9006"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTL001Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5652"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.9006"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5652"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.9006"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5652"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.9006"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepWTL001Up">
+			<consist_class id="EMU3" offset="-16" express_factor="0.5652"/>
+			<consist_class id="EMU6" offset="-9" express_factor="0.9006"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5652"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.9006"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5652"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.9006"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5652"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.9006"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTL001Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTL001Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepWTL001Down">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTL002Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTL002Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepWTL002Up">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTL002Down">
+			<consist_class id="EMU3" offset="11" express_factor="0.7506"/>
+			<consist_class id="EMU6" offset="5" express_factor="0.9244"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTL002Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.7506"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.9244"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.7506"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.9244"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.7506"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.9244"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepWTL002Down">
+			<consist_class id="EMU3" offset="-12" express_factor="0.7506"/>
+			<consist_class id="EMU6" offset="-8" express_factor="0.9244"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.7506"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.9244"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.7506"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.9244"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.7506"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.9244"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTL003Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTL003Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepWTL003Up">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTL003Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTL003Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepWTL003Down">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS01Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS01Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS01Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS01Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS03Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS03Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS03Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS03Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS04Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS04Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS04Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS04Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS05Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS05Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS05Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS05Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS06Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS06Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS06Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS06Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS07Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS07Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS07Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS07Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS08Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS08Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS08Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS08Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS09Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS09Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS09Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS09Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS10Up">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS10Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrWTLS10Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrWTLS10Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrYMN001Up">
+			<consist_class id="EMU3" offset="11" express_factor="0.5571"/>
+			<consist_class id="EMU6" offset="10" express_factor="0.8335"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrYMN001Up">
+			<consist_class id="DMU3" offset="2" express_factor="0.5571"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.8335"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5571"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.8335"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5571"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.8335"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepYMN001Up">
+			<consist_class id="EMU3" offset="-18" express_factor="0.5571"/>
+			<consist_class id="EMU6" offset="-12" express_factor="0.8335"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5571"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.8335"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5571"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.8335"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5571"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.8335"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrYMN001Down">
+			<consist_class id="EMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrYMN001Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepYMN001Down">
+			<consist_class id="EMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="EMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.5"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.5"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.5"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.5"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="MetroArrYMN002Down">
+			<consist_class id="EMU3" offset="12" express_factor="0.223"/>
+			<consist_class id="EMU6" offset="8" express_factor="0.2885"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="RegionalArrYMN002Down">
+			<consist_class id="DMU3" offset="2" express_factor="0.223"/>
+			<consist_class id="DMU6" offset="2" express_factor="0.2885"/>
+			<consist_class id="Loco3" offset="2" express_factor="0.223"/>
+			<consist_class id="Loco6" offset="2" express_factor="0.2885"/>
+			<consist_class id="VLY3" offset="2" express_factor="0.223"/>
+			<consist_class id="VLY6" offset="2" express_factor="0.2885"/>
+		</CorrectionFactor>
+		<CorrectionFactor id="DepYMN002Down">
+			<consist_class id="EMU3" offset="-36" express_factor="0.223"/>
+			<consist_class id="EMU6" offset="-35" express_factor="0.2885"/>
+			<consist_class id="DMU3" offset="-2" express_factor="0.223"/>
+			<consist_class id="DMU6" offset="-2" express_factor="0.2885"/>
+			<consist_class id="Loco3" offset="-2" express_factor="0.223"/>
+			<consist_class id="Loco6" offset="-2" express_factor="0.2885"/>
+			<consist_class id="VLY3" offset="-2" express_factor="0.223"/>
+			<consist_class id="VLY6" offset="-2" express_factor="0.2885"/>
+		</CorrectionFactor>
+	</CorrectionFactors>
+</Railway>

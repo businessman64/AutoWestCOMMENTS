@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 2 (http://www.altova.com) by Steven Baker (private) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:complexType name="HeaderType">
+		<xs:attribute name="version" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Version of this data as given by the data preparation tool.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="date" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>The date that this data was generated.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="source" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>The source or 'input' data used to generate this data.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:attribute name="region" type="xs:nonNegativeInteger">
+		<xs:annotation>
+			<xs:documentation>The region that this railway object belongs to. If there's no value present the object will not belong to any specific region. Regions are used for user authorisation and notifications.</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:simpleType name="railwayObjectId">
+		<xs:annotation>
+			<xs:documentation>URI type id */* no white space.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:anyURI">
+			<xs:pattern value="[^ ]+/[^ ]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

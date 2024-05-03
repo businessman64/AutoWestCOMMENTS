@@ -1,0 +1,10 @@
+# Lockstep regarded track-cct sets (set per line with space-separated track-ccts)
+# Lines beginning with # are comments and are ignored.
+# Non-comment lines are expected to name a space separated list of RailwayTracks.xml track-cct ids.
+WTL/T766 WTL/T766A
+WTL/T762 WTL/T762A
+WTL/T756 WTL/T756A
+WTL/T649 WTL/T649A
+WTL/T657 WTL/T657A
+WTL/T659 WTL/T659A
+WTL/T663 WTL/T663A
