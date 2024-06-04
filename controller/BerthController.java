@@ -15,7 +15,6 @@ import model.*;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
-
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +22,7 @@ import java.util.*;
 
 public class BerthController {
     @FXML
-    ListView<String> berthListView;
+    ListView<String> berthListView; 
 
     @FXML
     TextField berthSearchTextField;
@@ -91,14 +90,15 @@ public class BerthController {
 @FXML
 Button buttonTestAll;
 
-    private Deps deps;
-    private Stage stage;
-    boolean one_by_one;
+    private Deps deps;                                 // Dependencies for the controller
+    private Stage stage;                               // Stage for the application
+    boolean one_by_one;                                // Flag for one by one actions
 
-    boolean isEraseBySignal;
-    File file = null;
-    private  ObservableList<String> signalList;
+    boolean isEraseBySignal;                           // Flag for erasing by signal
+    File file = null;                                  // File to store the selected file
+    private  ObservableList<String> signalList;        // Observable list for signals
 
+    // Enum to define different berth actions
     public enum BerthAction {
 
         INSERT,
@@ -121,14 +121,14 @@ Button buttonTestAll;
     private boolean paused = false;
     private static final Logger logger = Logger.getLogger(SignalController.class.getName());
 
-
+     // Constructor to initialize the controller with stage and dependencies
     public BerthController(Stage stage, Deps deps) throws ParserConfigurationException, IOException, SAXException {
         this.stage = stage;
         this.deps = deps;
     }
 
+    // Method to handle test actions based on the specified action and signal
     private void handleTestAction(BerthAction action, String signal){
-
         try {
             switch (action) {
                 case INSERT:
@@ -156,6 +156,8 @@ Button buttonTestAll;
             logger.info(e.getMessage());
         }
     }
+
+    // Method to handle signal actions based on the specified action
     private void handleSignalAction(BerthAction action) {
         controlNotificationLabel.setText("");
         testNotificationLabel.setText("");
@@ -263,6 +265,8 @@ Button buttonTestAll;
             }
         }).start();
     }
+
+    // Method to check if no checkbox is selected
     private boolean noCheckboxSelected() {
         return !checkInsert.isSelected() &&
                 !checkErase.isSelected() &&
@@ -271,7 +275,7 @@ Button buttonTestAll;
                 !checkExchange.isSelected()  ;
 
     }
-
+    // Method to create a set of operations based on selected checkboxes
     private Set<BerthAction> createOperationsSet() {
         Set<BerthAction> operations = EnumSet.noneOf(BerthAction.class);
        // if (checkTwoBerth.isSelected()) operations.add(BerthAction.TWO_TNE);
@@ -360,7 +364,7 @@ Button buttonTestAll;
             }
         });
     }
-
+    // Method to open the file chooser
     private void openFileChooser() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Document");
@@ -394,7 +398,7 @@ Button buttonTestAll;
 
     }
 
-
+    // Method to show the stage with the given root pane
     public void showStage(Pane root){
         Scene scene = new Scene(root,1000,800);
         stage.setScene(scene);
